@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Associative","A trait for magma which is associative."],["Commutative","A trait for magma which is commutative."],["Group","A group."],["Invertible","A trait for magma whose all elements have an inverse element."],["Magma","A magma."],["Monoid","A monoid."],["Semigroup","A semigroup."],["Unital","A trait for magma which has an identity element."]]});

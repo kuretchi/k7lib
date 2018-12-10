@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["cumulative_sum","A cumulative sum."],["fenwick_tree","A fenwick tree (a.k.a. binary indexed tree)."],["segment_tree","A segment tree."]]});
