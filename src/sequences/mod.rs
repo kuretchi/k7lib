@@ -31,7 +31,8 @@ fn assert_index_range_to(index: &RangeTo<usize>, len: usize) {
 fn assert_index_range(index: &Range<usize>, len: usize) {
   assert!(
     index.start <= index.end,
-    "range start is greater than range end: {:?}"
+    "range start is greater than range end: {:?}",
+    index
   );
   assert_index!(index.end <= len, index, len);
 }
