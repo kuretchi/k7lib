@@ -83,7 +83,7 @@ impl<M: Monoid + Commutative> FenwickTree<M> {
   /// # Time complexity
   /// O(log n)
   pub fn prefix_fold(&self, index: RangeTo<usize>) -> M {
-    assert_index_range_to(&index, self.len());
+    assert_index_range_to(index, self.len());
 
     // 0-based [0, e) => 1-based [1, e + 1) => 1-based [1, e]
     let mut end = index.end;

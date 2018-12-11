@@ -32,7 +32,7 @@ impl<M: Monoid> CumulativeSum<M> {
   /// # Time complexity
   /// O(1)
   pub fn prefix_fold(&self, index: RangeTo<usize>) -> &M {
-    assert_index_range_to(&index, self.len());
+    assert_index_range_to(index, self.len());
 
     &self.vec[index.end]
   }
