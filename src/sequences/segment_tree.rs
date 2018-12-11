@@ -199,7 +199,7 @@ impl<M: Monoid> SegmentTree<M> {
             .checked_add(len)
             .map(|vec_len| (base_len, vec_len))
         })
-        .expect(&format!("length too large: {:?}", len))
+        .unwrap_or_else(|| panic!("length too large: {:?}", len))
     }
   }
 
