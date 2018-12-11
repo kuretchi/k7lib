@@ -62,7 +62,7 @@ impl<G: Group> CumulativeSum<G> {
   pub fn fold(&self, index: Range<usize>) -> G {
     assert_index_range(&index, self.len());
 
-    // [s, e) = [s, e - 1] = [0, s - 1] ^ 1 * [0, e - 1] = [0, s) ^ -1 * [0, e)
+    // [s, e) = [s, e - 1] = [0, s - 1] ^ -1 * [0, e - 1] = [0, s) ^ -1 * [0, e)
     let l = self.prefix_fold(..index.start).invert();
     let r = self.prefix_fold(..index.end);
 
