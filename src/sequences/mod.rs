@@ -24,7 +24,7 @@ fn assert_index(index: usize, len: usize) {
   assert_index!(index < len, index, len);
 }
 
-fn assert_index_range_to(index: &RangeTo<usize>, len: usize) {
+fn assert_index_range_to(index: RangeTo<usize>, len: usize) {
   assert_index!(index.end <= len, index, len);
 }
 
@@ -66,17 +66,17 @@ mod tests {
   #[test]
   #[should_panic]
   fn assert_index_range_to_test_1() {
-    assert_index_range_to(&(..101), 100);
+    assert_index_range_to(..101, 100);
   }
 
   #[test]
   fn assert_index_range_to_test_2() {
-    assert_index_range_to(&(..0), 0);
+    assert_index_range_to(..0, 0);
   }
 
   #[test]
   fn assert_index_range_to_test_3() {
-    assert_index_range_to(&(..100), 100);
+    assert_index_range_to(..100, 100);
   }
 
   #[test]
