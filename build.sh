@@ -1,6 +1,6 @@
 #!/bin/sh
 set -euv
-RUST_BACKTRACE=1
+export RUST_BACKTRACE=1
 
 cargo test
 cargo +stable doc
