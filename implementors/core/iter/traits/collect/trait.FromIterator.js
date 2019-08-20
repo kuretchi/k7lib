@@ -1,0 +1,10 @@
+(function() {var implementors = {};
+implementors["spella"] = [{text:"impl&lt;M:&nbsp;<a class=\"trait\" href=\"spella/algebra/trait.Monoid.html\" title=\"trait spella::algebra::Monoid\">Monoid</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.FromIterator.html\" title=\"trait core::iter::traits::collect::FromIterator\">FromIterator</a>&lt;M&gt; for <a class=\"struct\" href=\"spella/sequences/cumulative_sum/struct.CumulativeSum.html\" title=\"struct spella::sequences::cumulative_sum::CumulativeSum\">CumulativeSum</a>&lt;M&gt;",synthetic:false,types:["spella::sequences::cumulative_sum::CumulativeSum"]},{text:"impl&lt;M:&nbsp;<a class=\"trait\" href=\"spella/algebra/trait.Monoid.html\" title=\"trait spella::algebra::Monoid\">Monoid</a> + <a class=\"trait\" href=\"spella/algebra/trait.Commutative.html\" title=\"trait spella::algebra::Commutative\">Commutative</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.FromIterator.html\" title=\"trait core::iter::traits::collect::FromIterator\">FromIterator</a>&lt;M&gt; for <a class=\"struct\" href=\"spella/sequences/fenwick_tree/struct.FenwickTree.html\" title=\"struct spella::sequences::fenwick_tree::FenwickTree\">FenwickTree</a>&lt;M&gt;",synthetic:false,types:["spella::sequences::fenwick_tree::FenwickTree"]},{text:"impl&lt;M:&nbsp;<a class=\"trait\" href=\"spella/algebra/trait.Monoid.html\" title=\"trait spella::algebra::Monoid\">Monoid</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.FromIterator.html\" title=\"trait core::iter::traits::collect::FromIterator\">FromIterator</a>&lt;M&gt; for <a class=\"struct\" href=\"spella/sequences/segment_tree/struct.SegmentTree.html\" title=\"struct spella::sequences::segment_tree::SegmentTree\">SegmentTree</a>&lt;M&gt;",synthetic:false,types:["spella::sequences::segment_tree::SegmentTree"]},];
+
+            if (window.register_implementors) {
+                window.register_implementors(implementors);
+            } else {
+                window.pending_implementors = implementors;
+            }
+        
+})()
