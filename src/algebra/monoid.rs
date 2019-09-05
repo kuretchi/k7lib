@@ -1,8 +1,11 @@
-use algebra::{Semigroup, UnitalMagma};
+use algebra::{AssociativeMagma, UnitalMagma};
 
 /// A monoid.
 ///
-/// This trait is an alias of `Semigroup + Unital`, which has a blanket implementation.
-pub trait Monoid: Semigroup + UnitalMagma {}
+/// This trait is an alias of [`AssociativeMagma`] + [`UnitalMagma`].
+///
+/// [`AssociativeMagma`]: ./trait.AssociativeMagma.html
+/// [`UnitalMagma`]: ./trait.UnitalMagma.html
+pub trait Monoid: AssociativeMagma + UnitalMagma {}
 
-impl<T: Semigroup + UnitalMagma> Monoid for T {}
+impl<T: AssociativeMagma + UnitalMagma> Monoid for T {}
