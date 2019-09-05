@@ -1,6 +1,9 @@
 use algebra::{Magma, UnitalMagma};
 
-/// A trait for magma whose all elements have an inverse element.
+/// A magma whose all elements have an inverse element.
+///
+/// # Laws
+/// * ∀`x: T` (`x.op(&x.invert())` = `x.invert().op(&x)` = `T::identity()`)
 pub trait InvertibleMagma: Magma + UnitalMagma {
   /// Returns an inverse element.
   fn invert(&self) -> Self;

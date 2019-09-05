@@ -1,4 +1,7 @@
 use algebra::Magma;
 
-/// A trait for magma which is associative.
+/// An associative magma.
+///
+/// # Laws
+/// * Associativity: ∀`x` ∀`y` ∀`z` (`x.op(&y).op(&z)` = `x.op(&y.op(&z))`)
 pub trait AssociativeMagma: Magma {}
