@@ -1,7 +1,7 @@
 //! A fenwick tree (a.k.a. binary indexed tree).
 
 use super::*;
-use algebra::{CommutativeMagma, Group, Monoid};
+use algebra::{AbelianGroup, CommutativeMagma, Monoid};
 
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
@@ -107,7 +107,7 @@ impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
   }
 }
 
-impl<G: Group + CommutativeMagma> FenwickTree<G> {
+impl<G: AbelianGroup> FenwickTree<G> {
   /// Returns an element at the given index.
   ///
   /// # Panics
