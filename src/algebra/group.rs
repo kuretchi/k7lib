@@ -1,8 +1,8 @@
-use algebra::{Invertible, Monoid};
+use algebra::{InvertibleMagma, Monoid};
 
 /// A group.
 ///
 /// This trait is an alias of `Monoid + Invertible`, which has a blanket implementation.
-pub trait Group: Monoid + Invertible {}
+pub trait Group: Monoid + InvertibleMagma {}
 
-impl<T: Monoid + Invertible> Group for T {}
+impl<T: Monoid + InvertibleMagma> Group for T {}

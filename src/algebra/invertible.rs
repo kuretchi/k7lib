@@ -1,7 +1,7 @@
-use algebra::{Magma, Unital};
+use algebra::{Magma, UnitalMagma};
 
 /// A trait for magma whose all elements have an inverse element.
-pub trait Invertible: Magma + Unital {
+pub trait InvertibleMagma: Magma + UnitalMagma {
   /// Returns an inverse element.
   fn invert(&self) -> Self;
 

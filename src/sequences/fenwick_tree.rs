@@ -1,7 +1,7 @@
 //! A fenwick tree (a.k.a. binary indexed tree).
 
 use super::*;
-use algebra::{Commutative, Group, Monoid};
+use algebra::{CommutativeMagma, Group, Monoid};
 
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
@@ -37,7 +37,7 @@ pub struct FenwickTree<T> {
   vec: Vec<T>,
 }
 
-impl<M: Monoid + Commutative> FenwickTree<M> {
+impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
   /// Creates a new `FenwickTree` of the given length, filled with an identity element.
   ///
   /// # Time complexity
@@ -107,7 +107,7 @@ impl<M: Monoid + Commutative> FenwickTree<M> {
   }
 }
 
-impl<G: Group + Commutative> FenwickTree<G> {
+impl<G: Group + CommutativeMagma> FenwickTree<G> {
   /// Returns an element at the given index.
   ///
   /// # Panics
@@ -164,7 +164,7 @@ impl<G: Group + Commutative> FenwickTree<G> {
   }
 }
 
-impl<M: Monoid + Commutative> From<Vec<M>> for FenwickTree<M> {
+impl<M: Monoid + CommutativeMagma> From<Vec<M>> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from a `Vec`.
   ///
   /// # Time complexity
@@ -186,7 +186,7 @@ impl<M: Monoid + Commutative> From<Vec<M>> for FenwickTree<M> {
   }
 }
 
-impl<M: Monoid + Commutative> FromIterator<M> for FenwickTree<M> {
+impl<M: Monoid + CommutativeMagma> FromIterator<M> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from an iterator.
   ///
   /// # Time complexity

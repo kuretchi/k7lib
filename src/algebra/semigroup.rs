@@ -1,8 +1,8 @@
-use algebra::{Associative, Magma};
+use algebra::{AssociativeMagma, Magma};
 
 /// A semigroup.
 ///
 /// This trait is an alias of `Magma + Associative`, which has a blanket implementation.
-pub trait Semigroup: Magma + Associative {}
+pub trait Semigroup: Magma + AssociativeMagma {}
 
-impl<T: Magma + Associative> Semigroup for T {}
+impl<T: Magma + AssociativeMagma> Semigroup for T {}

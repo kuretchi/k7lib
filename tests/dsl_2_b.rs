@@ -2,7 +2,7 @@
 mod common;
 
 test!("DSL_2_B", |reader, writer| {
-  use spella::algebra::{Associative, Commutative, Invertible, Magma, Unital};
+  use spella::algebra::{AssociativeMagma, CommutativeMagma, InvertibleMagma, Magma, UnitalMagma};
   use spella::io::Scanner;
   use spella::sequences::FenwickTree;
 
@@ -17,17 +17,17 @@ test!("DSL_2_B", |reader, writer| {
     }
   }
 
-  impl Associative for Sum {}
+  impl AssociativeMagma for Sum {}
 
-  impl Commutative for Sum {}
+  impl CommutativeMagma for Sum {}
 
-  impl Unital for Sum {
+  impl UnitalMagma for Sum {
     fn identity() -> Self {
       Sum(0)
     }
   }
 
-  impl Invertible for Sum {
+  impl InvertibleMagma for Sum {
     fn invert(&self) -> Self {
       Sum(-self.0)
     }

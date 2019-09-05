@@ -2,7 +2,7 @@
 mod common;
 
 test!("DSL_2_A", |reader, writer| {
-  use spella::algebra::{Associative, Magma, Unital};
+  use spella::algebra::{AssociativeMagma, Magma, UnitalMagma};
   use spella::io::Scanner;
   use spella::sequences::SegmentTree;
 
@@ -17,9 +17,9 @@ test!("DSL_2_A", |reader, writer| {
     }
   }
 
-  impl Associative for Min {}
+  impl AssociativeMagma for Min {}
 
-  impl Unital for Min {
+  impl UnitalMagma for Min {
     fn identity() -> Self {
       Min(2147483647)
     }
