@@ -13,14 +13,6 @@ pub trait FromByteStr: Sized {
   fn from_byte_str(s: &ByteStr) -> Result<Self, Self::Err>;
 }
 
-macro_rules! fn_description {
-  () => {
-    fn description(&self) -> &str {
-      "description() is deprecated; use Display"
-    }
-  };
-}
-
 /// An error which can be returned when parsing a `ByteChar`.
 #[derive(Debug)]
 pub struct ParseByteCharError(ParseByteCharErrorKind);
@@ -42,9 +34,7 @@ impl Display for ParseByteCharError {
   }
 }
 
-impl Error for ParseByteCharError {
-  fn_description! {}
-}
+impl Error for ParseByteCharError {}
 
 impl FromByteStr for ByteChar {
   type Err = ParseByteCharError;
@@ -73,9 +63,7 @@ impl Display for ParseByteStringError {
   }
 }
 
-impl Error for ParseByteStringError {
-  fn_description! {}
-}
+impl Error for ParseByteStringError {}
 
 impl FromByteStr for ByteString {
   type Err = ParseByteStringError;
@@ -121,12 +109,7 @@ where
   }
 }
 
-impl<T: FromStr> Error for ParseFromStrError<T>
-where
-  T::Err: Debug + Display,
-{
-  fn_description! {}
-}
+impl<T: FromStr> Error for ParseFromStrError<T> where T::Err: Debug + Display {}
 
 impl<T: FromStr> FromByteStr for T {
   type Err = ParseFromStrError<T>;
