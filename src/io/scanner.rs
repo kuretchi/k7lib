@@ -1,4 +1,4 @@
-use byte::{ByteStr, FromByteStr};
+use crate::byte::{ByteStr, FromByteStr};
 
 use std::io::{self, BufRead};
 

@@ -1,4 +1,4 @@
-use algebra::AssociativeMagma;
+use crate::algebra::AssociativeMagma;
 
 /// A semigroup.
 ///

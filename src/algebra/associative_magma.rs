@@ -1,4 +1,4 @@
-use algebra::Magma;
+use crate::algebra::Magma;
 
 /// An associative magma.
 ///

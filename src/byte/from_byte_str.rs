@@ -1,4 +1,4 @@
-use byte::{ByteChar, ByteStr, ByteString};
+use crate::byte::{ByteChar, ByteStr, ByteString};
 
 use std::error::Error;
 use std::fmt::{self, Debug, Display, Formatter};

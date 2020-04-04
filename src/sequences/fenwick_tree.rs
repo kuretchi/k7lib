@@ -1,7 +1,7 @@
 //! A fenwick tree (a.k.a. binary indexed tree).
 
 use super::*;
-use algebra::{AbelianGroup, CommutativeMagma, Monoid};
+use crate::algebra::{AbelianGroup, CommutativeMagma, Monoid};
 
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};

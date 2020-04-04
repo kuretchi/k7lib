@@ -1,4 +1,4 @@
-use byte::{ByteChar, ByteString};
+use crate::byte::{ByteChar, ByteString};
 
 use std::fmt::{self, Debug, Display, Formatter};
 use std::ops::{Deref, DerefMut};

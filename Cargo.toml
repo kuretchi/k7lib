@@ -2,6 +2,7 @@
 name = "spella"
 version = "0.0.0"
 authors = ["kuretchi"]
+edition = "2018"
 
 [profile.test]
 opt-level = 2

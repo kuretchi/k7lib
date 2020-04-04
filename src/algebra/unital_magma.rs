@@ -1,4 +1,4 @@
-use algebra::Magma;
+use crate::algebra::Magma;
 
 /// A magma that has an identity element.
 ///

@@ -1,4 +1,4 @@
-use algebra::Magma;
+use crate::algebra::Magma;
 
 /// A commutative magma.
 ///

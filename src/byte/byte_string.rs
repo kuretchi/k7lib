@@ -1,4 +1,4 @@
-use byte::{ByteChar, ByteStr};
+use crate::byte::{ByteChar, ByteStr};
 
 use std::borrow::{Borrow, BorrowMut};
 use std::fmt::{self, Debug, Display, Formatter};
