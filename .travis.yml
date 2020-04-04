@@ -1,5 +1,8 @@
 language: rust
 
+before_install:
+  - pip3 install --user online-judge-verify-helper
+
 script: ./build.sh
 
 deploy:
