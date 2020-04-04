@@ -1,4 +1,11 @@
+dist: bionic
+
 language: rust
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install python3-pip python3-setuptools
+  - pip3 install --user online-judge-verify-helper
 
 script: ./build.sh
 

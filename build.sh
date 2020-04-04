@@ -10,3 +10,4 @@ cat <<EOT >./target/doc/index.html
 <meta http-equiv="refresh" content="0; url=spella/index.html">
 <title></title>
 EOT
+oj-verify run ./examples/*.rs

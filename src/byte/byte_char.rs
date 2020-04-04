@@ -2,6 +2,7 @@ use std::fmt::{self, Debug, Display, Formatter};
 
 /// A single-byte character.
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
 pub struct ByteChar(u8);
 
 impl ByteChar {

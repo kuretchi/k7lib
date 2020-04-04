@@ -1,8 +1,12 @@
-use algebra::{Invertible, Monoid};
+use crate::algebra::{AssociativeMagma, InvertibleMagma, UnitalMagma};
 
 /// A group.
 ///
-/// This trait is an alias of `Monoid + Invertible`, which has a blanket implementation.
-pub trait Group: Monoid + Invertible {}
+/// This trait is an alias of [`AssociativeMagma`] + [`UnitalMagma`] + [`InvertibleMagma`].
+///
+/// [`AssociativeMagma`]: ./trait.AssociativeMagma.html
+/// [`UnitalMagma`]: ./trait.UnitalMagma.html
+/// [`InvertibleMagma`]: ./trait.InvertibleMagma.html
+pub trait Group: AssociativeMagma + UnitalMagma + InvertibleMagma {}
 
-impl<T: Monoid + Invertible> Group for T {}
+impl<T: AssociativeMagma + UnitalMagma + InvertibleMagma> Group for T {}

@@ -1,10 +1,11 @@
-use byte::{ByteChar, ByteString};
+use crate::byte::{ByteChar, ByteString};
 
 use std::fmt::{self, Debug, Display, Formatter};
 use std::ops::{Deref, DerefMut};
 
 /// A single-byte string slice.
 #[derive(PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
 pub struct ByteStr([ByteChar]);
 
 macro_rules! cast {
