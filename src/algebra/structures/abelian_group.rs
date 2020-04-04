@@ -1,4 +1,4 @@
-use crate::algebra::{CommutativeMagma, Group};
+use super::{CommutativeMagma, Group};
 
 /// An abelian group.
 ///

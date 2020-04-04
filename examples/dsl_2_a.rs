@@ -1,6 +1,6 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 
-use spella::algebra::{AssociativeMagma, Magma, UnitalMagma};
+use spella::algebra::structures::{AssociativeMagma, Magma, UnitalMagma};
 use spella::io::Scanner;
 use spella::sequences::SegmentTree;
 

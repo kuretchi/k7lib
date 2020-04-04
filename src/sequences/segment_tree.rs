@@ -1,7 +1,7 @@
 //! A segment tree.
 
 use super::*;
-use crate::algebra::Monoid;
+use crate::algebra::structures::Monoid;
 
 use std::collections::VecDeque;
 use std::iter::{self, FromIterator};

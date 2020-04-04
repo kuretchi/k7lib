@@ -1,6 +1,8 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
 
-use spella::algebra::{AssociativeMagma, CommutativeMagma, InvertibleMagma, Magma, UnitalMagma};
+use spella::algebra::structures::{
+  AssociativeMagma, CommutativeMagma, InvertibleMagma, Magma, UnitalMagma,
+};
 use spella::io::Scanner;
 use spella::sequences::FenwickTree;
 

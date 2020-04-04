@@ -1,4 +1,4 @@
-use crate::algebra::{AssociativeMagma, UnitalMagma};
+use super::{AssociativeMagma, UnitalMagma};
 
 /// A monoid.
 ///

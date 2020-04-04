@@ -1,4 +1,4 @@
-use crate::algebra::{Magma, UnitalMagma};
+use super::{Magma, UnitalMagma};
 
 /// A magma whose all elements have an inverse element.
 ///
