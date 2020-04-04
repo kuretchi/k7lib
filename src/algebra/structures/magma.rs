@@ -13,3 +13,24 @@ pub trait Magma: Clone {
     *self = lhs.op(self);
   }
 }
+
+/// The trivial magma.
+impl Magma for () {
+  fn op(&self, _rhs: &Self) -> Self {
+    ()
+  }
+}
+
+/// Adjoining an identity element `None`.
+impl<T> Magma for Option<T>
+where
+  T: Magma,
+{
+  fn op(&self, rhs: &Self) -> Self {
+    match (self, rhs) {
+      (Some(lhs), Some(rhs)) => Some(lhs.op(rhs)),
+      (Some(x), None) | (None, Some(x)) => Some(x.clone()),
+      (None, None) => None,
+    }
+  }
+}

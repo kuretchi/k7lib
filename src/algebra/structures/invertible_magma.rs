@@ -23,3 +23,9 @@ pub trait InvertibleMagma: Magma + UnitalMagma {
     *self = lhs.inverse_op(self);
   }
 }
+
+impl InvertibleMagma for () {
+  fn invert(&self) -> Self {
+    ()
+  }
+}

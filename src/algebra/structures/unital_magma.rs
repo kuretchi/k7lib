@@ -8,3 +8,18 @@ pub trait UnitalMagma: Magma {
   /// Returns an identity element.
   fn identity() -> Self;
 }
+
+impl UnitalMagma for () {
+  fn identity() -> Self {
+    ()
+  }
+}
+
+impl<T> UnitalMagma for Option<T>
+where
+  T: Magma,
+{
+  fn identity() -> Self {
+    None
+  }
+}
