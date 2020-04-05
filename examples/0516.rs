@@ -40,7 +40,7 @@ fn main() -> io::Result<()> {
 
   macro_rules! scan {
     ($T:ty) => {
-      scanner.next::<$T>()?.unwrap()
+      scanner.parse_next::<$T>()?.unwrap()
     };
   }
 

@@ -1,6 +1,5 @@
-use crate::byte::{ByteStr, FromByteStr};
-
 use std::io::{self, BufRead};
+use std::str::FromStr;
 
 /// Wraps a reader and tokenize its input.
 ///
@@ -8,11 +7,9 @@ use std::io::{self, BufRead};
 #[derive(Debug)]
 pub struct Scanner<R> {
   reader: R,
-  buf: Vec<u8>,
+  buf: String,
   pos: usize,
 }
-
-const INITIAL_CAPACITY: usize = 32;
 
 impl<R: BufRead> Scanner<R> {
   /// Creates a new `Scanner`.
@@ -29,9 +26,35 @@ impl<R: BufRead> Scanner<R> {
   pub fn new(reader: R) -> Self {
     Scanner {
       reader: reader,
-      buf: Vec::with_capacity(INITIAL_CAPACITY),
+      buf: String::new(),
       pos: 0,
     }
+  }
+
+  /// Returns a next token splitted by whitespaces.
+  ///
+  /// # Examples
+  /// ```
+  /// # use spella::io::Scanner;
+  /// fn main() {
+  ///   let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
+  ///
+  ///   let s: &str = scanner.next().unwrap();
+  ///   assert_eq!(s.as_bytes(), b"Rust" as &[_]);
+  /// }
+  /// ```
+  pub fn next(&mut self) -> io::Result<&str> {
+    let start = loop {
+      match self.rest().find(|c| c != ' ') {
+        Some(i) => break i,
+        None => self.fill_buf()?,
+      }
+    };
+    self.pos += start;
+    let len = self.rest().find(' ').unwrap_or(self.rest().len());
+    let s = &self.buf[self.pos..][..len]; // self.rest()[..len]
+    self.pos += len;
+    Ok(s)
   }
 
   /// Parses a next token splitted by whitespaces, and returns it.
@@ -42,59 +65,31 @@ impl<R: BufRead> Scanner<R> {
   /// fn main() {
   ///   let mut scanner = Scanner::new(b"3 14" as &[_]);
   ///
-  ///   let n: usize = scanner.next().unwrap().expect("parse error");
+  ///   let n: usize = scanner.parse_next().unwrap().expect("parse error");
   ///   assert_eq!(n, 3);
   /// }
   /// ```
-  pub fn next<T: FromByteStr>(&mut self) -> io::Result<Result<T, T::Err>> {
-    self.next_byte_str().map(T::from_byte_str)
+  pub fn parse_next<T>(&mut self) -> io::Result<Result<T, T::Err>>
+  where
+    T: FromStr,
+  {
+    Ok(self.next()?.parse())
   }
 
-  /// Returns a next token splitted by whitespaces.
-  ///
-  /// # Examples
-  /// ```
-  /// # use spella::byte::ByteStr;
-  /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
-  ///  
-  ///   let s: &ByteStr = scanner.next_byte_str().unwrap();
-  ///   assert_eq!(s.as_bytes(), b"Rust" as &[_]);
-  /// }
-  /// ```
-  pub fn next_byte_str(&mut self) -> io::Result<&ByteStr> {
-    if self.buf.is_empty() {
-      self.read_line()?;
-    }
-
-    loop {
-      match self.buf.get(self.pos) {
-        Some(&b' ') => self.pos += 1,
-        Some(&b'\n') => self.read_line()?,
-        Some(_) => break,
-        None => return Err(io::Error::from(io::ErrorKind::UnexpectedEof)),
-      }
-    }
-
-    let start = self.pos;
-    self.pos += 1;
-
-    loop {
-      match self.buf.get(self.pos) {
-        Some(&b' ') | Some(&b'\n') | None => break,
-        Some(_) => self.pos += 1,
-      }
-    }
-
-    Ok(ByteStr::from_bytes(&self.buf[start..self.pos]))
+  fn rest(&self) -> &str {
+    &self.buf[self.pos..]
   }
 
-  fn read_line(&mut self) -> io::Result<()> {
+  fn fill_buf(&mut self) -> io::Result<()> {
     self.buf.clear();
     self.pos = 0;
-    self.reader.read_until(b'\n', &mut self.buf)?;
-
+    let read = self.reader.read_line(&mut self.buf)?;
+    if read == 0 {
+      return Err(io::ErrorKind::UnexpectedEof.into());
+    }
+    if *self.buf.as_bytes().last().unwrap() == b'\n' {
+      self.buf.pop();
+    }
     Ok(())
   }
 }
