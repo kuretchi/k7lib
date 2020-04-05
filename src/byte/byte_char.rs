@@ -3,19 +3,7 @@ use std::fmt::{self, Debug, Display, Formatter};
 /// A single-byte character.
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
-pub struct ByteChar(u8);
-
-impl ByteChar {
-  /// Creates a new `ByteChar` from a byte.
-  pub fn new(c: u8) -> Self {
-    ByteChar(c)
-  }
-
-  /// Unwraps the byte.
-  pub fn into_byte(self) -> u8 {
-    self.0
-  }
-}
+pub struct ByteChar(pub u8);
 
 impl Debug for ByteChar {
   fn fmt(&self, f: &mut Formatter) -> fmt::Result {

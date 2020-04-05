@@ -103,7 +103,7 @@ mod tests {
     let s = ByteStr::from_bytes_mut(&mut bytes);
 
     s.swap(1, 3); // b"adcb"
-    s[0] = ByteChar::new(b'e'); // b"edcb"
+    s[0] = ByteChar(b'e'); // b"edcb"
     s.as_bytes_mut()[1] = b'f'; // b"efcb"
 
     assert_eq!(s.as_bytes(), b"efcb");

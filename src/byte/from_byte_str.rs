@@ -130,7 +130,7 @@ mod tests {
   #[test]
   fn parse_byte_char_test() {
     let x: ByteChar = FromByteStr::from_byte_str(ByteStr::from_bytes(b"@")).unwrap();
-    assert_eq!(x, ByteChar::new(b'@'));
+    assert_eq!(x, ByteChar(b'@'));
 
     let x: Result<ByteChar, _> = FromByteStr::from_byte_str(ByteStr::from_bytes(b""));
     assert!(x.is_err());
