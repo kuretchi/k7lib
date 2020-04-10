@@ -93,3 +93,32 @@ impl<R: BufRead> Scanner<R> {
     Ok(())
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn test() {
+    use crate::byte::ByteChar;
+
+    let val0: f64 = 7.2973525693;
+    let val1: &str = "abracadabra";
+    let val2: i64 = -314;
+    let val3: u64 = 0;
+    let val4: ByteChar = ByteChar(b'a');
+
+    let s = format!(" {} {}   \n\n  \n{}\n{} {}", val0, val1, val2, val3, val4);
+    let mut scanner = Scanner::new(s.as_bytes());
+
+    assert_eq!(scanner.parse_next::<f64>().unwrap(), Ok(val0));
+    assert_eq!(scanner.parse_next::<String>().unwrap(), Ok(val1.to_owned()));
+    assert_eq!(scanner.parse_next::<i64>().unwrap(), Ok(val2));
+    assert_eq!(scanner.parse_next::<u64>().unwrap(), Ok(val3));
+    assert_eq!(scanner.parse_next::<ByteChar>().unwrap(), Ok(val4));
+    assert_eq!(
+      scanner.parse_next::<i32>().unwrap_err().kind(),
+      io::ErrorKind::UnexpectedEof
+    );
+  }
+}
