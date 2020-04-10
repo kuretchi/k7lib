@@ -221,6 +221,7 @@ impl<M: Monoid> SegmentTree<M> {
   }
 
   fn rebuild(&mut self, mut node: usize) {
+    #[allow(clippy::while_immutable_condition)]
     while {
       node >>= 1;
       node > 0
