@@ -10,6 +10,7 @@ pub trait UnitalMagma: Magma {
 }
 
 impl UnitalMagma for () {
+  #[allow(clippy::unused_unit)]
   fn identity() -> Self {
     ()
   }

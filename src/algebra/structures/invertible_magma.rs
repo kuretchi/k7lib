@@ -25,6 +25,7 @@ pub trait InvertibleMagma: Magma + UnitalMagma {
 }
 
 impl InvertibleMagma for () {
+  #[allow(clippy::unused_unit)]
   fn invert(&self) -> Self {
     ()
   }

@@ -16,6 +16,7 @@ pub trait Magma: Clone {
 
 /// The trivial magma.
 impl Magma for () {
+  #[allow(clippy::unused_unit)]
   fn op(&self, _rhs: &Self) -> Self {
     ()
   }
