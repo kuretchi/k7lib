@@ -51,7 +51,7 @@ impl<R: BufRead> Scanner<R> {
       }
     };
     self.pos += start;
-    let len = self.rest().find(' ').unwrap_or(self.rest().len());
+    let len = self.rest().find(' ').unwrap_or_else(|| self.rest().len());
     let s = &self.buf[self.pos..][..len]; // self.rest()[..len]
     self.pos += len;
     Ok(s)
