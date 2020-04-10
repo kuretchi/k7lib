@@ -89,6 +89,6 @@ impl<M: Monoid> FromIterator<M> for CumulativeSum<M> {
     }
 
     vec.shrink_to_fit();
-    CumulativeSum { vec: vec }
+    CumulativeSum { vec }
   }
 }

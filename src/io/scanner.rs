@@ -25,7 +25,7 @@ impl<R: BufRead> Scanner<R> {
   /// ```
   pub fn new(reader: R) -> Self {
     Scanner {
-      reader: reader,
+      reader,
       buf: String::new(),
       pos: 0,
     }

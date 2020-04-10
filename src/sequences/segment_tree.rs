@@ -71,8 +71,8 @@ impl<M: Monoid> FromIterator<M> for SegmentTree<M> {
 
     let mut tree = SegmentTree {
       vec: deque.into(),
-      base_len: base_len,
-      len: len,
+      base_len,
+      len,
     };
 
     for node in (1..base_len).rev() {
@@ -100,11 +100,7 @@ impl<M: Monoid> SegmentTree<M> {
       vec![M::identity(); vec_len]
     };
 
-    SegmentTree {
-      vec: vec,
-      base_len: base_len,
-      len: len,
-    }
+    SegmentTree { vec, base_len, len }
   }
 
   /// Returns the length of the sequence.
