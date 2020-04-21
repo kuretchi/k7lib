@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["spella"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html\" title=\"trait core::str::FromStr\">FromStr</a> for <a class=\"struct\" href=\"spella/byte/struct.ByteChar.html\" title=\"struct spella::byte::ByteChar\">ByteChar</a>","synthetic":false,"types":["spella::byte::byte_char::ByteChar"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

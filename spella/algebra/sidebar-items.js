@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["AbelianGroup","An abelian group."],["AssociativeMagma","An associative magma."],["CommutativeMagma","A commutative magma."],["Group","A group."],["InvertibleMagma","A magma whose all elements have an inverse element."],["Magma","A magma."],["Monoid","A monoid."],["Semigroup","A semigroup."],["UnitalMagma","A magma that has an identity element."]]});
+initSidebarItems({"mod":[["structures","Algebraic structures."]]});
