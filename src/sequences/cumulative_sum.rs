@@ -1,7 +1,7 @@
 //! A cumulative sum.
 
 use super::*;
-use crate::algebra::{Group, Monoid};
+use crate::algebra::structures::{Group, Monoid};
 
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
@@ -89,6 +89,6 @@ impl<M: Monoid> FromIterator<M> for CumulativeSum<M> {
     }
 
     vec.shrink_to_fit();
-    CumulativeSum { vec: vec }
+    CumulativeSum { vec }
   }
 }

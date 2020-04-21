@@ -1,4 +1,4 @@
-use crate::algebra::{AssociativeMagma, InvertibleMagma, UnitalMagma};
+use super::{AssociativeMagma, InvertibleMagma, UnitalMagma};
 
 /// A group.
 ///

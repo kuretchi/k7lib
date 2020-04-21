@@ -1,4 +1,4 @@
-use crate::algebra::Magma;
+use super::Magma;
 
 /// A magma that has an identity element.
 ///
@@ -7,4 +7,20 @@ use crate::algebra::Magma;
 pub trait UnitalMagma: Magma {
   /// Returns an identity element.
   fn identity() -> Self;
+}
+
+impl UnitalMagma for () {
+  #[allow(clippy::unused_unit)]
+  fn identity() -> Self {
+    ()
+  }
+}
+
+impl<T> UnitalMagma for Option<T>
+where
+  T: Magma,
+{
+  fn identity() -> Self {
+    None
+  }
 }

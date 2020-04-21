@@ -1,7 +1,7 @@
 //! A segment tree.
 
 use super::*;
-use crate::algebra::Monoid;
+use crate::algebra::structures::Monoid;
 
 use std::collections::VecDeque;
 use std::iter::{self, FromIterator};
@@ -71,8 +71,8 @@ impl<M: Monoid> FromIterator<M> for SegmentTree<M> {
 
     let mut tree = SegmentTree {
       vec: deque.into(),
-      base_len: base_len,
-      len: len,
+      base_len,
+      len,
     };
 
     for node in (1..base_len).rev() {
@@ -100,11 +100,7 @@ impl<M: Monoid> SegmentTree<M> {
       vec![M::identity(); vec_len]
     };
 
-    SegmentTree {
-      vec: vec,
-      base_len: base_len,
-      len: len,
-    }
+    SegmentTree { vec, base_len, len }
   }
 
   /// Returns the length of the sequence.
@@ -225,6 +221,7 @@ impl<M: Monoid> SegmentTree<M> {
   }
 
   fn rebuild(&mut self, mut node: usize) {
+    #[allow(clippy::while_immutable_condition)]
     while {
       node >>= 1;
       node > 0

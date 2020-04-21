@@ -1,4 +1,4 @@
-use crate::algebra::{Magma, UnitalMagma};
+use super::{Magma, UnitalMagma};
 
 /// A magma whose all elements have an inverse element.
 ///
@@ -21,5 +21,12 @@ pub trait InvertibleMagma: Magma + UnitalMagma {
   /// Assigns `lhs.inverse_op(self)` to `self`.
   fn inverse_op_assign_left(&mut self, lhs: &Self) {
     *self = lhs.inverse_op(self);
+  }
+}
+
+impl InvertibleMagma for () {
+  #[allow(clippy::unused_unit)]
+  fn invert(&self) -> Self {
+    ()
   }
 }

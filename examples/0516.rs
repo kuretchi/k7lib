@@ -1,6 +1,6 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0516
 
-use spella::algebra::{AssociativeMagma, InvertibleMagma, Magma, UnitalMagma};
+use spella::algebra::structures::{AssociativeMagma, InvertibleMagma, Magma, UnitalMagma};
 use spella::io::Scanner;
 use spella::sequences::CumulativeSum;
 
@@ -40,7 +40,7 @@ fn main() -> io::Result<()> {
 
   macro_rules! scan {
     ($T:ty) => {
-      scanner.next::<$T>()?.unwrap()
+      scanner.parse_next::<$T>()?.unwrap()
     };
   }
 

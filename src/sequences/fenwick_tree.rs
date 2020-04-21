@@ -1,7 +1,7 @@
 //! A fenwick tree (a.k.a. binary indexed tree).
 
 use super::*;
-use crate::algebra::{AbelianGroup, CommutativeMagma, Monoid};
+use crate::algebra::structures::{AbelianGroup, CommutativeMagma, Monoid};
 
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
@@ -171,7 +171,7 @@ impl<M: Monoid + CommutativeMagma> From<Vec<M>> for FenwickTree<M> {
   /// O(n)
   fn from(mut vec: Vec<M>) -> Self {
     vec.shrink_to_fit();
-    let mut tree = FenwickTree { vec: vec };
+    let mut tree = FenwickTree { vec };
 
     // the last element (`tree.node(tree.len())`) does not have a parent
     for node in 1..tree.len() {
