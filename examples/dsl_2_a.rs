@@ -1,28 +1,11 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 
-use spella::algebra::structures::{AssociativeMagma, Magma, UnitalMagma};
+use spella::algebra::systems::Min;
 use spella::io::Scanner;
 use spella::sequences::SegmentTree;
 
 use std::io::{self, prelude::*};
 use std::iter::FromIterator;
-
-#[derive(Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Debug)]
-pub struct Min(pub i32);
-
-impl Magma for Min {
-  fn op(&self, rhs: &Self) -> Self {
-    *if self < rhs { self } else { rhs }
-  }
-}
-
-impl AssociativeMagma for Min {}
-
-impl UnitalMagma for Min {
-  fn identity() -> Self {
-    Min(2147483647)
-  }
-}
 
 fn main() -> io::Result<()> {
   let stdin = io::stdin();
