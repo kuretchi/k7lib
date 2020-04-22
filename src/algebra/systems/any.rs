@@ -1,5 +1,6 @@
 use crate::algebra::structures::{AssociativeMagma, CommutativeMagma, Magma, UnitalMagma};
 
+/// A monoid under disjunction `||`.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Any(pub bool);
 

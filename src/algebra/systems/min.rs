@@ -3,6 +3,7 @@ use crate::cmp::Bounded;
 
 use std::cmp;
 
+/// A monoid that returns the minimum value.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Min<T>(pub T);
 

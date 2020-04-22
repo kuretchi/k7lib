@@ -1,5 +1,6 @@
 use crate::algebra::structures::{AssociativeMagma, Magma};
 
+/// A right zero semigroup.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Last<T>(pub T);
 
