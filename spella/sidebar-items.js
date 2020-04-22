@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["algebra","Algebra."],["byte","Single-byte character/string types."],["io","Utilities related to I/O."],["sequences","Data structures representing a sequence."]]});
+initSidebarItems({"mod":[["algebra","Algebra."],["byte","Single-byte character/string types."],["cmp","Extensions for ordering and comparison."],["io","Utilities related to I/O."],["sequences","Data structures representing a sequence."]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["Bounded","Trait for types that have min/max values."]]});

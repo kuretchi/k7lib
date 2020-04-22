@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["structures","Algebraic structures."]]});
+initSidebarItems({"mod":[["structures","Algebraic structures."],["systems","Algebraic systems."]]});
