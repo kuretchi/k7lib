@@ -25,7 +25,7 @@ where
   T: Clone + Ord + Bounded,
 {
   fn identity() -> Self {
-    Max(T::min_value())
+    Max(T::MIN)
   }
 }
 
