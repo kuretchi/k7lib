@@ -34,7 +34,7 @@ macro_rules! int {
         + $OpAssign<$Rhs>
         + for<'a> $OpAssign<&'a $Rhs>
       )*
-      + Not
+      + Not<Output = Self>
       + Sum
       + for<'a> Sum<&'a Self>
       + Product
