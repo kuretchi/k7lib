@@ -161,9 +161,17 @@ where
 {
   type Output = Self;
 
-  fn add(mut self, rhs: Self) -> Self {
-    self += rhs;
-    self
+  fn add(self, rhs: Self) -> Self {
+    let (mut sum, overflowed) = self.repr.overflowing_add(rhs.repr);
+    if overflowed {
+      // lhs + rhs - mod
+      // = sum + 2^w - mod
+      // = sum + !mod + 1
+      sum += !Mod::get() + Int::ONE;
+    } else if sum >= Mod::get() {
+      sum -= Mod::get();
+    }
+    ModInt::new_unchecked(sum)
   }
 }
 
@@ -173,9 +181,8 @@ where
 {
   type Output = Self;
 
-  fn sub(mut self, rhs: Self) -> Self {
-    self -= rhs;
-    self
+  fn sub(self, rhs: Self) -> Self {
+    self + -rhs
   }
 }
 
@@ -186,7 +193,22 @@ where
   type Output = Self;
 
   fn mul(self, rhs: Self) -> Self {
-    ModInt::new(self.repr * rhs.repr)
+    if let Some(prod) = self.repr.checked_mul(rhs.repr) {
+      return ModInt::new(prod);
+    }
+    let mut lhs = self;
+    let mut rhs = rhs.repr;
+    let mut acc = ModInt::new_unchecked(Int::ZERO);
+    while rhs != Int::ZERO {
+      if rhs & Int::ONE != Int::ZERO {
+        // lhs * rhs = lhs + lhs * (rhs - 1)
+        acc += lhs;
+      }
+      // lhs * rhs = (lhs * 2) * (rhs / 2)
+      lhs += lhs;
+      rhs >>= 1;
+    }
+    acc
   }
 }
 
@@ -208,7 +230,11 @@ where
   type Output = Self;
 
   fn neg(self) -> Self {
-    ModInt::new_unchecked(Int::ZERO) - self
+    if self.repr == Int::ZERO {
+      self
+    } else {
+      ModInt::new_unchecked(Mod::get() - self.repr)
+    }
   }
 }
 
@@ -217,10 +243,7 @@ where
   Int: PrimInt + Unsigned,
 {
   fn add_assign(&mut self, rhs: Self) {
-    self.repr += rhs.repr;
-    if self.repr >= Mod::get() {
-      self.repr -= Mod::get();
-    }
+    *self = *self + rhs;
   }
 }
 
@@ -229,10 +252,7 @@ where
   Int: PrimInt + Unsigned,
 {
   fn sub_assign(&mut self, rhs: Self) {
-    if self.repr < rhs.repr {
-      self.repr += Mod::get();
-    }
-    self.repr -= rhs.repr;
+    *self = *self - rhs;
   }
 }
 
