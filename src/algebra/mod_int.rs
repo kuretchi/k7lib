@@ -29,7 +29,7 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssi
 /// assert_eq!((x / y).repr(), 3); // (x / y) * y = 3 * 3 = 9 = 1 = x
 /// ```
 pub struct ModInt<Int, Mod> {
-  _phantom: PhantomData<fn() -> (Int, Mod)>,
+  _phantom: PhantomData<fn() -> Mod>,
   repr: Int,
 }
 
