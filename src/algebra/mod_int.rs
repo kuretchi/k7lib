@@ -325,7 +325,7 @@ where
   Int: PrimUint,
 {
   fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
-    let mut acc = ModInt::new(Int::ONE);
+    let mut acc = ModInt::new_unchecked(Int::ONE);
     for x in iter {
       acc *= x;
     }
