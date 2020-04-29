@@ -1,5 +1,5 @@
 use crate::constant::Constant;
-use crate::num::primitive::{Int as PrimInt, Unsigned};
+use crate::num::primitive::{Int as PrimInt, UnsignedInt as PrimUint};
 
 use std::fmt::{self, Debug, Display, Formatter};
 use std::hash::{Hash, Hasher};
@@ -99,7 +99,7 @@ where
 
 impl<Int, Mod: Constant<Int>> ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn new_unchecked(repr: Int) -> Self {
     debug_assert!(Mod::get() > Int::ONE, "modulo must be greater than 1");
@@ -157,7 +157,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Add for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   type Output = Self;
 
@@ -177,7 +177,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Sub for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   type Output = Self;
 
@@ -188,7 +188,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Mul for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   type Output = Self;
 
@@ -214,7 +214,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Div for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   type Output = Self;
 
@@ -225,7 +225,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Neg for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   type Output = Self;
 
@@ -240,7 +240,7 @@ where
 
 impl<Int, Mod: Constant<Int>> AddAssign for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn add_assign(&mut self, rhs: Self) {
     *self = *self + rhs;
@@ -249,7 +249,7 @@ where
 
 impl<Int, Mod: Constant<Int>> SubAssign for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn sub_assign(&mut self, rhs: Self) {
     *self = *self - rhs;
@@ -258,7 +258,7 @@ where
 
 impl<Int, Mod: Constant<Int>> MulAssign for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn mul_assign(&mut self, rhs: Self) {
     *self = *self * rhs;
@@ -267,7 +267,7 @@ where
 
 impl<Int, Mod: Constant<Int>> DivAssign for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn div_assign(&mut self, rhs: Self) {
     *self = *self / rhs;
@@ -276,7 +276,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Sum for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
     let mut acc = ModInt::new_unchecked(Int::ZERO);
@@ -289,7 +289,7 @@ where
 
 impl<Int, Mod: Constant<Int>> Product for ModInt<Int, Mod>
 where
-  Int: PrimInt + Unsigned,
+  Int: PrimUint,
 {
   fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
     let mut acc = ModInt::new(Int::ONE);

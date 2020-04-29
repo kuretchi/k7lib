@@ -1,11 +1,10 @@
-use super::{Signed, Unsigned};
 use crate::cmp::Bounded;
 
 use std::fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex};
 use std::hash::Hash;
 use std::iter::{Product, Sum};
 use std::num::ParseIntError;
-use std::ops::Not;
+use std::ops::{Neg, Not};
 use std::str::FromStr;
 
 macro_rules! int {
@@ -67,7 +66,7 @@ macro_rules! int {
 macro_rules! signed_int {
   ($($func:tt)*) => {
     /// A trait for primitive signed integer types.
-    pub trait SignedInt: Int + Signed {
+    pub trait SignedInt: Int + Neg<Output = Self> {
       $($func)*
     }
 
@@ -78,7 +77,7 @@ macro_rules! signed_int {
 macro_rules! unsigned_int {
   ($($func:tt)*) => {
     /// A trait for primitive unsigned integer types.
-    pub trait UnsignedInt: Int + Unsigned {
+    pub trait UnsignedInt: Int {
       $($func)*
     }
 
