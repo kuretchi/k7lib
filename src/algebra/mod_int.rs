@@ -1,6 +1,7 @@
 use crate::constant::Constant;
 use crate::num::primitive::{Int as PrimInt, UnsignedInt as PrimUint};
 
+use std::convert::TryFrom;
 use std::fmt::{self, Debug, Display, Formatter};
 use std::hash::{Hash, Hasher};
 use std::iter::{Product, Sum};
@@ -94,6 +95,38 @@ where
 {
   fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
     Display::fmt(&self.repr, f)
+  }
+}
+
+impl<T, Int, Mod: Constant<Int>> From<T> for ModInt<Int, Mod>
+where
+  T: PrimInt + TryFrom<Int>,
+  Int: PrimUint + TryFrom<T>,
+{
+  fn from(repr: T) -> Self {
+    if let Ok(repr) = Int::try_from(repr) {
+      return ModInt::new(repr);
+    }
+    // Here, `repr` < 0 or `Mod::get()` < `repr`
+    if let Ok(mod_) = T::try_from(Mod::get()) {
+      let repr = Int::try_from(repr.rem_euclid(mod_)).ok().unwrap();
+      return ModInt::new_unchecked(repr);
+    }
+    // Here, `Mod::get()` > `T::MAX` (>= `repr`), and it implies `repr` < 0
+    // For instance, `Mod::get() == 128u8` and `repr == -128i8`
+    if let Some(repr_abs) = repr.checked_neg() {
+      // `Mod::get()` > `T::MAX` = -`T::MIN` - 1 >= abs(`repr`) - 1 implies
+      // abs(`repr`) <= `Mod::get()`, so this can never fail
+      let repr_abs = Int::try_from(repr_abs).ok().unwrap();
+      // `repr` < 0 implies abs(`repr`) > 0
+      return ModInt::new_unchecked(Mod::get() - repr_abs);
+    }
+    // Here, `repr` = `T::MIN` = -`T::MAX` - 1
+    debug_assert_eq!(repr, T::MIN);
+    // Since `Mod::get()` > `T::MAX`, this can never fail
+    let t_max = Int::try_from(T::MAX).ok().unwrap();
+    // `Mod::get()` > `T::MAX` implies `T::MAX` + 1 <= `Mod::get()`
+    ModInt::new_unchecked(Mod::get() - t_max - Int::ONE)
   }
 }
 
