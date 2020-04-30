@@ -8,6 +8,7 @@ use super::primitive::UnsignedInt as PrimUint;
 /// ```
 /// # use spella::num::lcm;
 /// assert_eq!(lcm::<u32>(18, 12), Some(36));
+/// assert_eq!(lcm::<u32>(18, 0), None);
 /// ```
 pub fn lcm<Int>(x: Int, y: Int) -> Option<Int>
 where
