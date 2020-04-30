@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["primitive","Traits for primitive numeric types."]]});
