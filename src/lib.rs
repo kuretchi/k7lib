@@ -5,5 +5,7 @@
 pub mod algebra;
 pub mod byte;
 pub mod cmp;
+pub mod constant;
 pub mod io;
+pub mod num;
 pub mod sequences;
