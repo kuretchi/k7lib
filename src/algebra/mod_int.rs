@@ -332,3 +332,136 @@ where
     acc
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use crate::constant;
+
+  use quickcheck_macros::quickcheck;
+  use std::convert::TryInto;
+
+  type Uint = u8;
+  type BigInt = i32;
+
+  fn mod_repr(m: Uint, x: BigInt) -> Uint {
+    x.rem_euclid(BigInt::from(m)).try_into().unwrap()
+  }
+
+  fn mod_add(m: Uint, x: Uint, y: Uint) -> Uint {
+    (BigInt::from(x) + BigInt::from(y))
+      .rem_euclid(BigInt::from(m))
+      .try_into()
+      .unwrap()
+  }
+
+  fn mod_sub(m: Uint, x: Uint, y: Uint) -> Uint {
+    (BigInt::from(x) - BigInt::from(y))
+      .rem_euclid(BigInt::from(m))
+      .try_into()
+      .unwrap()
+  }
+
+  fn mod_mul(m: Uint, x: Uint, y: Uint) -> Uint {
+    (BigInt::from(x) * BigInt::from(y))
+      .rem_euclid(BigInt::from(m))
+      .try_into()
+      .unwrap()
+  }
+
+  fn mod_neg(m: Uint, x: Uint) -> Uint {
+    (-BigInt::from(x))
+      .rem_euclid(BigInt::from(m))
+      .try_into()
+      .unwrap()
+  }
+
+  fn mod_sum(m: Uint, xs: impl IntoIterator<Item = Uint>) -> Uint {
+    xs.into_iter().fold(0, |acc, x| mod_add(m, acc, x))
+  }
+
+  fn mod_product(m: Uint, xs: impl IntoIterator<Item = Uint>) -> Uint {
+    xs.into_iter().fold(1, |acc, x| mod_mul(m, acc, x))
+  }
+
+  macro_rules! modulo {
+    ($m:expr) => {
+      if $m <= 1 {
+        return;
+      }
+      constant! {
+        static MOD: Uint = $m;
+      }
+    };
+  }
+
+  #[quickcheck]
+  fn from_prop(m: Uint, x: BigInt) {
+    modulo!(m);
+    let a = ModInt::<_, MOD>::from(x);
+    assert_eq!(a.repr(), mod_repr(m, x));
+  }
+
+  #[quickcheck]
+  fn new_prop(m: Uint, x: Uint) {
+    modulo!(m);
+    let a = ModInt::<_, MOD>::new(x);
+    assert_eq!(a.repr(), x % m);
+  }
+
+  #[quickcheck]
+  fn inverse_prop(m: Uint, x: Uint) {
+    modulo!(m);
+    let x = ModInt::<_, MOD>::new(x);
+    match x.inverse() {
+      Some(x_inv) => assert_eq!((x * x_inv).repr(), 1),
+      None => assert!((0..m).map(ModInt::new).all(|y| (x * y).repr() != 1)),
+    }
+  }
+
+  #[quickcheck]
+  fn add_prop(m: Uint, x: Uint, y: Uint) {
+    modulo!(m);
+    let a = ModInt::<_, MOD>::new(x) + ModInt::new(y);
+    assert_eq!(a.repr(), mod_add(m, x, y));
+  }
+
+  #[quickcheck]
+  fn sub_prop(m: Uint, x: Uint, y: Uint) {
+    modulo!(m);
+    let a = ModInt::<_, MOD>::new(x) - ModInt::new(y);
+    assert_eq!(a.repr(), mod_sub(m, x, y));
+  }
+
+  #[quickcheck]
+  fn mul_prop(m: Uint, x: Uint, y: Uint) {
+    modulo!(m);
+    let a = ModInt::<_, MOD>::new(x) * ModInt::new(y);
+    assert_eq!(a.repr(), mod_mul(m, x, y));
+  }
+
+  #[quickcheck]
+  fn neg_prop(m: Uint, x: Uint) {
+    modulo!(m);
+    let a = -ModInt::<_, MOD>::new(x);
+    assert_eq!(a.repr(), mod_neg(m, x));
+  }
+
+  #[quickcheck]
+  fn sum_prop(m: Uint, xs: Vec<Uint>) {
+    modulo!(m);
+    let a = xs.iter().copied().map(ModInt::new).sum::<ModInt<_, MOD>>();
+    assert_eq!(a.repr(), mod_sum(m, xs));
+  }
+
+  #[quickcheck]
+  fn product_prop(m: Uint, xs: Vec<Uint>) {
+    modulo!(m);
+    let a = xs
+      .iter()
+      .copied()
+      .map(ModInt::new)
+      .product::<ModInt<_, MOD>>();
+    assert_eq!(a.repr(), mod_product(m, xs));
+  }
+}

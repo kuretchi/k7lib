@@ -1,6 +1,7 @@
 #!/bin/sh
 set -euv
 export RUST_BACKTRACE=1
+export QUICKCHECK_GENERATOR_SIZE=500
 
 cargo test
 cargo +stable doc
