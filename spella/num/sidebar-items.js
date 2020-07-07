@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["primitive","Traits for primitive numeric types."]]});
+initSidebarItems({"fn":[["gcd","Returns the greatest common divisor."],["lcm","Returns the least common multiple if it exists."]],"mod":[["primitive","Traits for primitive numeric types."]]});

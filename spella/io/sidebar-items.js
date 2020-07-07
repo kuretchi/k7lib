@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Scanner","Wraps a reader and tokenize its input."]]});
+initSidebarItems({"fn":[["run",""]],"struct":[["Scanner","Wraps a reader and tokenize its input."]]});
