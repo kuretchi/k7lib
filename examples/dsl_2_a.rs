@@ -1,54 +1,49 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 
 use spella::algebra::systems::Min;
-use spella::io::Scanner;
 use spella::sequences::SegmentTree;
 
-use std::io::{self, prelude::*};
+use std::io;
 use std::iter::FromIterator;
 
 fn main() -> io::Result<()> {
-  let stdin = io::stdin();
-  let reader = stdin.lock();
-  let stdout = io::stdout();
-  let mut writer = std::io::BufWriter::new(stdout);
-  let mut scanner = Scanner::new(reader);
-
-  macro_rules! scan {
-    ($T:ty) => {
-      scanner.parse_next::<$T>()?.unwrap()
-    };
-  }
-
-  let n = scan!(usize);
-  let q = scan!(usize);
-
-  let mut seq = SegmentTree::new(n);
-
-  for _ in 0..q {
-    let com = scan!(usize);
-
-    match com {
-      0 => {
-        let i = scan!(usize);
-        let x = scan!(i32);
-
-        *seq.get_mut(i) = Min(x);
-      }
-      1 => {
-        let s = scan!(usize);
-        let t = scan!(usize);
-
-        writeln!(writer, "{}", seq.fold(s..t + 1).0)?;
-      }
-      _ => unreachable!(),
+  spella::io::run(None, false, |scanner, writer| {
+    macro_rules! scan {
+      ($T:ty) => {
+        scanner.parse_next::<$T>()?.unwrap()
+      };
     }
-  }
 
-  assert_eq!(
-    SegmentTree::from_iter((0..seq.len()).map(|i| seq.get(i)).cloned()),
-    seq
-  );
+    let n = scan!(usize);
+    let q = scan!(usize);
 
-  Ok(())
+    let mut seq = SegmentTree::new(n);
+
+    for _ in 0..q {
+      let com = scan!(usize);
+
+      match com {
+        0 => {
+          let i = scan!(usize);
+          let x = scan!(i32);
+
+          *seq.get_mut(i) = Min(x);
+        }
+        1 => {
+          let s = scan!(usize);
+          let t = scan!(usize);
+
+          writeln!(writer, "{}", seq.fold(s..t + 1).0)?;
+        }
+        _ => unreachable!(),
+      }
+    }
+
+    assert_eq!(
+      SegmentTree::from_iter((0..seq.len()).map(|i| seq.get(i)).cloned()),
+      seq
+    );
+
+    Ok(())
+  })
 }
