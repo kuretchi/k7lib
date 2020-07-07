@@ -10,6 +10,8 @@ use std::mem;
 /// ```
 /// # use spella::num::gcd;
 /// assert_eq!(gcd::<u32>(18, 12), 6);
+/// assert_eq!(gcd::<u32>(18, 0), 0);
+/// assert_eq!(gcd::<u32>(0, 0), 0);
 /// ```
 pub fn gcd<Int>(mut x: Int, mut y: Int) -> Int
 where
