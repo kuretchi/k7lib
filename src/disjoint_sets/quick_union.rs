@@ -1,3 +1,5 @@
+use crate::utils::index_bounds_check::*;
+
 use std::mem;
 
 #[derive(Clone, Debug)]
@@ -34,6 +36,8 @@ impl QuickUnion {
   }
 
   pub fn repr(&mut self, mut i: usize) -> usize {
+    assert_index(i, self.len());
+
     // Path halving
     while !self.is_root(i) {
       let j = self.nodes[self.nodes[i].parent].parent;
@@ -48,6 +52,9 @@ impl QuickUnion {
   }
 
   pub fn unite_sets(&mut self, i: usize, j: usize) -> bool {
+    assert_index(i, self.len());
+    assert_index(j, self.len());
+
     let mut i = self.repr(i);
     let mut j = self.repr(j);
 
@@ -75,10 +82,15 @@ impl QuickUnion {
   }
 
   pub fn belong_to_same_set(&mut self, i: usize, j: usize) -> bool {
+    assert_index(i, self.len());
+    assert_index(j, self.len());
+
     self.repr(i) == self.repr(j)
   }
 
   pub fn set_len(&mut self, i: usize) -> usize {
+    assert_index(i, self.len());
+
     let i = self.repr(i);
     self.nodes[i].len
   }
