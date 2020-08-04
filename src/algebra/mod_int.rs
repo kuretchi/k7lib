@@ -194,6 +194,7 @@ where
 {
   type Output = Self;
 
+  #[allow(clippy::suspicious_arithmetic_impl)]
   fn add(self, rhs: Self) -> Self {
     let (mut sum, overflowed) = self.repr.overflowing_add(rhs.repr);
     if overflowed {
@@ -225,6 +226,7 @@ where
 {
   type Output = Self;
 
+  #[allow(clippy::suspicious_arithmetic_impl)]
   fn mul(self, rhs: Self) -> Self {
     if let Some(prod) = self.repr.checked_mul(rhs.repr) {
       return ModInt::new(prod);
@@ -251,6 +253,7 @@ where
 {
   type Output = Self;
 
+  #[allow(clippy::suspicious_arithmetic_impl)]
   fn div(self, rhs: Self) -> Self {
     self * rhs.inverse().expect("inverse does not exist")
   }

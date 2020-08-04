@@ -18,10 +18,8 @@ impl<R: BufRead> Scanner<R> {
   /// From stdin:
   /// ```
   /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let stdin = std::io::stdin();
-  ///   let mut scanner = Scanner::new(stdin.lock());
-  /// }
+  /// let stdin = std::io::stdin();
+  /// let mut scanner = Scanner::new(stdin.lock());
   /// ```
   pub fn new(reader: R) -> Self {
     Scanner {
@@ -36,12 +34,10 @@ impl<R: BufRead> Scanner<R> {
   /// # Examples
   /// ```
   /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
+  /// let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
   ///
-  ///   let s: &str = scanner.next().unwrap();
-  ///   assert_eq!(s.as_bytes(), b"Rust" as &[_]);
-  /// }
+  /// let s: &str = scanner.next().unwrap();
+  /// assert_eq!(s.as_bytes(), b"Rust" as &[_]);
   /// ```
   pub fn next(&mut self) -> io::Result<&str> {
     let start = loop {
@@ -62,12 +58,10 @@ impl<R: BufRead> Scanner<R> {
   /// # Examples
   /// ```
   /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let mut scanner = Scanner::new(b"3 14" as &[_]);
+  /// let mut scanner = Scanner::new(b"3 14" as &[_]);
   ///
-  ///   let n: usize = scanner.parse_next().unwrap().expect("parse error");
-  ///   assert_eq!(n, 3);
-  /// }
+  /// let n: usize = scanner.parse_next().unwrap().expect("parse error");
+  /// assert_eq!(n, 3);
   /// ```
   pub fn parse_next<T>(&mut self) -> io::Result<Result<T, T::Err>>
   where
