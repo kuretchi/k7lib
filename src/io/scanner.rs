@@ -83,6 +83,9 @@ impl<R: BufRead> Scanner<R> {
     }
     if *self.buf.as_bytes().last().unwrap() == b'\n' {
       self.buf.pop();
+      if self.buf.as_bytes().last().map_or(false, |&b| b == b'\r') {
+        self.buf.pop();
+      }
     }
     Ok(())
   }
@@ -102,7 +105,10 @@ mod tests {
     let val3: u64 = 0;
     let val4: ByteChar = ByteChar(b'a');
 
-    let s = format!(" {} {}   \n\n  \n{}\n{} {}", val0, val1, val2, val3, val4);
+    let s = format!(
+      " {} {}   \n\r\n  \n{}\r\n{} {}",
+      val0, val1, val2, val3, val4
+    );
     let mut scanner = Scanner::new(s.as_bytes());
 
     assert_eq!(scanner.parse_next::<f64>().unwrap(), Ok(val0));
