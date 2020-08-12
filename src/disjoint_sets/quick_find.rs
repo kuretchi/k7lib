@@ -65,9 +65,9 @@ impl QuickFind {
     self.repr(i) == self.repr(j)
   }
 
-  pub fn set_len(&self, i: usize) -> usize {
+  pub fn set(&self, i: usize) -> &[usize] {
     assert_index(i, self.len());
 
-    self.elems[self.repr(i)].len()
+    &self.elems[self.repr(i)]
   }
 }
