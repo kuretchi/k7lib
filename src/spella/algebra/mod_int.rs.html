@@ -465,6 +465,9 @@
 <span id="465">465</span>
 <span id="466">466</span>
 <span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">constant</span>::<span class="ident">Constant</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">num</span>::<span class="ident">primitive</span>::{<span class="ident">Int</span> <span class="kw">as</span> <span class="ident">PrimInt</span>, <span class="ident">UnsignedInt</span> <span class="kw">as</span> <span class="ident">PrimUint</span>};
@@ -662,6 +665,7 @@
 {
   <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
+  <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">suspicious_arithmetic_impl</span>)]</span>
   <span class="kw">fn</span> <span class="ident">add</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
     <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">sum</span>, <span class="ident">overflowed</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">repr</span>.<span class="ident">overflowing_add</span>(<span class="ident">rhs</span>.<span class="ident">repr</span>);
     <span class="kw">if</span> <span class="ident">overflowed</span> {
@@ -693,6 +697,7 @@
 {
   <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
+  <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">suspicious_arithmetic_impl</span>)]</span>
   <span class="kw">fn</span> <span class="ident">mul</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">prod</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">repr</span>.<span class="ident">checked_mul</span>(<span class="ident">rhs</span>.<span class="ident">repr</span>) {
       <span class="kw">return</span> <span class="ident">ModInt</span>::<span class="ident">new</span>(<span class="ident">prod</span>);
@@ -719,6 +724,7 @@
 {
   <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span>;
 
+  <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">suspicious_arithmetic_impl</span>)]</span>
   <span class="kw">fn</span> <span class="ident">div</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
     <span class="self">self</span> <span class="op">*</span> <span class="ident">rhs</span>.<span class="ident">inverse</span>().<span class="ident">expect</span>(<span class="string">&quot;inverse does not exist&quot;</span>)
   }
@@ -934,4 +940,4 @@
   }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "spella";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "spella";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
