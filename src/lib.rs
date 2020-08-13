@@ -9,4 +9,5 @@ pub mod constant;
 pub mod io;
 pub mod num;
 pub mod sequences;
+pub mod string;
 mod utils;
