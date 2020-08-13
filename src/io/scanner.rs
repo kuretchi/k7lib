@@ -18,10 +18,8 @@ impl<R: BufRead> Scanner<R> {
   /// From stdin:
   /// ```
   /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let stdin = std::io::stdin();
-  ///   let mut scanner = Scanner::new(stdin.lock());
-  /// }
+  /// let stdin = std::io::stdin();
+  /// let mut scanner = Scanner::new(stdin.lock());
   /// ```
   pub fn new(reader: R) -> Self {
     Scanner {
@@ -36,12 +34,10 @@ impl<R: BufRead> Scanner<R> {
   /// # Examples
   /// ```
   /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
+  /// let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
   ///
-  ///   let s: &str = scanner.next().unwrap();
-  ///   assert_eq!(s.as_bytes(), b"Rust" as &[_]);
-  /// }
+  /// let s: &str = scanner.next().unwrap();
+  /// assert_eq!(s.as_bytes(), b"Rust" as &[_]);
   /// ```
   pub fn next(&mut self) -> io::Result<&str> {
     let start = loop {
@@ -62,12 +58,10 @@ impl<R: BufRead> Scanner<R> {
   /// # Examples
   /// ```
   /// # use spella::io::Scanner;
-  /// fn main() {
-  ///   let mut scanner = Scanner::new(b"3 14" as &[_]);
+  /// let mut scanner = Scanner::new(b"3 14" as &[_]);
   ///
-  ///   let n: usize = scanner.parse_next().unwrap().expect("parse error");
-  ///   assert_eq!(n, 3);
-  /// }
+  /// let n: usize = scanner.parse_next().unwrap().expect("parse error");
+  /// assert_eq!(n, 3);
   /// ```
   pub fn parse_next<T>(&mut self) -> io::Result<Result<T, T::Err>>
   where
@@ -89,6 +83,9 @@ impl<R: BufRead> Scanner<R> {
     }
     if *self.buf.as_bytes().last().unwrap() == b'\n' {
       self.buf.pop();
+      if self.buf.as_bytes().last().map_or(false, |&b| b == b'\r') {
+        self.buf.pop();
+      }
     }
     Ok(())
   }
@@ -108,7 +105,10 @@ mod tests {
     let val3: u64 = 0;
     let val4: ByteChar = ByteChar(b'a');
 
-    let s = format!(" {} {}   \n\n  \n{}\n{} {}", val0, val1, val2, val3, val4);
+    let s = format!(
+      " {} {}   \n\r\n  \n{}\r\n{} {}",
+      val0, val1, val2, val3, val4
+    );
     let mut scanner = Scanner::new(s.as_bytes());
 
     assert_eq!(scanner.parse_next::<f64>().unwrap(), Ok(val0));

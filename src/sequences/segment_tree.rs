@@ -1,8 +1,9 @@
 //! A segment tree.
 
-use super::*;
 use crate::algebra::structures::Monoid;
+use crate::utils::index_bounds_check::*;
 
+use std::cmp::Ordering::*;
 use std::collections::VecDeque;
 use std::iter::{self, FromIterator};
 use std::mem;
@@ -60,13 +61,17 @@ impl<M: Monoid> FromIterator<M> for SegmentTree<M> {
     let len = deque.len() - min_base_len.saturating_sub(1);
     let (base_len, _) = Self::extend_len(len);
 
-    if base_len > min_base_len {
-      for identity in iter::repeat(M::identity()).take(base_len - min_base_len) {
-        deque.push_front(identity);
+    match base_len.cmp(&min_base_len) {
+      Greater => {
+        for identity in iter::repeat(M::identity()).take(base_len - min_base_len) {
+          deque.push_front(identity);
+        }
       }
-    // for buggy iterator
-    } else if min_base_len > base_len {
-      deque.drain(..min_base_len - base_len);
+      Equal => {}
+      // for buggy iterator
+      Less => {
+        deque.drain(..min_base_len - base_len);
+      }
     }
 
     let mut tree = SegmentTree {
@@ -272,6 +277,6 @@ impl<'a, M: Monoid> GetMut<'a, M> {
     F: FnOnce(M) -> M,
   {
     let value = mem::replace::<M>(self, M::identity());
-    mem::replace::<M>(self, f(value));
+    **self = f(value);
   }
 }

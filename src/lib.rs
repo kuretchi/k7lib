@@ -1,6 +1,6 @@
-//! [GitHub](https://github.com/kuretchi/spella)
+//! My own competitive programming library for Rust.
 //!
-//! A competitive programming library for Rust.
+//! [Repository](https://github.com/kuretchi/spella)
 
 pub mod algebra;
 pub mod byte;
@@ -9,3 +9,4 @@ pub mod constant;
 pub mod io;
 pub mod num;
 pub mod sequences;
+mod utils;

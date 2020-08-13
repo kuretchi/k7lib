@@ -29,7 +29,7 @@ mod tests {
   use std::num::NonZeroU32;
 
   #[quickcheck]
-  fn lcm_with_zero_does_not_exists(x: u32) {
+  fn lcm_with_zero_does_not_exist(x: u32) {
     assert_eq!(lcm(0, x), None);
     assert_eq!(lcm(x, 0), None);
   }

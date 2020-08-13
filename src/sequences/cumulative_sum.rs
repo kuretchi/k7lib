@@ -1,7 +1,7 @@
 //! A cumulative sum.
 
-use super::*;
 use crate::algebra::structures::{Group, Monoid};
+use crate::utils::index_bounds_check::*;
 
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
