@@ -10,4 +10,5 @@ pub mod io;
 pub mod num;
 pub mod sequences;
 pub mod slice;
+pub mod string;
 mod utils;
