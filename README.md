@@ -6,4 +6,8 @@
 
 [Documentation](https://kuretchi.github.io/spella)
 
-A competitive programming library for Rust, which contains implementations of various algorithms, data structures, and so on.
+My own competitive programming library for Rust.
+
+## License
+
+Unless otherwise specified, all codes are licensed under the [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
