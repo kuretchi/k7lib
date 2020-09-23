@@ -8,6 +8,7 @@ pub use self::invertible_magma::*;
 pub use self::magma::*;
 pub use self::monoid::*;
 pub use self::semigroup::*;
+pub use self::semiring::*;
 pub use self::unital_magma::*;
 
 mod abelian_group;
@@ -18,4 +19,5 @@ mod invertible_magma;
 mod magma;
 mod monoid;
 mod semigroup;
+mod semiring;
 mod unital_magma;
