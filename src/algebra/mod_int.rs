@@ -1,3 +1,4 @@
+use crate::algebra::structures::{CommutativeSemiring, Ring, Semiring};
 use crate::constant::Constant;
 use crate::num::primitive::{Int as PrimInt, UnsignedInt as PrimUint};
 
@@ -333,6 +334,35 @@ where
       acc *= x;
     }
     acc
+  }
+}
+
+impl<Int, Mod: Constant<Int>> Semiring for ModInt<Int, Mod>
+where
+  Int: PrimUint,
+{
+  fn add(&self, rhs: &Self) -> Self {
+    *self + *rhs
+  }
+  fn mul(&self, rhs: &Self) -> Self {
+    *self * *rhs
+  }
+  fn zero() -> Self {
+    ModInt::new_unchecked(Int::ZERO)
+  }
+  fn one() -> Self {
+    ModInt::new_unchecked(Int::ONE)
+  }
+}
+
+impl<Int, Mod: Constant<Int>> CommutativeSemiring for ModInt<Int, Mod> where Int: PrimUint {}
+
+impl<Int, Mod: Constant<Int>> Ring for ModInt<Int, Mod>
+where
+  Int: PrimUint,
+{
+  fn neg(&self) -> Self {
+    -*self
   }
 }
 
