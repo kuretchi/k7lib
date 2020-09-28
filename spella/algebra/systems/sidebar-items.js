@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["All","A monoid under conjunction `&&`."],["Any","A monoid under disjunction `||`."],["First","A left zero semigroup."],["Last","A right zero semigroup."],["Max","A monoid that returns the maximum value."],["Min","A monoid that returns the minimum value."]]});
