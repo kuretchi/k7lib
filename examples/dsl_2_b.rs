@@ -1,6 +1,6 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
 
-use spella::algebra::systems::Sum;
+use spella::algebra::structures::Sum;
 use spella::sequences::FenwickTree;
 
 use std::io;

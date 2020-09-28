@@ -11,6 +11,7 @@ pub use self::monoid::*;
 pub use self::ring::*;
 pub use self::semigroup::*;
 pub use self::semiring::*;
+pub use self::systems::*;
 pub use self::unital_magma::*;
 
 mod abelian_group;
@@ -24,4 +25,5 @@ mod monoid;
 mod ring;
 mod semigroup;
 mod semiring;
+mod systems;
 mod unital_magma;
