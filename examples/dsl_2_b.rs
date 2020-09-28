@@ -1,37 +1,10 @@
 // verify-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
 
-use spella::algebra::structures::{
-  AssociativeMagma, CommutativeMagma, InvertibleMagma, Magma, UnitalMagma,
-};
+use spella::algebra::structures::Sum;
 use spella::sequences::FenwickTree;
 
 use std::io;
 use std::iter::FromIterator;
-
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub struct Sum(pub i32);
-
-impl Magma for Sum {
-  fn op(&self, rhs: &Self) -> Self {
-    Sum(self.0 + rhs.0)
-  }
-}
-
-impl AssociativeMagma for Sum {}
-
-impl CommutativeMagma for Sum {}
-
-impl UnitalMagma for Sum {
-  fn identity() -> Self {
-    Sum(0)
-  }
-}
-
-impl InvertibleMagma for Sum {
-  fn invert(&self) -> Self {
-    Sum(-self.0)
-  }
-}
 
 fn main() -> io::Result<()> {
   spella::io::run(None, false, |scanner, writer| {
