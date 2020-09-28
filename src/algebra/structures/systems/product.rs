@@ -1,5 +1,5 @@
 use crate::algebra::structures::{
-  AssociativeMagma, CommutativeMagma, Magma, Semiring, UnitalMagma,
+  AssociativeMagma, CommutativeMagma, CommutativeSemiring, Magma, Semiring, UnitalMagma,
 };
 
 /// A monoid under semiring multiplication.
@@ -17,7 +17,7 @@ where
 
 impl<T> AssociativeMagma for Product<T> where T: Semiring {}
 
-impl<T> CommutativeMagma for Product<T> where T: Semiring {}
+impl<T> CommutativeMagma for Product<T> where T: CommutativeSemiring {}
 
 impl<T> UnitalMagma for Product<T>
 where
