@@ -1,20 +1,18 @@
-use crate::algebra::structures::{AssociativeMagma, CommutativeMagma, Magma, UnitalMagma};
+use crate::algebra::structures::{CommutativeSemigroup, Monoid, Semigroup};
 
 /// A monoid under disjunction `||`.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Any(pub bool);
 
-impl Magma for Any {
+impl Semigroup for Any {
   fn op(&self, rhs: &Self) -> Self {
     Any(self.0 || rhs.0)
   }
 }
 
-impl AssociativeMagma for Any {}
+impl CommutativeSemigroup for Any {}
 
-impl CommutativeMagma for Any {}
-
-impl UnitalMagma for Any {
+impl Monoid for Any {
   fn identity() -> Self {
     Any(false)
   }

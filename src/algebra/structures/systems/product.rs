@@ -1,12 +1,12 @@
 use crate::algebra::structures::{
-  AssociativeMagma, CommutativeMagma, CommutativeSemiring, Magma, Semiring, UnitalMagma,
+  CommutativeSemigroup, CommutativeSemiring, Monoid, Semigroup, Semiring,
 };
 
 /// A monoid under semiring multiplication.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Product<T>(pub T);
 
-impl<T> Magma for Product<T>
+impl<T> Semigroup for Product<T>
 where
   T: Semiring,
 {
@@ -15,11 +15,9 @@ where
   }
 }
 
-impl<T> AssociativeMagma for Product<T> where T: Semiring {}
+impl<T> CommutativeSemigroup for Product<T> where T: CommutativeSemiring {}
 
-impl<T> CommutativeMagma for Product<T> where T: CommutativeSemiring {}
-
-impl<T> UnitalMagma for Product<T>
+impl<T> Monoid for Product<T>
 where
   T: Semiring,
 {

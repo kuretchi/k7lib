@@ -1,6 +1,6 @@
 //! A fenwick tree (a.k.a. binary indexed tree).
 
-use crate::algebra::structures::{AbelianGroup, CommutativeMagma, Monoid};
+use crate::algebra::structures::{CommutativeSemigroup, Group, Monoid};
 use crate::utils::index_bounds_check::*;
 
 use std::iter::FromIterator;
@@ -37,7 +37,7 @@ pub struct FenwickTree<T> {
   vec: Vec<T>,
 }
 
-impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
+impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   /// Creates a new `FenwickTree` of the given length, filled with an identity element.
   ///
   /// # Time complexity
@@ -107,7 +107,7 @@ impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
   }
 }
 
-impl<G: AbelianGroup> FenwickTree<G> {
+impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   /// Returns an element at the given index.
   ///
   /// # Panics
@@ -164,7 +164,7 @@ impl<G: AbelianGroup> FenwickTree<G> {
   }
 }
 
-impl<M: Monoid + CommutativeMagma> From<Vec<M>> for FenwickTree<M> {
+impl<M: Monoid + CommutativeSemigroup> From<Vec<M>> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from a `Vec`.
   ///
   /// # Time complexity
@@ -186,7 +186,7 @@ impl<M: Monoid + CommutativeMagma> From<Vec<M>> for FenwickTree<M> {
   }
 }
 
-impl<M: Monoid + CommutativeMagma> FromIterator<M> for FenwickTree<M> {
+impl<M: Monoid + CommutativeSemigroup> FromIterator<M> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from an iterator.
   ///
   /// # Time complexity
