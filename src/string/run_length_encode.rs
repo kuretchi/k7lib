@@ -1,5 +1,16 @@
 use std::iter::FusedIterator;
 
+/// Creates a run-length encoded iterator of the given iterator.
+///
+/// # Examples
+/// ```
+/// # use spella::string::run_length_encode;
+/// let mut iter = run_length_encode(b"aaabcccc");
+/// assert_eq!(iter.next(), Some((&b'a', 3)));
+/// assert_eq!(iter.next(), Some((&b'b', 1)));
+/// assert_eq!(iter.next(), Some((&b'c', 4)));
+/// assert_eq!(iter.next(), None);
+/// ```
 pub fn run_length_encode<I>(iter: I) -> RunLengthEncode<I::IntoIter>
 where
   I: IntoIterator,
@@ -11,6 +22,9 @@ where
   }
 }
 
+/// An iterator created by [`run_length_encode`].
+///
+/// [`run_length_encode`]: ./fn.run_length_encode.html
 #[derive(Clone, Debug)]
 pub struct RunLengthEncode<I>
 where
