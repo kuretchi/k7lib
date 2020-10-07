@@ -82,7 +82,7 @@ impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn prefix_fold(&self, index: RangeTo<usize>) -> M {
+  pub fn prefix_sum(&self, index: RangeTo<usize>) -> M {
     assert_index_range_to(index, self.len());
 
     // 0-based [0, e) => 1-based [1, e + 1) => 1-based [1, e]
@@ -115,10 +115,10 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn get(&self, index: usize) -> G {
+  pub fn point_get(&self, index: usize) -> G {
     assert_index(index, self.len());
 
-    self.fold(index..index + 1)
+    self.range_sum(index..index + 1)
   }
 
   /// Replaces an element at the given index with the given value, and returns the old one.
@@ -129,7 +129,7 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   /// # Time complexity
   /// O(log n)
   pub fn replace(&mut self, index: usize, value: &G) -> G {
-    let old_value = self.get(index);
+    let old_value = self.point_get(index);
     self.point_append(index, &value.inverse_op(&old_value));
     old_value
   }
@@ -141,7 +141,7 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn fold(&self, index: Range<usize>) -> G {
+  pub fn range_sum(&self, index: Range<usize>) -> G {
     assert_index_range(&index, self.len());
 
     // 0-based [s, e) => 1-based [s + 1, e + 1) => 1-based (s, e]

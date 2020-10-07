@@ -27,20 +27,20 @@ fn main() -> io::Result<()> {
           let i = scan!(usize);
           let x = scan!(i32);
 
-          *seq.get_mut(i) = Min(x);
+          *seq.point_get_mut(i) = Min(x);
         }
         1 => {
           let s = scan!(usize);
           let t = scan!(usize);
 
-          writeln!(writer, "{}", seq.fold(s..t + 1).0)?;
+          writeln!(writer, "{}", seq.range_sum(s..t + 1).0)?;
         }
         _ => unreachable!(),
       }
     }
 
     assert_eq!(
-      SegmentTree::from_iter((0..seq.len()).map(|i| seq.get(i)).cloned()),
+      SegmentTree::from_iter((0..seq.len()).map(|i| seq.point_get(i)).cloned()),
       seq
     );
 

@@ -31,7 +31,7 @@ impl<M: Monoid> CumulativeSum<M> {
   ///
   /// # Time complexity
   /// O(1)
-  pub fn prefix_fold(&self, index: RangeTo<usize>) -> &M {
+  pub fn prefix_sum(&self, index: RangeTo<usize>) -> &M {
     assert_index_range_to(index, self.len());
 
     &self.vec[index.end]
@@ -46,10 +46,10 @@ impl<G: Group> CumulativeSum<G> {
   ///
   /// # Time complexity
   /// O(1)
-  pub fn get(&self, index: usize) -> G {
+  pub fn point_get(&self, index: usize) -> G {
     assert_index(index, self.len());
 
-    self.fold(index..index + 1)
+    self.range_sum(index..index + 1)
   }
 
   /// Folds elements in the given range with a group's binary operation.
@@ -59,12 +59,12 @@ impl<G: Group> CumulativeSum<G> {
   ///
   /// # Time complexity
   /// O(1)
-  pub fn fold(&self, index: Range<usize>) -> G {
+  pub fn range_sum(&self, index: Range<usize>) -> G {
     assert_index_range(&index, self.len());
 
     // [s, e) = [s, e - 1] = [0, s - 1] ^ -1 * [0, e - 1] = [0, s) ^ -1 * [0, e)
-    let l = self.prefix_fold(..index.start).invert();
-    let r = self.prefix_fold(..index.end);
+    let l = self.prefix_sum(..index.start).invert();
+    let r = self.prefix_sum(..index.end);
 
     l.op(r)
   }

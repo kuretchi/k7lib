@@ -33,12 +33,15 @@ fn main() -> io::Result<()> {
       let mut acc = Sum(i32::min_value());
 
       for i in 0..n - (k - 1) {
-        acc = cmp::max(acc, a.fold(i..i + k));
+        acc = cmp::max(acc, a.range_sum(i..i + k));
       }
 
       writeln!(writer, "{}", acc.0)?;
 
-      assert_eq!(CumulativeSum::from_iter((0..a.len()).map(|i| a.get(i))), a);
+      assert_eq!(
+        CumulativeSum::from_iter((0..a.len()).map(|i| a.point_get(i))),
+        a
+      );
     }
 
     Ok(())

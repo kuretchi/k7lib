@@ -33,14 +33,14 @@ fn main() -> io::Result<()> {
           let s = scan!(usize);
           let t = scan!(usize);
 
-          writeln!(writer, "{}", seq.fold(s - 1..t).0)?;
+          writeln!(writer, "{}", seq.range_sum(s - 1..t).0)?;
         }
         _ => unreachable!(),
       }
     }
 
     assert_eq!(
-      FenwickTree::from_iter((0..seq.len()).map(|i| seq.get(i))),
+      FenwickTree::from_iter((0..seq.len()).map(|i| seq.point_get(i))),
       seq
     );
 
