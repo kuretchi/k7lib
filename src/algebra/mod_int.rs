@@ -158,7 +158,7 @@ where
   ///
   /// # Time complexity
   /// O(log `self.repr()`)
-  pub fn inverse(self) -> Option<Self> {
+  pub fn recip(self) -> Option<Self> {
     // The extended Euclidean algorithm
     let mut a = Mod::get();
     let mut b = self.repr;
@@ -181,8 +181,8 @@ where
     if a == Int::ONE {
       // 1 ≡ `s * self.repr` (if `swapped`)
       // 1 ≡ -`s * self.repr` (if `!swapped`)
-      let inv = if swapped { s } else { Mod::get() - s };
-      Some(ModInt::new_unchecked(inv))
+      let recip = if swapped { s } else { Mod::get() - s };
+      Some(ModInt::new_unchecked(recip))
     } else {
       None
     }
@@ -256,7 +256,7 @@ where
 
   #[allow(clippy::suspicious_arithmetic_impl)]
   fn div(self, rhs: Self) -> Self {
-    self * rhs.inverse().expect("inverse does not exist")
+    self * rhs.recip().expect("reciprocal does not exist")
   }
 }
 
@@ -443,11 +443,11 @@ mod tests {
   }
 
   #[quickcheck]
-  fn inverse_prop(m: Uint, x: Uint) {
+  fn recip_prop(m: Uint, x: Uint) {
     modulo!(m);
     let x = ModInt::<_, MOD>::new(x);
-    match x.inverse() {
-      Some(x_inv) => assert_eq!((x * x_inv).repr(), 1),
+    match x.recip() {
+      Some(x_recip) => assert_eq!((x * x_recip).repr(), 1),
       None => assert!((0..m).map(ModInt::new).all(|y| (x * y).repr() != 1)),
     }
   }
