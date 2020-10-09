@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["run_length_encode","Creates a run-length encoded iterator of the given iterator."]],"struct":[["RunLengthEncode","An iterator created by [`run_length_encode`]."]]});

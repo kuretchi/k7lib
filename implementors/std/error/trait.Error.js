@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["spella"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"struct\" href=\"spella/byte/struct.ParseByteCharError.html\" title=\"struct spella::byte::ParseByteCharError\">ParseByteCharError</a>","synthetic":false,"types":["spella::byte::byte_char::ParseByteCharError"]}];
+implementors["spella"] = [{"text":"impl Error for ParseByteCharError","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
