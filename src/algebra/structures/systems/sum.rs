@@ -1,12 +1,10 @@
-use crate::algebra::structures::{
-  AssociativeMagma, CommutativeMagma, InvertibleMagma, Magma, Ring, Semiring, UnitalMagma,
-};
+use crate::algebra::structures::{CommutativeSemigroup, Group, Monoid, Ring, Semigroup, Semiring};
 
 /// A commutative monoid under semiring addition.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Sum<T>(pub T);
 
-impl<T> Magma for Sum<T>
+impl<T> Semigroup for Sum<T>
 where
   T: Semiring,
 {
@@ -15,11 +13,9 @@ where
   }
 }
 
-impl<T> AssociativeMagma for Sum<T> where T: Semiring {}
+impl<T> CommutativeSemigroup for Sum<T> where T: Semiring {}
 
-impl<T> CommutativeMagma for Sum<T> where T: Semiring {}
-
-impl<T> UnitalMagma for Sum<T>
+impl<T> Monoid for Sum<T>
 where
   T: Semiring,
 {
@@ -28,7 +24,7 @@ where
   }
 }
 
-impl<T> InvertibleMagma for Sum<T>
+impl<T> Group for Sum<T>
 where
   T: Ring,
 {

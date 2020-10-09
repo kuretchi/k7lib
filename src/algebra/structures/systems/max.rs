@@ -1,4 +1,4 @@
-use crate::algebra::structures::{AssociativeMagma, CommutativeMagma, Magma, UnitalMagma};
+use crate::algebra::structures::{CommutativeSemigroup, Monoid, Semigroup};
 use crate::cmp::Bounded;
 
 use std::cmp;
@@ -7,7 +7,7 @@ use std::cmp;
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Max<T>(pub T);
 
-impl<T> Magma for Max<T>
+impl<T> Semigroup for Max<T>
 where
   T: Clone + Ord,
 {
@@ -16,11 +16,9 @@ where
   }
 }
 
-impl<T> AssociativeMagma for Max<T> where T: Clone + Ord {}
+impl<T> CommutativeSemigroup for Max<T> where T: Clone + Ord {}
 
-impl<T> CommutativeMagma for Max<T> where T: Clone + Ord {}
-
-impl<T> UnitalMagma for Max<T>
+impl<T> Monoid for Max<T>
 where
   T: Clone + Ord + Bounded,
 {

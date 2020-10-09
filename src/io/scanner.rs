@@ -1,9 +1,14 @@
 use std::io::{self, BufRead};
 use std::str::FromStr;
 
-/// Wraps a reader and tokenize its input.
+/// Wraps a reader and tokenizes its input.
 ///
-/// Token's separators are `b' '` (0x20) and `b'\n'` (0x0a).
+/// Token separators are as follows:
+/// * Space (U+0020) (` `)
+/// * Line feed (U+000A) (`\n`)
+/// * Carrige return (U+000D) + line feed (`\r\n`)
+///
+/// Empty tokens will be skipped since consecutive separators are always treated as one separator.
 #[derive(Debug)]
 pub struct Scanner<R> {
   reader: R,

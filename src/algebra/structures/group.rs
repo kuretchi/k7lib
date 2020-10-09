@@ -1,12 +1,32 @@
-use super::{AssociativeMagma, InvertibleMagma, UnitalMagma};
+use super::Monoid;
 
 /// A group.
 ///
-/// This trait is an alias of [`AssociativeMagma`] + [`UnitalMagma`] + [`InvertibleMagma`].
-///
-/// [`AssociativeMagma`]: ./trait.AssociativeMagma.html
-/// [`UnitalMagma`]: ./trait.UnitalMagma.html
-/// [`InvertibleMagma`]: ./trait.InvertibleMagma.html
-pub trait Group: AssociativeMagma + UnitalMagma + InvertibleMagma {}
+/// # Laws
+/// * ∀`x` (`x.op(&x.invert())` = `x.invert().op(&x)` = `Self::identity()`)
+pub trait Group: Monoid {
+  /// Returns an inverse element.
+  fn invert(&self) -> Self;
 
-impl<T: AssociativeMagma + UnitalMagma + InvertibleMagma> Group for T {}
+  /// Returns `self.op(&rhs.invert())`.
+  fn inverse_op(&self, rhs: &Self) -> Self {
+    self.op(&rhs.invert())
+  }
+
+  /// Assigns `self.inverse_op(rhs)` to `self`.
+  fn inverse_op_assign_right(&mut self, rhs: &Self) {
+    *self = self.inverse_op(rhs);
+  }
+
+  /// Assigns `lhs.inverse_op(self)` to `self`.
+  fn inverse_op_assign_left(&mut self, lhs: &Self) {
+    *self = lhs.inverse_op(self);
+  }
+}
+
+#[allow(clippy::unused_unit)]
+impl Group for () {
+  fn invert(&self) -> Self {
+    ()
+  }
+}

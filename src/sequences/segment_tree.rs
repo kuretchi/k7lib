@@ -123,7 +123,7 @@ impl<M: Monoid> SegmentTree<M> {
   ///
   /// # Time complexity
   /// O(1)
-  pub fn get(&self, index: usize) -> &M {
+  pub fn point_get(&self, index: usize) -> &M {
     assert_index(index, self.len());
 
     self.node(self.node_index(index))
@@ -136,10 +136,10 @@ impl<M: Monoid> SegmentTree<M> {
   ///
   /// # Time complexity
   /// O(1) (`GetMut::drop`: O(log n))
-  pub fn get_mut(&mut self, index: usize) -> GetMut<M> {
+  pub fn point_get_mut(&mut self, index: usize) -> PointGetMut<M> {
     assert_index(index, self.len());
 
-    GetMut {
+    PointGetMut {
       node: self.node_index(index),
       tree: self,
     }
@@ -152,7 +152,7 @@ impl<M: Monoid> SegmentTree<M> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn fold(&self, index: Range<usize>) -> M {
+  pub fn range_sum(&self, index: Range<usize>) -> M {
     assert_index_range(&index, self.len());
 
     let mut start = self.node_index(index.start);
@@ -245,18 +245,18 @@ impl<M: Monoid> SegmentTree<M> {
 }
 
 /// Structure wrapping a mutable refenrece to an element on `SegmentTree`.
-pub struct GetMut<'a, M: 'a + Monoid> {
+pub struct PointGetMut<'a, M: 'a + Monoid> {
   tree: &'a mut SegmentTree<M>,
   node: usize,
 }
 
-impl<'a, M: Monoid> Drop for GetMut<'a, M> {
+impl<'a, M: Monoid> Drop for PointGetMut<'a, M> {
   fn drop(&mut self) {
     self.tree.rebuild(self.node);
   }
 }
 
-impl<'a, M: Monoid> Deref for GetMut<'a, M> {
+impl<'a, M: Monoid> Deref for PointGetMut<'a, M> {
   type Target = M;
 
   fn deref(&self) -> &M {
@@ -264,13 +264,13 @@ impl<'a, M: Monoid> Deref for GetMut<'a, M> {
   }
 }
 
-impl<'a, M: Monoid> DerefMut for GetMut<'a, M> {
+impl<'a, M: Monoid> DerefMut for PointGetMut<'a, M> {
   fn deref_mut(&mut self) -> &mut M {
     self.tree.node_mut(self.node)
   }
 }
 
-impl<'a, M: Monoid> GetMut<'a, M> {
+impl<'a, M: Monoid> PointGetMut<'a, M> {
   /// Updates the value using the given function.
   pub fn update<F>(&mut self, f: F)
   where

@@ -1,10 +1,10 @@
-use crate::algebra::structures::{AssociativeMagma, Magma};
+use crate::algebra::structures::Semigroup;
 
 /// A right zero semigroup.
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default, Hash, Debug)]
 pub struct Last<T>(pub T);
 
-impl<T> Magma for Last<T>
+impl<T> Semigroup for Last<T>
 where
   T: Clone,
 {
@@ -12,8 +12,6 @@ where
     Last(rhs.0.clone())
   }
 }
-
-impl<T> AssociativeMagma for Last<T> where T: Clone {}
 
 #[cfg(test)]
 mod tests {

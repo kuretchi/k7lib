@@ -1,6 +1,6 @@
 //! A fenwick tree (a.k.a. binary indexed tree).
 
-use crate::algebra::structures::{AbelianGroup, CommutativeMagma, Monoid};
+use crate::algebra::structures::{CommutativeSemigroup, Group, Monoid};
 use crate::utils::index_bounds_check::*;
 
 use std::iter::FromIterator;
@@ -37,7 +37,7 @@ pub struct FenwickTree<T> {
   vec: Vec<T>,
 }
 
-impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
+impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   /// Creates a new `FenwickTree` of the given length, filled with an identity element.
   ///
   /// # Time complexity
@@ -82,7 +82,7 @@ impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn prefix_fold(&self, index: RangeTo<usize>) -> M {
+  pub fn prefix_sum(&self, index: RangeTo<usize>) -> M {
     assert_index_range_to(index, self.len());
 
     // 0-based [0, e) => 1-based [1, e + 1) => 1-based [1, e]
@@ -107,7 +107,7 @@ impl<M: Monoid + CommutativeMagma> FenwickTree<M> {
   }
 }
 
-impl<G: AbelianGroup> FenwickTree<G> {
+impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   /// Returns an element at the given index.
   ///
   /// # Panics
@@ -115,10 +115,10 @@ impl<G: AbelianGroup> FenwickTree<G> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn get(&self, index: usize) -> G {
+  pub fn point_get(&self, index: usize) -> G {
     assert_index(index, self.len());
 
-    self.fold(index..index + 1)
+    self.range_sum(index..index + 1)
   }
 
   /// Replaces an element at the given index with the given value, and returns the old one.
@@ -129,7 +129,7 @@ impl<G: AbelianGroup> FenwickTree<G> {
   /// # Time complexity
   /// O(log n)
   pub fn replace(&mut self, index: usize, value: &G) -> G {
-    let old_value = self.get(index);
+    let old_value = self.point_get(index);
     self.point_append(index, &value.inverse_op(&old_value));
     old_value
   }
@@ -141,7 +141,7 @@ impl<G: AbelianGroup> FenwickTree<G> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn fold(&self, index: Range<usize>) -> G {
+  pub fn range_sum(&self, index: Range<usize>) -> G {
     assert_index_range(&index, self.len());
 
     // 0-based [s, e) => 1-based [s + 1, e + 1) => 1-based (s, e]
@@ -164,7 +164,7 @@ impl<G: AbelianGroup> FenwickTree<G> {
   }
 }
 
-impl<M: Monoid + CommutativeMagma> From<Vec<M>> for FenwickTree<M> {
+impl<M: Monoid + CommutativeSemigroup> From<Vec<M>> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from a `Vec`.
   ///
   /// # Time complexity
@@ -186,7 +186,7 @@ impl<M: Monoid + CommutativeMagma> From<Vec<M>> for FenwickTree<M> {
   }
 }
 
-impl<M: Monoid + CommutativeMagma> FromIterator<M> for FenwickTree<M> {
+impl<M: Monoid + CommutativeSemigroup> FromIterator<M> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from an iterator.
   ///
   /// # Time complexity
