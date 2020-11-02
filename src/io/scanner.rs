@@ -51,11 +51,9 @@ impl<R: BufRead> Scanner<R> {
         None => self.fill_buf()?,
       }
     };
-    self.pos += start;
+    self.consume(start);
     let len = self.rest().find(' ').unwrap_or_else(|| self.rest().len());
-    let s = &self.buf[self.pos..][..len]; // self.rest()[..len]
-    self.pos += len;
-    Ok(s)
+    Ok(self.consume(len))
   }
 
   /// Parses a next token splitted by whitespaces, and returns it.
@@ -77,6 +75,13 @@ impl<R: BufRead> Scanner<R> {
 
   fn rest(&self) -> &str {
     &self.buf[self.pos..]
+  }
+
+  fn consume(&mut self, len: usize) -> &str {
+    debug_assert!(len <= self.rest().len());
+    let s = &self.buf[self.pos..][..len];
+    self.pos += len;
+    s
   }
 
   fn fill_buf(&mut self) -> io::Result<()> {
