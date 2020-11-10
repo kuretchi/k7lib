@@ -1,5 +1,42 @@
 use std::cmp::Ordering::{self, *};
 
+/// Permutes the slice into the next greater permutation in lexicographically order.
+///
+/// If successful, `true` is returned.
+/// If the next permutation does not exist, nothing is performed and `false` is returned.
+///
+/// # Examples
+///
+/// ```
+/// # use spella::slice::next_permutation;
+/// let mut s = [0, 0, 2, 1];
+/// assert!(next_permutation(&mut s));
+/// assert_eq!(s, [0, 1, 0, 2]);
+/// ```
+///
+/// ```
+/// # use spella::slice::next_permutation;
+/// let mut s = [2, 1, 0, 0];
+/// assert!(!next_permutation(&mut s));
+/// assert_eq!(s, [2, 1, 0, 0]);
+/// ```
+///
+/// Enumerating all permutations:
+/// ```
+/// # use spella::slice::next_permutation;
+/// let mut s = [0, 0, 1, 2]; // sorted
+/// loop {
+///   println!("{:?}", s);
+///   if !next_permutation(&mut s) {
+///     break;
+///   }
+/// }
+/// ```
+///
+/// # Time complexity
+///
+/// * Θ(n) worst per operation
+/// * Θ(n!) worst, to enumerate all permutations
 pub fn next_permutation<T>(s: &mut [T]) -> bool
 where
   T: Ord,
@@ -7,6 +44,19 @@ where
   next_permutation_by(s, T::cmp)
 }
 
+/// Permutes the slice into the next greater permutation in lexicographically order
+/// with a comparator function.
+///
+/// See [`next_permutation`](./fn.next_permutation.html) for details.
+///
+/// # Examples
+///
+/// ```
+/// # use spella::slice::next_permutation_by;
+/// let mut s = [2, 1, 0];
+/// assert!(next_permutation_by(&mut s, |l, r| l.cmp(r).reverse()));
+/// assert_eq!(s, [2, 0, 1]);
+/// ```
 pub fn next_permutation_by<T, F>(s: &mut [T], mut cmp: F) -> bool
 where
   F: FnMut(&T, &T) -> Ordering,
@@ -29,6 +79,21 @@ where
   true
 }
 
+/// Permutes the slice into the next greater permutation in lexicographically order
+/// with a key extraction function.
+///
+/// See [`next_permutation`](./fn.next_permutation.html) for details.
+///
+/// # Examples
+///
+/// ```
+/// # use spella::slice::next_permutation_by_key;
+/// use std::cmp::Reverse;
+///
+/// let mut s = [2, 1, 0];
+/// assert!(next_permutation_by_key(&mut s, |&c| Reverse(c)));
+/// assert_eq!(s, [2, 0, 1]);
+/// ```
 pub fn next_permutation_by_key<T, K, F>(s: &mut [T], mut f: F) -> bool
 where
   F: FnMut(&T) -> K,
