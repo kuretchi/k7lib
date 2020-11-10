@@ -67,6 +67,45 @@ impl<R: BufRead> Scanner<R> {
     Ok(self.consume(len))
   }
 
+  /// Returns a whole string slice before the next newline delimiter (or EOF).
+  ///
+  /// # Examples
+  /// ```
+  /// use spella::io::Scanner;
+  ///
+  /// fn main() -> std::io::Result<()> {
+  ///   let s = "The quick brown fox\njumps over the lazy dog";
+  ///   let mut scanner = Scanner::new(s.as_bytes());
+  ///
+  ///   assert_eq!(scanner.next()?, "The");
+  ///   assert_eq!(scanner.next_line()?, " quick brown fox");
+  ///   assert_eq!(scanner.next_line()?, "jumps over the lazy dog");
+  ///   Ok(())
+  /// }
+  /// ```
+  ///
+  /// Empty lines may be returned:
+  /// ```
+  /// use spella::io::Scanner;
+  /// use std::io::ErrorKind;
+  ///
+  /// fn main() -> std::io::Result<()> {
+  ///   let s = "\n\n";
+  ///   let mut scanner = Scanner::new(s.as_bytes());
+  ///
+  ///   assert_eq!(scanner.next_line()?, "");
+  ///   assert_eq!(scanner.next_line()?, "");
+  ///   assert!(scanner.next_line().is_err());
+  ///   Ok(())
+  /// }
+  /// ```
+  pub fn next_line(&mut self) -> io::Result<&str> {
+    if self.rest().is_empty() {
+      self.fill_buf()?;
+    }
+    Ok(self.consume(self.rest().len()))
+  }
+
   /// Parses a next token splitted by whitespaces, and returns it.
   ///
   /// # Examples
@@ -120,6 +159,24 @@ impl<R: BufRead> Scanner<R> {
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  #[test]
+  fn next_line_test() {
+    let s = "01\n23 \r\n 45 \n\r\n\n6  7\n\n";
+    let mut scanner = Scanner::new(s.as_bytes());
+
+    assert_eq!(scanner.next_line().unwrap(), "01");
+    assert_eq!(scanner.next_line().unwrap(), "23 ");
+    assert_eq!(scanner.next_line().unwrap(), " 45 ");
+    assert_eq!(scanner.next_line().unwrap(), "");
+    assert_eq!(scanner.next_line().unwrap(), "");
+    assert_eq!(scanner.next_line().unwrap(), "6  7");
+    assert_eq!(scanner.next_line().unwrap(), "");
+    assert_eq!(
+      scanner.next_line().unwrap_err().kind(),
+      io::ErrorKind::UnexpectedEof
+    );
+  }
 
   #[test]
   fn test() {
