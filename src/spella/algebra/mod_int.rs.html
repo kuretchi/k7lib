@@ -660,7 +660,7 @@
   <span class="doccomment">///</span>
   <span class="doccomment">/// # Time complexity</span>
   <span class="doccomment">/// O(log `self.repr()`)</span>
-  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inverse</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+  <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recip</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
     <span class="comment">// The extended Euclidean algorithm</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">Mod</span>::<span class="ident">get</span>();
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">repr</span>;
@@ -683,8 +683,8 @@
     <span class="kw">if</span> <span class="ident">a</span> <span class="op">==</span> <span class="ident">Int</span>::<span class="ident">ONE</span> {
       <span class="comment">// 1 ≡ `s * self.repr` (if `swapped`)</span>
       <span class="comment">// 1 ≡ -`s * self.repr` (if `!swapped`)</span>
-      <span class="kw">let</span> <span class="ident">inv</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">swapped</span> { <span class="ident">s</span> } <span class="kw">else</span> { <span class="ident">Mod</span>::<span class="ident">get</span>() <span class="op">-</span> <span class="ident">s</span> };
-      <span class="prelude-val">Some</span>(<span class="ident">ModInt</span>::<span class="ident">new_unchecked</span>(<span class="ident">inv</span>))
+      <span class="kw">let</span> <span class="ident">recip</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">swapped</span> { <span class="ident">s</span> } <span class="kw">else</span> { <span class="ident">Mod</span>::<span class="ident">get</span>() <span class="op">-</span> <span class="ident">s</span> };
+      <span class="prelude-val">Some</span>(<span class="ident">ModInt</span>::<span class="ident">new_unchecked</span>(<span class="ident">recip</span>))
     } <span class="kw">else</span> {
       <span class="prelude-val">None</span>
     }
@@ -758,7 +758,7 @@
 
   <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">suspicious_arithmetic_impl</span>)]</span>
   <span class="kw">fn</span> <span class="ident">div</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
-    <span class="self">self</span> <span class="op">*</span> <span class="ident">rhs</span>.<span class="ident">inverse</span>().<span class="ident">expect</span>(<span class="string">&quot;inverse does not exist&quot;</span>)
+    <span class="self">self</span> <span class="op">*</span> <span class="ident">rhs</span>.<span class="ident">recip</span>().<span class="ident">expect</span>(<span class="string">&quot;reciprocal does not exist&quot;</span>)
   }
 }
 
@@ -945,11 +945,11 @@
   }
 
   <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-  <span class="kw">fn</span> <span class="ident">inverse_prop</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">x</span>: <span class="ident">Uint</span>) {
+  <span class="kw">fn</span> <span class="ident">recip_prop</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">x</span>: <span class="ident">Uint</span>) {
     <span class="macro">modulo</span><span class="macro">!</span>(<span class="ident">m</span>);
     <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">ModInt</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">MOD</span><span class="op">&gt;</span>::<span class="ident">new</span>(<span class="ident">x</span>);
-    <span class="kw">match</span> <span class="ident">x</span>.<span class="ident">inverse</span>() {
-      <span class="prelude-val">Some</span>(<span class="ident">x_inv</span>) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">x</span> <span class="op">*</span> <span class="ident">x_inv</span>).<span class="ident">repr</span>(), <span class="number">1</span>),
+    <span class="kw">match</span> <span class="ident">x</span>.<span class="ident">recip</span>() {
+      <span class="prelude-val">Some</span>(<span class="ident">x_recip</span>) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">x</span> <span class="op">*</span> <span class="ident">x_recip</span>).<span class="ident">repr</span>(), <span class="number">1</span>),
       <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>((<span class="number">0</span>..<span class="ident">m</span>).<span class="ident">map</span>(<span class="ident">ModInt</span>::<span class="ident">new</span>).<span class="ident">all</span>(<span class="op">|</span><span class="ident">y</span><span class="op">|</span> (<span class="ident">x</span> <span class="op">*</span> <span class="ident">y</span>).<span class="ident">repr</span>() <span class="op">!=</span> <span class="number">1</span>)),
     }
   }
