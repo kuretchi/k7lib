@@ -22,9 +22,13 @@ impl<R: BufRead> Scanner<R> {
   /// # Examples
   /// From stdin:
   /// ```
-  /// # use spella::io::Scanner;
-  /// let stdin = std::io::stdin();
-  /// let mut scanner = Scanner::new(stdin.lock());
+  /// use spella::io::Scanner;
+  ///
+  /// fn main() -> std::io::Result<()> {
+  ///   let stdin = std::io::stdin();
+  ///   let mut scanner = Scanner::new(stdin.lock());
+  ///   Ok(())
+  /// }
   /// ```
   pub fn new(reader: R) -> Self {
     Scanner {
@@ -38,11 +42,18 @@ impl<R: BufRead> Scanner<R> {
   ///
   /// # Examples
   /// ```
-  /// # use spella::io::Scanner;
-  /// let mut scanner = Scanner::new(b"Rust 2015" as &[_]);
+  /// use spella::io::Scanner;
   ///
-  /// let s: &str = scanner.next().unwrap();
-  /// assert_eq!(s.as_bytes(), b"Rust" as &[_]);
+  /// fn main() -> std::io::Result<()> {
+  ///   let s = "12 34\n56 78";
+  ///   let mut scanner = Scanner::new(s.as_bytes());
+  ///
+  ///   assert_eq!(scanner.next()?, "12");
+  ///   assert_eq!(scanner.next()?, "34");
+  ///   assert_eq!(scanner.next()?, "56");
+  ///   assert_eq!(scanner.next()?, "78");
+  ///   Ok(())
+  /// }
   /// ```
   pub fn next(&mut self) -> io::Result<&str> {
     let start = loop {
@@ -51,22 +62,64 @@ impl<R: BufRead> Scanner<R> {
         None => self.fill_buf()?,
       }
     };
-    self.pos += start;
+    self.consume(start);
     let len = self.rest().find(' ').unwrap_or_else(|| self.rest().len());
-    let s = &self.buf[self.pos..][..len]; // self.rest()[..len]
-    self.pos += len;
-    Ok(s)
+    Ok(self.consume(len))
+  }
+
+  /// Returns a whole string slice before the next newline delimiter (or EOF).
+  ///
+  /// # Examples
+  /// ```
+  /// use spella::io::Scanner;
+  ///
+  /// fn main() -> std::io::Result<()> {
+  ///   let s = "The quick brown fox\njumps over the lazy dog";
+  ///   let mut scanner = Scanner::new(s.as_bytes());
+  ///
+  ///   assert_eq!(scanner.next()?, "The");
+  ///   assert_eq!(scanner.next_line()?, " quick brown fox");
+  ///   assert_eq!(scanner.next_line()?, "jumps over the lazy dog");
+  ///   Ok(())
+  /// }
+  /// ```
+  ///
+  /// Empty lines may be returned:
+  /// ```
+  /// use spella::io::Scanner;
+  /// use std::io::ErrorKind;
+  ///
+  /// fn main() -> std::io::Result<()> {
+  ///   let s = "\n\n";
+  ///   let mut scanner = Scanner::new(s.as_bytes());
+  ///
+  ///   assert_eq!(scanner.next_line()?, "");
+  ///   assert_eq!(scanner.next_line()?, "");
+  ///   assert!(scanner.next_line().is_err());
+  ///   Ok(())
+  /// }
+  /// ```
+  pub fn next_line(&mut self) -> io::Result<&str> {
+    if self.rest().is_empty() {
+      self.fill_buf()?;
+    }
+    Ok(self.consume(self.rest().len()))
   }
 
   /// Parses a next token splitted by whitespaces, and returns it.
   ///
   /// # Examples
   /// ```
-  /// # use spella::io::Scanner;
-  /// let mut scanner = Scanner::new(b"3 14" as &[_]);
+  /// use spella::io::Scanner;
   ///
-  /// let n: usize = scanner.parse_next().unwrap().expect("parse error");
-  /// assert_eq!(n, 3);
+  /// fn main() -> std::io::Result<()> {
+  ///   let s = "3.1415 9265";
+  ///   let mut scanner = Scanner::new(s.as_bytes());
+  ///
+  ///   assert_eq!(scanner.parse_next::<f64>()?, Ok(3.1415));
+  ///   assert_eq!(scanner.parse_next::<u64>()?, Ok(9265));
+  ///   Ok(())
+  /// }
   /// ```
   pub fn parse_next<T>(&mut self) -> io::Result<Result<T, T::Err>>
   where
@@ -77,6 +130,13 @@ impl<R: BufRead> Scanner<R> {
 
   fn rest(&self) -> &str {
     &self.buf[self.pos..]
+  }
+
+  fn consume(&mut self, len: usize) -> &str {
+    debug_assert!(len <= self.rest().len());
+    let s = &self.buf[self.pos..][..len];
+    self.pos += len;
+    s
   }
 
   fn fill_buf(&mut self) -> io::Result<()> {
@@ -99,6 +159,24 @@ impl<R: BufRead> Scanner<R> {
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  #[test]
+  fn next_line_test() {
+    let s = "01\n23 \r\n 45 \n\r\n\n6  7\n\n";
+    let mut scanner = Scanner::new(s.as_bytes());
+
+    assert_eq!(scanner.next_line().unwrap(), "01");
+    assert_eq!(scanner.next_line().unwrap(), "23 ");
+    assert_eq!(scanner.next_line().unwrap(), " 45 ");
+    assert_eq!(scanner.next_line().unwrap(), "");
+    assert_eq!(scanner.next_line().unwrap(), "");
+    assert_eq!(scanner.next_line().unwrap(), "6  7");
+    assert_eq!(scanner.next_line().unwrap(), "");
+    assert_eq!(
+      scanner.next_line().unwrap_err().kind(),
+      io::ErrorKind::UnexpectedEof
+    );
+  }
 
   #[test]
   fn test() {

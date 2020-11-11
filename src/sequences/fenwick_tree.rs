@@ -128,7 +128,7 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   ///
   /// # Time complexity
   /// O(log n)
-  pub fn replace(&mut self, index: usize, value: &G) -> G {
+  pub fn point_set(&mut self, index: usize, value: &G) -> G {
     let old_value = self.point_get(index);
     self.point_append(index, &value.inverse_op(&old_value));
     old_value

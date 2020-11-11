@@ -1,6 +1,3 @@
 [languages.rs]
-compile = "cargo build --examples --release"
+compile = "bash -c 'cargo build --quiet --example $(basename {path} .rs) --release'"
 execute = "bash -c \\'cargo run --quiet --example $(basename {path} .rs) --release\\'"
-bundle = "false"
-list_attributes = "sed 's|^// verify-helper: ||; t; d' {path}"
-list_dependencies = "true"
