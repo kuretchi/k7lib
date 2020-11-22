@@ -26,18 +26,18 @@ impl QuickFind {
     self.sets_len
   }
 
-  pub fn repr(&self, i: usize) -> usize {
+  pub fn find(&self, i: usize) -> usize {
     assert_index(i, self.len());
 
     self.reprs[i]
   }
 
-  pub fn unite_sets(&mut self, i: usize, j: usize) -> bool {
+  pub fn unite(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
 
-    let mut i = self.repr(i);
-    let mut j = self.repr(j);
+    let mut i = self.find(i);
+    let mut j = self.find(j);
 
     if i == j {
       return false;
@@ -62,12 +62,12 @@ impl QuickFind {
     assert_index(i, self.len());
     assert_index(j, self.len());
 
-    self.repr(i) == self.repr(j)
+    self.find(i) == self.find(j)
   }
 
   pub fn set(&self, i: usize) -> &[usize] {
     assert_index(i, self.len());
 
-    &self.elems[self.repr(i)]
+    &self.elems[self.find(i)]
   }
 }

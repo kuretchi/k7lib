@@ -35,7 +35,7 @@ impl QuickUnion {
     self.sets_len
   }
 
-  pub fn repr(&mut self, mut i: usize) -> usize {
+  pub fn find(&mut self, mut i: usize) -> usize {
     assert_index(i, self.len());
 
     // Path halving
@@ -51,12 +51,12 @@ impl QuickUnion {
     i
   }
 
-  pub fn unite_sets(&mut self, i: usize, j: usize) -> bool {
+  pub fn unite(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
 
-    let mut i = self.repr(i);
-    let mut j = self.repr(j);
+    let mut i = self.find(i);
+    let mut j = self.find(j);
 
     if i == j {
       return false;
@@ -85,13 +85,13 @@ impl QuickUnion {
     assert_index(i, self.len());
     assert_index(j, self.len());
 
-    self.repr(i) == self.repr(j)
+    self.find(i) == self.find(j)
   }
 
   pub fn set_len(&mut self, i: usize) -> usize {
     assert_index(i, self.len());
 
-    let i = self.repr(i);
+    let i = self.find(i);
     self.nodes[i].len
   }
 }
