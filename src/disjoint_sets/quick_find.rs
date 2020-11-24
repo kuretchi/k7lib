@@ -1,4 +1,4 @@
-use crate::utils::index_bounds_check::*;
+use crate::utils::index_bounds_check::assert_index;
 
 use std::mem;
 
@@ -49,11 +49,12 @@ impl QuickFind {
 
     debug_assert!(self.elems[i].len() >= self.elems[j].len());
 
-    for &k in &self.elems[j] {
-      self.reprs[k] = i;
+    for &elem_in_j in &self.elems[j] {
+      self.reprs[elem_in_j] = i;
     }
-    let mut elems_j = mem::replace(&mut self.elems[j], vec![]);
-    self.elems[i].append(&mut elems_j);
+    // TODO: Use `mem::take` since 1.40.0
+    let mut elems_in_j = mem::replace(&mut self.elems[j], vec![]);
+    self.elems[i].append(&mut elems_in_j);
     self.sets_len -= 1;
     true
   }

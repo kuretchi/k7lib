@@ -1,4 +1,4 @@
-use crate::utils::index_bounds_check::*;
+use crate::utils::index_bounds_check::assert_index;
 
 use std::mem;
 
@@ -41,12 +41,18 @@ impl QuickUnion {
     // Path halving
     while !self.is_root(i) {
       let j = self.nodes[self.nodes[i].parent].parent;
-      //  ( i ) --> (   ) --> ( j )  or  ( i ) --> ( j ) -+
-      //                                      ^-----------+
+      //  (j)
+      //   |           +---+
+      //  ( )     or  (j)--+
+      //   |           |
+      //  (i)         (i)
       self.nodes[i].parent = j;
       i = j;
-      //  (   ) -+  (   ) --> ( i )  or  (   ) --> ( i ) -+
-      //         +-----------^                ^-----------+
+      //  (i)--+
+      //   |   |       +---+
+      //  ( )  |  or  (i)--+
+      //       |       |
+      //  ( )--+      ( )
     }
     i
   }
@@ -70,14 +76,9 @@ impl QuickUnion {
     debug_assert!(self.is_root(j));
     debug_assert!(self.nodes[i].len >= self.nodes[j].len);
 
-    //  ( j ) -+  ( i ) -+
-    // ^-------+ ^-------+
     self.nodes[j].parent = i;
     self.nodes[i].len += self.nodes[j].len;
     self.sets_len -= 1;
-    //  ( j ) --> ( i ) -+
-    //           ^-------+
-
     true
   }
 
