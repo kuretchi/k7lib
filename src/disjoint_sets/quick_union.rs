@@ -2,6 +2,7 @@ use crate::utils::index_bounds_check::assert_index;
 
 use std::mem;
 
+/// A disjoint-set data structure based on the weighted quick-union algorithm.
 #[derive(Clone, Debug)]
 pub struct QuickUnion {
   nodes: Vec<Node>,
@@ -19,6 +20,13 @@ impl QuickUnion {
     self.nodes[i].parent == i
   }
 
+  /// Creates a new `QuickUnion` with the given number of elements.
+  ///
+  /// Initially it consists of _n_ singletons: {{0}, {1}, ..., {_n_ - 1}},
+  /// where _n_ = `len`.
+  ///
+  /// # Time complexity
+  /// Θ(_n_)
   pub fn new(len: usize) -> Self {
     Self {
       // Initially all nodes are root.
@@ -27,14 +35,26 @@ impl QuickUnion {
     }
   }
 
+  /// Returns the total number of elements that belong to disjoint sets.
+  ///
+  /// # Time complexity
+  /// O(1)
   pub fn len(&self) -> usize {
     self.nodes.len()
   }
 
+  /// Returns the number of disjoint sets.
+  ///
+  /// # Time complexity
+  /// O(1)
   pub fn sets_len(&self) -> usize {
     self.sets_len
   }
 
+  /// Returns the representative of the set that the given element belongs to.
+  ///
+  /// # Time complexity
+  /// O(α(_n_)) amortized
   pub fn find(&mut self, mut i: usize) -> usize {
     assert_index(i, self.len());
 
@@ -57,6 +77,12 @@ impl QuickUnion {
     i
   }
 
+  /// Unites two disjoint sets that the given elements belong to into one.
+  ///
+  /// Returns `false` iff two elements already belong to the same set.
+  ///
+  /// # Time complexity
+  /// O(α(_n_)) amortized
   pub fn unite(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
@@ -82,6 +108,10 @@ impl QuickUnion {
     true
   }
 
+  /// Returns `true` iff the given elements belong to the same set.
+  ///
+  /// # Time complexity
+  /// O(α(_n_)) amortized
   pub fn belong_to_same_set(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
@@ -89,6 +119,10 @@ impl QuickUnion {
     self.find(i) == self.find(j)
   }
 
+  /// Returns the number of elements that belong to the same set as the given element.
+  ///
+  /// # Time complexity
+  /// O(α(_n_)) amortized
   pub fn set_len(&mut self, i: usize) -> usize {
     assert_index(i, self.len());
 
