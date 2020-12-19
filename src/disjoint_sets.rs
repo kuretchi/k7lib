@@ -13,3 +13,44 @@ pub use self::quick_union::*;
 
 mod quick_find;
 mod quick_union;
+
+#[cfg(test)]
+mod tests {
+  use std::collections::HashSet;
+
+  #[derive(Clone, PartialEq, Eq, Debug)]
+  pub struct NaiveDisjointSets(pub Vec<Option<HashSet<usize>>>);
+
+  impl NaiveDisjointSets {
+    pub fn sets_len(&self) -> usize {
+      self.0.iter().filter(|&set| set.is_some()).count()
+    }
+
+    pub fn find(&self, i: usize) -> usize {
+      self
+        .0
+        .iter()
+        .position(|set| set.as_ref().map_or(false, |set| set.contains(&i)))
+        .unwrap()
+    }
+
+    pub fn union(&mut self, i: usize, j: usize) -> bool {
+      let i = self.find(i);
+      let j = self.find(j);
+      if i == j {
+        return false;
+      }
+      let s = self.0[j].take().unwrap();
+      self.0[i].as_mut().unwrap().extend(s);
+      true
+    }
+
+    pub fn set(&self, i: usize) -> &HashSet<usize> {
+      self.0[self.find(i)].as_ref().unwrap()
+    }
+
+    pub fn set_len(&self, i: usize) -> usize {
+      self.set(i).len()
+    }
+  }
+}

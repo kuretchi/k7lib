@@ -112,3 +112,121 @@ impl QuickFind {
     &self.elems[self.find(i)]
   }
 }
+
+#[cfg(test)]
+mod tests {
+  use super::{super::tests::NaiveDisjointSets, *};
+  use quickcheck::{Arbitrary, Gen};
+  use quickcheck_macros::quickcheck;
+  use rand::Rng as _;
+  use std::{cmp::Ordering::*, collections::HashSet};
+
+  impl From<&QuickFind> for NaiveDisjointSets {
+    fn from(uf: &QuickFind) -> Self {
+      let mut sets = vec![None; uf.len()];
+      for i in 0..uf.len() {
+        sets[uf.find(i)].get_or_insert_with(HashSet::new).insert(i);
+      }
+      Self(sets)
+    }
+  }
+
+  impl Arbitrary for QuickFind {
+    fn arbitrary<G: Gen>(g: &mut G) -> Self {
+      let len = g.size();
+      let mut uf = Self::new(len);
+      if len != 0 {
+        for _ in 0..g.gen_range(0, len - 1) {
+          let i = g.gen_range(0, len);
+          let j = g.gen_range(0, len);
+          uf.unite(i, j);
+        }
+      }
+      uf
+    }
+  }
+
+  #[quickcheck]
+  fn initial_state_prop(len: usize) {
+    let uf = QuickFind::new(len);
+
+    assert_eq!(uf.len(), len);
+    assert_eq!(uf.sets_len(), len);
+
+    for i in 0..len {
+      assert_eq!(uf.find(i), i);
+    }
+
+    for i in 0..len {
+      for j in 0..len {
+        assert_eq!(uf.belong_to_same_set(i, j), i == j);
+      }
+    }
+
+    for i in 0..len {
+      assert_eq!(uf.set(i), [i]);
+    }
+  }
+
+  macro_rules! precondition {
+    ($uf:expr, $($i:ident),*) => {
+      if $uf.len() == 0 {
+        return;
+      }
+      $(let $i = $i % $uf.len();)*
+    };
+  }
+
+  #[quickcheck]
+  fn sets_len_prop(uf: QuickFind) {
+    let ds = NaiveDisjointSets::from(&uf);
+    assert_eq!(uf.sets_len(), ds.sets_len());
+  }
+
+  #[quickcheck]
+  fn find_prop(uf: QuickFind, i: usize) {
+    precondition!(uf, i);
+
+    let ds = NaiveDisjointSets::from(&uf);
+    assert_eq!(uf.find(i), ds.find(i));
+  }
+
+  #[quickcheck]
+  fn unite_prop(mut uf: QuickFind, i: usize, j: usize) {
+    precondition!(uf, i, j);
+
+    let old = NaiveDisjointSets::from(&uf);
+    let united = uf.unite(i, j);
+    let new = NaiveDisjointSets::from(&uf);
+
+    let already_united = old.find(i) == old.find(j);
+    assert_eq!(united, !already_united);
+
+    if already_united {
+      assert_eq!(new, old);
+    } else {
+      let mut united_to_j = old.clone();
+      united_to_j.union(j, i);
+      let mut united_to_i = old.clone();
+      united_to_i.union(i, j);
+
+      match old.set_len(i).cmp(&old.set_len(j)) {
+        Less => assert_eq!(new, united_to_j),
+        Equal => assert!(new == united_to_j || new == united_to_i),
+        Greater => assert_eq!(new, united_to_i),
+      }
+    }
+  }
+
+  #[quickcheck]
+  fn set_prop(uf: QuickFind, i: usize) {
+    precondition!(uf, i);
+
+    let ds = NaiveDisjointSets::from(&uf);
+    assert_eq!(uf.set(i).len(), ds.set_len(i));
+    assert_eq!(
+      &uf.set(i).iter().copied().collect::<HashSet<_>>(),
+      ds.set(i)
+    );
+  }
+}
