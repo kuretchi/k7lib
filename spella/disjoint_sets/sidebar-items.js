@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["QuickFind","A disjoint-set data structure based on the weighted quick-find algorithm."],["QuickUnion","A disjoint-set data structure based on the weighted quick-union algorithm."]]});
