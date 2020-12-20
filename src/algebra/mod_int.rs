@@ -157,7 +157,7 @@ where
   /// Returns the multiplicative inverse if it exists.
   ///
   /// # Time complexity
-  /// O(log `self.repr()`)
+  /// O(log `Mod`)
   pub fn recip(self) -> Option<Self> {
     // The extended Euclidean algorithm
     let mut a = Mod::get();
