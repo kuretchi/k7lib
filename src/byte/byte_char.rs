@@ -77,9 +77,7 @@ mod tests {
   fn from_str_test_empty_str() {
     assert_eq!(
       ByteChar::from_str(""),
-      Err(ParseByteCharError {
-        kind: ParseByteCharErrorKind::EmptyStr,
-      })
+      Err(ParseByteCharError { kind: ParseByteCharErrorKind::EmptyStr })
     );
   }
 
@@ -87,15 +85,11 @@ mod tests {
   fn from_str_test_too_many_bytes() {
     assert_eq!(
       ByteChar::from_str("aa"),
-      Err(ParseByteCharError {
-        kind: ParseByteCharErrorKind::TooManyBytes,
-      })
+      Err(ParseByteCharError { kind: ParseByteCharErrorKind::TooManyBytes })
     );
     assert_eq!(
       ByteChar::from_str("あ"),
-      Err(ParseByteCharError {
-        kind: ParseByteCharErrorKind::TooManyBytes,
-      })
+      Err(ParseByteCharError { kind: ParseByteCharErrorKind::TooManyBytes })
     );
   }
 }

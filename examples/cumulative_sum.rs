@@ -38,10 +38,7 @@ fn main() -> io::Result<()> {
 
       writeln!(writer, "{}", acc.0)?;
 
-      assert_eq!(
-        CumulativeSum::from_iter((0..a.len()).map(|i| a.point_get(i))),
-        a
-      );
+      assert_eq!(CumulativeSum::from_iter((0..a.len()).map(|i| a.point_get(i))), a);
     }
 
     Ok(())

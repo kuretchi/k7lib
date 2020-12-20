@@ -39,10 +39,7 @@ fn main() -> io::Result<()> {
       }
     }
 
-    assert_eq!(
-      SegmentTree::from_iter((0..seq.len()).map(|i| seq.point_get(i)).cloned()),
-      seq
-    );
+    assert_eq!(SegmentTree::from_iter((0..seq.len()).map(|i| seq.point_get(i)).cloned()), seq);
 
     Ok(())
   })

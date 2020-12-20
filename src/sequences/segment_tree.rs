@@ -73,11 +73,7 @@ impl<M: Monoid> FromIterator<M> for SegmentTree<M> {
       }
     }
 
-    let mut tree = SegmentTree {
-      vec: deque.into(),
-      base_len,
-      len,
-    };
+    let mut tree = SegmentTree { vec: deque.into(), base_len, len };
 
     for node in (1..base_len).rev() {
       tree.recalc(node);
@@ -98,11 +94,7 @@ impl<M: Monoid> SegmentTree<M> {
   pub fn new(len: usize) -> Self {
     let (base_len, vec_len) = Self::extend_len(len);
 
-    let vec = if vec_len == 0 {
-      vec![]
-    } else {
-      vec![M::identity(); vec_len]
-    };
+    let vec = if vec_len == 0 { vec![] } else { vec![M::identity(); vec_len] };
 
     SegmentTree { vec, base_len, len }
   }
@@ -138,10 +130,7 @@ impl<M: Monoid> SegmentTree<M> {
   pub fn point_get_mut(&mut self, index: usize) -> PointGetMut<M> {
     assert_index(index, self.len());
 
-    PointGetMut {
-      node: self.node_index(index),
-      tree: self,
-    }
+    PointGetMut { node: self.node_index(index), tree: self }
   }
 
   /// Folds elements in the given range with a monoid's binary operation.
@@ -194,11 +183,7 @@ impl<M: Monoid> SegmentTree<M> {
     } else {
       len
         .checked_next_power_of_two()
-        .and_then(|base_len| {
-          (base_len - 1)
-            .checked_add(len)
-            .map(|vec_len| (base_len, vec_len))
-        })
+        .and_then(|base_len| (base_len - 1).checked_add(len).map(|vec_len| (base_len, vec_len)))
         .unwrap_or_else(|| panic!("length too large: {:?}", len))
     }
   }
@@ -216,11 +201,8 @@ impl<M: Monoid> SegmentTree<M> {
     debug_assert_eq!(last, self.node_index(self.len() - 1));
 
     if l <= last {
-      *self.node_mut(node) = if r <= last {
-        self.node(l).op(&self.node(r))
-      } else {
-        self.node(l).clone()
-      };
+      *self.node_mut(node) =
+        if r <= last { self.node(l).op(&self.node(r)) } else { self.node(l).clone() };
     }
   }
 

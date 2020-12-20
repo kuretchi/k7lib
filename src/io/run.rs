@@ -30,11 +30,7 @@ where
   };
 
   match stack_size {
-    Some(stack_size) => thread::Builder::new()
-      .stack_size(stack_size)
-      .spawn(f)?
-      .join()
-      .unwrap(),
+    Some(stack_size) => thread::Builder::new().stack_size(stack_size).spawn(f)?.join().unwrap(),
     None => f(),
   }
 }

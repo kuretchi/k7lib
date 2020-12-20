@@ -21,9 +21,7 @@ impl<M: Monoid> CumulativeSum<M> {
   /// # Time complexity
   /// $O(1)$
   pub fn new() -> Self {
-    Self {
-      vec: vec![M::identity()],
-    }
+    Self { vec: vec![M::identity()] }
   }
 
   /// Appends an element to the back of the sequence.

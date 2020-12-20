@@ -26,11 +26,7 @@ impl QuickFind {
   /// # Time complexity
   /// $\Theta(n)$
   pub fn new(len: usize) -> Self {
-    Self {
-      elems: (0..len).map(|i| vec![i]).collect(),
-      reprs: (0..len).collect(),
-      sets_len: len,
-    }
+    Self { elems: (0..len).map(|i| vec![i]).collect(), reprs: (0..len).collect(), sets_len: len }
   }
 
   /// Returns the total number of elements that belong to disjoint sets.
@@ -225,9 +221,6 @@ mod tests {
 
     let ds = NaiveDisjointSets::from(&uf);
     assert_eq!(uf.set(i).len(), ds.set_len(i));
-    assert_eq!(
-      &uf.set(i).iter().copied().collect::<HashSet<_>>(),
-      ds.set(i)
-    );
+    assert_eq!(&uf.set(i).iter().copied().collect::<HashSet<_>>(), ds.set(i));
   }
 }

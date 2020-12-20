@@ -33,10 +33,7 @@ mod tests {
   #[test]
   fn test() {
     assert_eq!(
-      Product::identity()
-        .op(&Product(3))
-        .op(&Product(-1))
-        .op(&Product(4)),
+      Product::identity().op(&Product(3)).op(&Product(-1)).op(&Product(4)),
       Product(3 * -1 * 4)
     );
   }

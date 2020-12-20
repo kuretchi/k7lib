@@ -42,9 +42,7 @@ impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   /// # Time complexity
   /// $O(n)$
   pub fn new(len: usize) -> Self {
-    FenwickTree {
-      vec: vec![M::identity(); len],
-    }
+    FenwickTree { vec: vec![M::identity(); len] }
   }
 
   /// Returns the length of the sequence.

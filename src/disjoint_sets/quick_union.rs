@@ -145,9 +145,7 @@ mod tests {
     fn from(uf: &QuickUnion) -> Self {
       let mut sets = vec![None; uf.len()];
       for i in 0..uf.len() {
-        sets[uf.find_without_compaction(i)]
-          .get_or_insert_with(HashSet::new)
-          .insert(i);
+        sets[uf.find_without_compaction(i)].get_or_insert_with(HashSet::new).insert(i);
       }
       Self(sets)
     }

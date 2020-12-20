@@ -16,10 +16,7 @@ where
   I: IntoIterator,
   I::Item: PartialEq,
 {
-  RunLengthEncode {
-    iter: iter.into_iter(),
-    current: None,
-  }
+  RunLengthEncode { iter: iter.into_iter(), current: None }
 }
 
 /// An iterator created by [`run_length_encode`].
@@ -168,11 +165,7 @@ mod tests {
     rle.retain(|&(_, n)| n != 0);
     rle.dedup_by_key(|&mut (x, _)| x);
 
-    let vec = rle
-      .iter()
-      .copied()
-      .flat_map(|(x, n)| iter::repeat(x).take(n))
-      .collect::<Vec<_>>();
+    let vec = rle.iter().copied().flat_map(|(x, n)| iter::repeat(x).take(n)).collect::<Vec<_>>();
     let rle2 = run_length_encode(vec).collect::<Vec<_>>();
 
     assert_eq!(rle, rle2);

@@ -36,9 +36,6 @@ mod tests {
     let vec = vec![3, 1, 4, 1, 5, 9, 2, 6, 5];
     let iter = || vec.iter().copied();
 
-    assert_eq!(
-      iter().min().unwrap(),
-      iter().fold(Min::identity(), |acc, x| acc.op(&Min(x))).0
-    );
+    assert_eq!(iter().min().unwrap(), iter().fold(Min::identity(), |acc, x| acc.op(&Min(x))).0);
   }
 }

@@ -39,10 +39,7 @@ fn main() -> io::Result<()> {
       }
     }
 
-    assert_eq!(
-      FenwickTree::from_iter((0..seq.len()).map(|i| seq.point_get(i))),
-      seq
-    );
+    assert_eq!(FenwickTree::from_iter((0..seq.len()).map(|i| seq.point_get(i))), seq);
 
     Ok(())
   })
