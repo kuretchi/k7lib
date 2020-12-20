@@ -23,8 +23,6 @@ where
 }
 
 /// An iterator created by [`run_length_encode`].
-///
-/// [`run_length_encode`]: ./fn.run_length_encode.html
 #[derive(Clone, Debug)]
 pub struct RunLengthEncode<I>
 where

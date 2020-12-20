@@ -47,7 +47,7 @@ where
 /// Permutes the slice into the next greater permutation in lexicographically order
 /// with a comparator function.
 ///
-/// See [`next_permutation`](./fn.next_permutation.html) for details.
+/// See [`next_permutation`] for details.
 ///
 /// # Examples
 ///
@@ -82,7 +82,7 @@ where
 /// Permutes the slice into the next greater permutation in lexicographically order
 /// with a key extraction function.
 ///
-/// See [`next_permutation`](./fn.next_permutation.html) for details.
+/// See [`next_permutation`] for details.
 ///
 /// # Examples
 ///
