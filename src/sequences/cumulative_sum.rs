@@ -16,6 +16,25 @@ pub struct CumulativeSum<T> {
 }
 
 impl<M: Monoid> CumulativeSum<M> {
+  /// Creates an empty sequence.
+  ///
+  /// # Time complexity
+  /// $O(1)$
+  pub fn new() -> Self {
+    Self {
+      vec: vec![M::identity()],
+    }
+  }
+
+  /// Appends an element to the back of the sequence.
+  ///
+  /// # Time complexity
+  /// $O(1)$ amortized
+  pub fn push(&mut self, value: &M) {
+    let value = self.vec.last().unwrap().op(value);
+    self.vec.push(value);
+  }
+
   /// Returns the length of the sequence.
   ///
   /// # Time complexity
