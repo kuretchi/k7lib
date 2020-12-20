@@ -9,7 +9,7 @@ use std::ops::{Range, RangeTo};
 /// A cumulative sum.
 ///
 /// # Space complexity
-/// O(n log σ)
+/// $O(n \log(\sigma))$
 #[derive(Clone, PartialEq, Eq, Debug, Hash)]
 pub struct CumulativeSum<T> {
   vec: Vec<T>,
@@ -19,7 +19,7 @@ impl<M: Monoid> CumulativeSum<M> {
   /// Returns the length of the sequence.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn len(&self) -> usize {
     self.vec.len() - 1
   }
@@ -30,7 +30,7 @@ impl<M: Monoid> CumulativeSum<M> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn prefix_sum(&self, index: RangeTo<usize>) -> &M {
     assert_index_range_to(index, self.len());
 
@@ -45,7 +45,7 @@ impl<G: Group> CumulativeSum<G> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn point_get(&self, index: usize) -> G {
     assert_index(index, self.len());
 
@@ -58,7 +58,7 @@ impl<G: Group> CumulativeSum<G> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn range_sum(&self, index: Range<usize>) -> G {
     assert_index_range(&index, self.len());
 
@@ -74,7 +74,7 @@ impl<M: Monoid> FromIterator<M> for CumulativeSum<M> {
   /// Creates a new `CumulativeSum` from an iterator.
   ///
   /// # Time complexity
-  /// O(n)
+  /// $O(n)$
   fn from_iter<I>(iter: I) -> Self
   where
     I: IntoIterator<Item = M>,

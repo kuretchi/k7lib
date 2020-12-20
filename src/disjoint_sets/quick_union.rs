@@ -22,11 +22,12 @@ impl QuickUnion {
 
   /// Creates a new `QuickUnion` with the given number of elements.
   ///
-  /// Initially it consists of _n_ singletons: {{0}, {1}, ..., {_n_ - 1}},
-  /// where _n_ = `len`.
+  /// Initially it consists of $n$ singletons:
+  /// $\lbrace \lbrace 0 \rbrace, \lbrace 1 \rbrace, \dots, \lbrace n - 1 \rbrace \rbrace$,
+  /// where $n$ = `len`.
   ///
   /// # Time complexity
-  /// Θ(_n_)
+  /// $\Theta(n)$
   pub fn new(len: usize) -> Self {
     Self {
       // Initially all nodes are root.
@@ -38,7 +39,7 @@ impl QuickUnion {
   /// Returns the total number of elements that belong to disjoint sets.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn len(&self) -> usize {
     self.nodes.len()
   }
@@ -46,7 +47,7 @@ impl QuickUnion {
   /// Returns the number of disjoint sets.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn sets_len(&self) -> usize {
     self.sets_len
   }
@@ -54,7 +55,7 @@ impl QuickUnion {
   /// Returns the representative of the set that the given element belongs to.
   ///
   /// # Time complexity
-  /// O(α(_n_)) amortized
+  /// $O(\alpha(n))$ amortized
   pub fn find(&mut self, mut i: usize) -> usize {
     assert_index(i, self.len());
 
@@ -82,7 +83,7 @@ impl QuickUnion {
   /// Returns `false` iff two elements already belong to the same set.
   ///
   /// # Time complexity
-  /// O(α(_n_)) amortized
+  /// $O(\alpha(n))$ amortized
   pub fn unite(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
@@ -111,7 +112,7 @@ impl QuickUnion {
   /// Returns `true` iff the given elements belong to the same set.
   ///
   /// # Time complexity
-  /// O(α(_n_)) amortized
+  /// $O(\alpha(n))$ amortized
   pub fn belong_to_same_set(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
@@ -122,7 +123,7 @@ impl QuickUnion {
   /// Returns the number of elements that belong to the same set as the given element.
   ///
   /// # Time complexity
-  /// O(α(_n_)) amortized
+  /// $O(\alpha(n))$ amortized
   pub fn set_len(&mut self, i: usize) -> usize {
     assert_index(i, self.len());
 

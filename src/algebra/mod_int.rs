@@ -10,9 +10,9 @@ use std::marker::PhantomData;
 use std::mem;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-/// A ring of integers modulo n (ℤ/nℤ).
+/// A ring of integers modulo $n$ ($\mathbb{Z}/n\mathbb{Z}$).
 ///
-/// `Mod` must be greater than 1.
+/// `Mod` must be greater than $1$.
 ///
 /// # Examples
 ///
@@ -157,7 +157,7 @@ where
   /// Returns the multiplicative inverse if it exists.
   ///
   /// # Time complexity
-  /// O(log `Mod`)
+  /// $O(\log(n))$ where $n$ = `Mod`
   pub fn recip(self) -> Option<Self> {
     // The extended Euclidean algorithm
     let mut a = Mod::get();

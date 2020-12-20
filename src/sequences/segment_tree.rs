@@ -27,7 +27,7 @@ use std::ops::{Deref, DerefMut, Range};
 /// ```
 ///
 /// # Space complexity
-/// O(n log σ)
+/// $O(n \log(\sigma))$
 #[derive(Clone, PartialEq, Eq, Debug, Hash)]
 pub struct SegmentTree<T> {
   vec: Vec<T>,
@@ -95,7 +95,7 @@ impl<M: Monoid> SegmentTree<M> {
   /// Panics if `len.next_power_of_two() - 1 + len` overflows `usize`.
   ///
   /// # Time complexity
-  /// O(n)
+  /// $O(n)$
   pub fn new(len: usize) -> Self {
     let (base_len, vec_len) = Self::extend_len(len);
 
@@ -111,7 +111,7 @@ impl<M: Monoid> SegmentTree<M> {
   /// Returns the length of the sequence.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn len(&self) -> usize {
     self.len
   }
@@ -122,7 +122,7 @@ impl<M: Monoid> SegmentTree<M> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn point_get(&self, index: usize) -> &M {
     assert_index(index, self.len());
 
@@ -135,7 +135,7 @@ impl<M: Monoid> SegmentTree<M> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(1) (`GetMut::drop`: O(log n))
+  /// $O(1)$ (`GetMut::drop`: $O(\log(n))$)
   pub fn point_get_mut(&mut self, index: usize) -> PointGetMut<M> {
     assert_index(index, self.len());
 
@@ -151,7 +151,7 @@ impl<M: Monoid> SegmentTree<M> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(log n)
+  /// $O(\log(n))$
   pub fn range_sum(&self, index: Range<usize>) -> M {
     assert_index_range(&index, self.len());
 

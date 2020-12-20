@@ -35,8 +35,8 @@ use std::cmp::Ordering::{self, *};
 ///
 /// # Time complexity
 ///
-/// * Θ(n) worst per operation
-/// * Θ(n!) worst, to enumerate all permutations
+/// * $\Theta(n)$ worst per operation
+/// * $\Theta(n!)$ worst, to enumerate all permutations
 pub fn next_permutation<T>(s: &mut [T]) -> bool
 where
   T: Ord,
