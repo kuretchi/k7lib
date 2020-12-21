@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["spella"] = [{"text":"impl&lt;M:&nbsp;Monoid&gt; FromIterator&lt;M&gt; for CumulativeSum&lt;M&gt;","synthetic":false,"types":[]},{"text":"impl&lt;M:&nbsp;Monoid + CommutativeSemigroup&gt; FromIterator&lt;M&gt; for FenwickTree&lt;M&gt;","synthetic":false,"types":[]},{"text":"impl&lt;M:&nbsp;Monoid&gt; FromIterator&lt;M&gt; for SegmentTree&lt;M&gt;","synthetic":false,"types":[]}];
+implementors["k7lib"] = [{"text":"impl&lt;M:&nbsp;Monoid&gt; FromIterator&lt;M&gt; for CumulativeSum&lt;M&gt;","synthetic":false,"types":[]},{"text":"impl&lt;M:&nbsp;Monoid + CommutativeSemigroup&gt; FromIterator&lt;M&gt; for FenwickTree&lt;M&gt;","synthetic":false,"types":[]},{"text":"impl&lt;M:&nbsp;Monoid&gt; FromIterator&lt;M&gt; for SegmentTree&lt;M&gt;","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

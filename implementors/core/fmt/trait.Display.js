@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["spella"] = [{"text":"impl&lt;Int, Mod&gt; Display for ModInt&lt;Int, Mod&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Int: Display,&nbsp;</span>","synthetic":false,"types":[]},{"text":"impl Display for ByteChar","synthetic":false,"types":[]},{"text":"impl Display for ParseByteCharError","synthetic":false,"types":[]}];
+implementors["k7lib"] = [{"text":"impl&lt;Int, Mod&gt; Display for ModInt&lt;Int, Mod&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Int: Display,&nbsp;</span>","synthetic":false,"types":[]},{"text":"impl Display for ByteChar","synthetic":false,"types":[]},{"text":"impl Display for ParseByteCharError","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["spella"] = [{"text":"impl&lt;I&gt; Iterator for RunLengthEncode&lt;I&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: Iterator,<br>&nbsp;&nbsp;&nbsp;&nbsp;I::Item: PartialEq,&nbsp;</span>","synthetic":false,"types":[]}];
+implementors["k7lib"] = [{"text":"impl&lt;I&gt; Iterator for RunLengthEncode&lt;I&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;I: Iterator,<br>&nbsp;&nbsp;&nbsp;&nbsp;I::Item: PartialEq,&nbsp;</span>","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
