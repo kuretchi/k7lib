@@ -1,6 +1,16 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/algebra/mod_int.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod_int.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../spella/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$']]
+  }
+};
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../spella/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
@@ -476,31 +486,6 @@
 <span id="473">473</span>
 <span id="474">474</span>
 <span id="475">475</span>
-<span id="476">476</span>
-<span id="477">477</span>
-<span id="478">478</span>
-<span id="479">479</span>
-<span id="480">480</span>
-<span id="481">481</span>
-<span id="482">482</span>
-<span id="483">483</span>
-<span id="484">484</span>
-<span id="485">485</span>
-<span id="486">486</span>
-<span id="487">487</span>
-<span id="488">488</span>
-<span id="489">489</span>
-<span id="490">490</span>
-<span id="491">491</span>
-<span id="492">492</span>
-<span id="493">493</span>
-<span id="494">494</span>
-<span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
-<span id="499">499</span>
-<span id="500">500</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">algebra</span>::<span class="ident">structures</span>::{<span class="ident">CommutativeSemiring</span>, <span class="ident">Ring</span>, <span class="ident">Semiring</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">constant</span>::<span class="ident">Constant</span>;
@@ -514,9 +499,9 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Div</span>, <span class="ident">DivAssign</span>, <span class="ident">Mul</span>, <span class="ident">MulAssign</span>, <span class="ident">Neg</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
 
-<span class="doccomment">/// A ring of integers modulo n (ℤ/nℤ).</span>
+<span class="doccomment">/// A ring of integers modulo $n$ ($\mathbb{Z}/n\mathbb{Z}$).</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// `Mod` must be greater than 1.</span>
+<span class="doccomment">/// `Mod` must be greater than $1$.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
@@ -544,10 +529,7 @@
   <span class="ident">Int</span>: <span class="ident">Clone</span>,
 {
   <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-    <span class="ident">ModInt</span> {
-      <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>,
-      <span class="ident">repr</span>: <span class="self">self</span>.<span class="ident">repr</span>.<span class="ident">clone</span>(),
-    }
+    <span class="ident">ModInt</span> { <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>, <span class="ident">repr</span>: <span class="self">self</span>.<span class="ident">repr</span>.<span class="ident">clone</span>() }
   }
 }
 
@@ -569,10 +551,7 @@
   <span class="ident">Int</span>: <span class="ident">Default</span>,
 {
   <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-    <span class="ident">ModInt</span> {
-      <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>,
-      <span class="ident">repr</span>: <span class="ident">Int</span>::<span class="ident">default</span>(),
-    }
+    <span class="ident">ModInt</span> { <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>, <span class="ident">repr</span>: <span class="ident">Int</span>::<span class="ident">default</span>() }
   }
 }
 
@@ -642,10 +621,7 @@
   <span class="kw">fn</span> <span class="ident">new_unchecked</span>(<span class="ident">repr</span>: <span class="ident">Int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
     <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">Mod</span>::<span class="ident">get</span>() <span class="op">&gt;</span> <span class="ident">Int</span>::<span class="ident">ONE</span>, <span class="string">&quot;modulo must be greater than 1&quot;</span>);
     <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">repr</span> <span class="op">&lt;</span> <span class="ident">Mod</span>::<span class="ident">get</span>());
-    <span class="ident">ModInt</span> {
-      <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>,
-      <span class="ident">repr</span>,
-    }
+    <span class="ident">ModInt</span> { <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>, <span class="ident">repr</span> }
   }
 
   <span class="doccomment">/// Creates a new `ModInt` with the given representative.</span>
@@ -661,7 +637,7 @@
   <span class="doccomment">/// Returns the multiplicative inverse if it exists.</span>
   <span class="doccomment">///</span>
   <span class="doccomment">/// # Time complexity</span>
-  <span class="doccomment">/// O(log `self.repr()`)</span>
+  <span class="doccomment">/// $O(\log(n))$ where $n$ = `Mod`</span>
   <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recip</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
     <span class="comment">// The extended Euclidean algorithm</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">Mod</span>::<span class="ident">get</span>();
@@ -886,31 +862,19 @@
   }
 
   <span class="kw">fn</span> <span class="ident">mod_add</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">x</span>: <span class="ident">Uint</span>, <span class="ident">y</span>: <span class="ident">Uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Uint</span> {
-    (<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>) <span class="op">+</span> <span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">y</span>))
-      .<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>))
-      .<span class="ident">try_into</span>()
-      .<span class="ident">unwrap</span>()
+    (<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>) <span class="op">+</span> <span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">y</span>)).<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>)).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
   }
 
   <span class="kw">fn</span> <span class="ident">mod_sub</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">x</span>: <span class="ident">Uint</span>, <span class="ident">y</span>: <span class="ident">Uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Uint</span> {
-    (<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>) <span class="op">-</span> <span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">y</span>))
-      .<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>))
-      .<span class="ident">try_into</span>()
-      .<span class="ident">unwrap</span>()
+    (<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>) <span class="op">-</span> <span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">y</span>)).<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>)).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
   }
 
   <span class="kw">fn</span> <span class="ident">mod_mul</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">x</span>: <span class="ident">Uint</span>, <span class="ident">y</span>: <span class="ident">Uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Uint</span> {
-    (<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>) <span class="op">*</span> <span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">y</span>))
-      .<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>))
-      .<span class="ident">try_into</span>()
-      .<span class="ident">unwrap</span>()
+    (<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>) <span class="op">*</span> <span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">y</span>)).<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>)).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
   }
 
   <span class="kw">fn</span> <span class="ident">mod_neg</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">x</span>: <span class="ident">Uint</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Uint</span> {
-    (<span class="op">-</span><span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>))
-      .<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>))
-      .<span class="ident">try_into</span>()
-      .<span class="ident">unwrap</span>()
+    (<span class="op">-</span><span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">x</span>)).<span class="ident">rem_euclid</span>(<span class="ident">BigInt</span>::<span class="ident">from</span>(<span class="ident">m</span>)).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
   }
 
   <span class="kw">fn</span> <span class="ident">mod_sum</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">xs</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Uint</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Uint</span> {
@@ -994,11 +958,7 @@
   <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
   <span class="kw">fn</span> <span class="ident">product_prop</span>(<span class="ident">m</span>: <span class="ident">Uint</span>, <span class="ident">xs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Uint</span><span class="op">&gt;</span>) {
     <span class="macro">modulo</span><span class="macro">!</span>(<span class="ident">m</span>);
-    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">xs</span>
-      .<span class="ident">iter</span>()
-      .<span class="ident">copied</span>()
-      .<span class="ident">map</span>(<span class="ident">ModInt</span>::<span class="ident">new</span>)
-      .<span class="ident">product</span>::<span class="op">&lt;</span><span class="ident">ModInt</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">MOD</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">xs</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">map</span>(<span class="ident">ModInt</span>::<span class="ident">new</span>).<span class="ident">product</span>::<span class="op">&lt;</span><span class="ident">ModInt</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">MOD</span><span class="op">&gt;</span><span class="op">&gt;</span>();
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">a</span>.<span class="ident">repr</span>(), <span class="ident">mod_product</span>(<span class="ident">m</span>, <span class="ident">xs</span>));
   }
 }

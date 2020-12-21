@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["PointGetMut","Structure wrapping a mutable refenrece to an element on `SegmentTree`."],["SegmentTree","A segment tree."]]});
+initSidebarItems({"struct":[["PointGetMut","Structure wrapping a mutable refenrece to an element on [`SegmentTree`]."],["SegmentTree","A segment tree."]]});

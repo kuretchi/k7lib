@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["structures","Algebraic structures."]],"struct":[["ModInt","A ring of integers modulo n (ℤ/nℤ)."]]});
+initSidebarItems({"mod":[["structures","Algebraic structures."]],"struct":[["ModInt","A ring of integers modulo $n$ ($\\mathbb{Z}/n\\mathbb{Z}$)."]]});
