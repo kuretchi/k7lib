@@ -27,10 +27,7 @@ mod tests {
     let vec = vec![true, true, false, true, false];
     let iter = || vec.iter().copied();
 
-    assert_eq!(
-      iter().any(|x| x),
-      iter().fold(Any::identity(), |acc, x| acc.op(&Any(x))).0
-    );
+    assert_eq!(iter().any(|x| x), iter().fold(Any::identity(), |acc, x| acc.op(&Any(x))).0);
   }
 
   #[test]
@@ -38,9 +35,6 @@ mod tests {
     let vec = vec![false, false, false, false, false];
     let iter = || vec.iter().copied();
 
-    assert_eq!(
-      iter().any(|x| x),
-      iter().fold(Any::identity(), |acc, x| acc.op(&Any(x))).0
-    );
+    assert_eq!(iter().any(|x| x), iter().fold(Any::identity(), |acc, x| acc.op(&Any(x))).0);
   }
 }

@@ -31,11 +31,7 @@ impl<R: BufRead> Scanner<R> {
   /// }
   /// ```
   pub fn new(reader: R) -> Self {
-    Scanner {
-      reader,
-      buf: String::new(),
-      pos: 0,
-    }
+    Scanner { reader, buf: String::new(), pos: 0 }
   }
 
   /// Returns a next token splitted by whitespaces.
@@ -172,10 +168,7 @@ mod tests {
     assert_eq!(scanner.next_line().unwrap(), "");
     assert_eq!(scanner.next_line().unwrap(), "6  7");
     assert_eq!(scanner.next_line().unwrap(), "");
-    assert_eq!(
-      scanner.next_line().unwrap_err().kind(),
-      io::ErrorKind::UnexpectedEof
-    );
+    assert_eq!(scanner.next_line().unwrap_err().kind(), io::ErrorKind::UnexpectedEof);
   }
 
   #[test]
@@ -188,10 +181,7 @@ mod tests {
     let val3: u64 = 0;
     let val4: ByteChar = ByteChar(b'a');
 
-    let s = format!(
-      " {} {}   \n\r\n  \n{}\r\n{} {}",
-      val0, val1, val2, val3, val4
-    );
+    let s = format!(" {} {}   \n\r\n  \n{}\r\n{} {}", val0, val1, val2, val3, val4);
     let mut scanner = Scanner::new(s.as_bytes());
 
     assert_eq!(scanner.parse_next::<f64>().unwrap(), Ok(val0));
@@ -199,9 +189,6 @@ mod tests {
     assert_eq!(scanner.parse_next::<i64>().unwrap(), Ok(val2));
     assert_eq!(scanner.parse_next::<u64>().unwrap(), Ok(val3));
     assert_eq!(scanner.parse_next::<ByteChar>().unwrap(), Ok(val4));
-    assert_eq!(
-      scanner.parse_next::<i32>().unwrap_err().kind(),
-      io::ErrorKind::UnexpectedEof
-    );
+    assert_eq!(scanner.parse_next::<i32>().unwrap_err().kind(), io::ErrorKind::UnexpectedEof);
   }
 }

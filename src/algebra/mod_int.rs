@@ -10,9 +10,9 @@ use std::marker::PhantomData;
 use std::mem;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-/// A ring of integers modulo n (ℤ/nℤ).
+/// A ring of integers modulo $n$ ($\mathbb{Z}/n\mathbb{Z}$).
 ///
-/// `Mod` must be greater than 1.
+/// `Mod` must be greater than $1$.
 ///
 /// # Examples
 ///
@@ -40,10 +40,7 @@ where
   Int: Clone,
 {
   fn clone(&self) -> Self {
-    ModInt {
-      _phantom: PhantomData,
-      repr: self.repr.clone(),
-    }
+    ModInt { _phantom: PhantomData, repr: self.repr.clone() }
   }
 }
 
@@ -65,10 +62,7 @@ where
   Int: Default,
 {
   fn default() -> Self {
-    ModInt {
-      _phantom: PhantomData,
-      repr: Int::default(),
-    }
+    ModInt { _phantom: PhantomData, repr: Int::default() }
   }
 }
 
@@ -138,10 +132,7 @@ where
   fn new_unchecked(repr: Int) -> Self {
     debug_assert!(Mod::get() > Int::ONE, "modulo must be greater than 1");
     debug_assert!(repr < Mod::get());
-    ModInt {
-      _phantom: PhantomData,
-      repr,
-    }
+    ModInt { _phantom: PhantomData, repr }
   }
 
   /// Creates a new `ModInt` with the given representative.
@@ -157,7 +148,7 @@ where
   /// Returns the multiplicative inverse if it exists.
   ///
   /// # Time complexity
-  /// O(log `self.repr()`)
+  /// $O(\log(n))$ where $n$ = `Mod`
   pub fn recip(self) -> Option<Self> {
     // The extended Euclidean algorithm
     let mut a = Mod::get();
@@ -382,31 +373,19 @@ mod tests {
   }
 
   fn mod_add(m: Uint, x: Uint, y: Uint) -> Uint {
-    (BigInt::from(x) + BigInt::from(y))
-      .rem_euclid(BigInt::from(m))
-      .try_into()
-      .unwrap()
+    (BigInt::from(x) + BigInt::from(y)).rem_euclid(BigInt::from(m)).try_into().unwrap()
   }
 
   fn mod_sub(m: Uint, x: Uint, y: Uint) -> Uint {
-    (BigInt::from(x) - BigInt::from(y))
-      .rem_euclid(BigInt::from(m))
-      .try_into()
-      .unwrap()
+    (BigInt::from(x) - BigInt::from(y)).rem_euclid(BigInt::from(m)).try_into().unwrap()
   }
 
   fn mod_mul(m: Uint, x: Uint, y: Uint) -> Uint {
-    (BigInt::from(x) * BigInt::from(y))
-      .rem_euclid(BigInt::from(m))
-      .try_into()
-      .unwrap()
+    (BigInt::from(x) * BigInt::from(y)).rem_euclid(BigInt::from(m)).try_into().unwrap()
   }
 
   fn mod_neg(m: Uint, x: Uint) -> Uint {
-    (-BigInt::from(x))
-      .rem_euclid(BigInt::from(m))
-      .try_into()
-      .unwrap()
+    (-BigInt::from(x)).rem_euclid(BigInt::from(m)).try_into().unwrap()
   }
 
   fn mod_sum(m: Uint, xs: impl IntoIterator<Item = Uint>) -> Uint {
@@ -490,11 +469,7 @@ mod tests {
   #[quickcheck]
   fn product_prop(m: Uint, xs: Vec<Uint>) {
     modulo!(m);
-    let a = xs
-      .iter()
-      .copied()
-      .map(ModInt::new)
-      .product::<ModInt<_, MOD>>();
+    let a = xs.iter().copied().map(ModInt::new).product::<ModInt<_, MOD>>();
     assert_eq!(a.repr(), mod_product(m, xs));
   }
 }

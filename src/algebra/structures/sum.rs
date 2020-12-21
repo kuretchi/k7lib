@@ -39,9 +39,6 @@ mod tests {
 
   #[test]
   fn test() {
-    assert_eq!(
-      Sum::identity().op(&Sum(3)).op(&Sum(1).invert()).op(&Sum(4)),
-      Sum(3 - 1 + 4)
-    );
+    assert_eq!(Sum::identity().op(&Sum(3)).op(&Sum(1).invert()).op(&Sum(4)), Sum(3 - 1 + 4));
   }
 }

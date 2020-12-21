@@ -1,7 +1,7 @@
-// verification-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
+// verification-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 
-use spella::algebra::structures::Sum;
-use spella::sequences::FenwickTree;
+use spella::algebra::structures::Min;
+use spella::sequences::SegmentTree;
 
 use std::io;
 use std::iter::FromIterator;
@@ -17,7 +17,7 @@ fn main() -> io::Result<()> {
     let n = scan!(usize);
     let q = scan!(usize);
 
-    let mut seq = FenwickTree::new(n);
+    let mut seq = SegmentTree::new(n);
 
     for _ in 0..q {
       let com = scan!(usize);
@@ -27,22 +27,19 @@ fn main() -> io::Result<()> {
           let i = scan!(usize);
           let x = scan!(i32);
 
-          seq.point_append(i - 1, &Sum(x));
+          *seq.point_get_mut(i) = Min(x);
         }
         1 => {
           let s = scan!(usize);
           let t = scan!(usize);
 
-          writeln!(writer, "{}", seq.range_sum(s - 1..t).0)?;
+          writeln!(writer, "{}", seq.range_sum(s..t + 1).0)?;
         }
         _ => unreachable!(),
       }
     }
 
-    assert_eq!(
-      FenwickTree::from_iter((0..seq.len()).map(|i| seq.point_get(i))),
-      seq
-    );
+    assert_eq!(SegmentTree::from_iter((0..seq.len()).map(|i| seq.point_get(i)).cloned()), seq);
 
     Ok(())
   })

@@ -27,11 +27,7 @@ mod tests {
     }
 
     pub fn find(&self, i: usize) -> usize {
-      self
-        .0
-        .iter()
-        .position(|set| set.as_ref().map_or(false, |set| set.contains(&i)))
-        .unwrap()
+      self.0.iter().position(|set| set.as_ref().map_or(false, |set| set.contains(&i))).unwrap()
     }
 
     pub fn union(&mut self, i: usize, j: usize) -> bool {

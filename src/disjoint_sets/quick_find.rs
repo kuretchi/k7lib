@@ -19,23 +19,20 @@ pub struct QuickFind {
 impl QuickFind {
   /// Creates a new `QuickFind` with the given number of elements.
   ///
-  /// Initially it consists of _n_ singletons: {{0}, {1}, ..., {_n_ - 1}},
-  /// where _n_ = `len`.
+  /// Initially it consists of $n$ singletons:
+  /// $\lbrace \lbrace 0 \rbrace, \lbrace 1 \rbrace, \dots, \lbrace n - 1 \rbrace \rbrace$,
+  /// where $n$ = `len`.
   ///
   /// # Time complexity
-  /// Θ(_n_)
+  /// $\Theta(n)$
   pub fn new(len: usize) -> Self {
-    Self {
-      elems: (0..len).map(|i| vec![i]).collect(),
-      reprs: (0..len).collect(),
-      sets_len: len,
-    }
+    Self { elems: (0..len).map(|i| vec![i]).collect(), reprs: (0..len).collect(), sets_len: len }
   }
 
   /// Returns the total number of elements that belong to disjoint sets.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn len(&self) -> usize {
     self.reprs.len()
   }
@@ -43,7 +40,7 @@ impl QuickFind {
   /// Returns the number of disjoint sets.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn sets_len(&self) -> usize {
     self.sets_len
   }
@@ -51,7 +48,7 @@ impl QuickFind {
   /// Returns the representative of the set that the given element belongs to.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn find(&self, i: usize) -> usize {
     assert_index(i, self.len());
 
@@ -63,7 +60,7 @@ impl QuickFind {
   /// Returns `false` iff two elements already belong to the same set.
   ///
   /// # Time complexity
-  /// O(log(_n_)) amortized
+  /// $O(\log(n))$ amortized
   pub fn unite(&mut self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
@@ -94,7 +91,7 @@ impl QuickFind {
   /// Returns `true` iff the given elements belong to the same set.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn belong_to_same_set(&self, i: usize, j: usize) -> bool {
     assert_index(i, self.len());
     assert_index(j, self.len());
@@ -105,7 +102,7 @@ impl QuickFind {
   /// Returns the slice of elements that belong to the same set as the given element.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn set(&self, i: usize) -> &[usize] {
     assert_index(i, self.len());
 
@@ -224,9 +221,6 @@ mod tests {
 
     let ds = NaiveDisjointSets::from(&uf);
     assert_eq!(uf.set(i).len(), ds.set_len(i));
-    assert_eq!(
-      &uf.set(i).iter().copied().collect::<HashSet<_>>(),
-      ds.set(i)
-    );
+    assert_eq!(&uf.set(i).iter().copied().collect::<HashSet<_>>(), ds.set(i));
   }
 }

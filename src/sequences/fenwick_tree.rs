@@ -6,32 +6,31 @@ use crate::utils::index_bounds_check::*;
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
 
+// Shape of a tree and indices of each node:
+//  +-----------------------------------------------------------------------------+
+//  |                                     1000                                    |
+//  +-----------------------------------------------------------------------------+
+// 0  ^                                       ^                   ^                8
+//    | +100                                  |                   |
+//  +-------------------------------------+   |                   |
+//  |                0 100                |   |                   |
+//  +-------------------------------------+   |                   |
+// 0  ^                   ^         ^      4  |                   |
+//    | +10               |         |         | +10               |
+//  +-----------------+   |         | -10   +-----------------+   |
+//  |      00 10      |   |         +------ |      01 10      |   |
+//  +-----------------+   |         |       +-----------------+   |
+// 0  ^         ^      2  |         |      4  ^         ^      6  |
+//    | +1      |         | +1      |         | +1      |         | +1
+//  +-------+   | -1    +-------+   | -1    +-------+   | -1    +-------+
+//  | 000 1 |   +------ | 001 1 |   +------ | 010 1 |   +------ | 011 1 |
+//  +-------+           +-------+           +-------+           +-------+
+// 0         1         2         3         4         5         6         7
+
 /// A fenwick tree (a.k.a. binary indexed tree).
 ///
-/// ```text
-///  +-----------------------------------------------------------------------------+
-///  |                                     1000                                    |
-///  +-----------------------------------------------------------------------------+
-/// 0  ^                                       ^                   ^                8
-///    | +100                                  |                   |
-///  +-------------------------------------+   |                   |
-///  |                0 100                |   |                   |
-///  +-------------------------------------+   |                   |
-/// 0  ^                   ^         ^      4  |                   |
-///    | +10               |         |         | +10               |
-///  +-----------------+   |         | -10   +-----------------+   |
-///  |      00 10      |   |         +------ |      01 10      |   |
-///  +-----------------+   |         |       +-----------------+   |
-/// 0  ^         ^      2  |         |      4  ^         ^      6  |
-///    | +1      |         | +1      |         | +1      |         | +1
-///  +-------+   | -1    +-------+   | -1    +-------+   | -1    +-------+
-///  | 000 1 |   +------ | 001 1 |   +------ | 010 1 |   +------ | 011 1 |
-///  +-------+           +-------+           +-------+           +-------+
-/// 0         1         2         3         4         5         6         7
-/// ```
-///
 /// # Space complexity
-/// O(n log σ)
+/// $O(n \log(\sigma))$
 #[derive(Clone, PartialEq, Eq, Debug, Hash)]
 pub struct FenwickTree<T> {
   vec: Vec<T>,
@@ -41,17 +40,15 @@ impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   /// Creates a new `FenwickTree` of the given length, filled with an identity element.
   ///
   /// # Time complexity
-  /// O(n)
+  /// $O(n)$
   pub fn new(len: usize) -> Self {
-    FenwickTree {
-      vec: vec![M::identity(); len],
-    }
+    FenwickTree { vec: vec![M::identity(); len] }
   }
 
   /// Returns the length of the sequence.
   ///
   /// # Time complexity
-  /// O(1)
+  /// $O(1)$
   pub fn len(&self) -> usize {
     self.vec.len()
   }
@@ -62,7 +59,7 @@ impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(log n)
+  /// $O(\log(n))$
   pub fn point_append(&mut self, index: usize, value: &M) {
     assert_index(index, self.len());
 
@@ -81,7 +78,7 @@ impl<M: Monoid + CommutativeSemigroup> FenwickTree<M> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(log n)
+  /// $O(\log(n))$
   pub fn prefix_sum(&self, index: RangeTo<usize>) -> M {
     assert_index_range_to(index, self.len());
 
@@ -114,7 +111,7 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(log n)
+  /// $O(\log(n))$
   pub fn point_get(&self, index: usize) -> G {
     assert_index(index, self.len());
 
@@ -127,7 +124,7 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(log n)
+  /// $O(\log(n))$
   pub fn point_set(&mut self, index: usize, value: &G) -> G {
     let old_value = self.point_get(index);
     self.point_append(index, &value.inverse_op(&old_value));
@@ -140,7 +137,7 @@ impl<G: Group + CommutativeSemigroup> FenwickTree<G> {
   /// Panics if `index` is out of bounds.
   ///
   /// # Time complexity
-  /// O(log n)
+  /// $O(\log(n))$
   pub fn range_sum(&self, index: Range<usize>) -> G {
     assert_index_range(&index, self.len());
 
@@ -168,7 +165,7 @@ impl<M: Monoid + CommutativeSemigroup> From<Vec<M>> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from a `Vec`.
   ///
   /// # Time complexity
-  /// O(n)
+  /// $O(n)$
   fn from(mut vec: Vec<M>) -> Self {
     vec.shrink_to_fit();
     let mut tree = FenwickTree { vec };
@@ -190,7 +187,7 @@ impl<M: Monoid + CommutativeSemigroup> FromIterator<M> for FenwickTree<M> {
   /// Creates a new `FenwickTree` from an iterator.
   ///
   /// # Time complexity
-  /// O(n)
+  /// $O(n)$
   fn from_iter<I>(iter: I) -> Self
   where
     I: IntoIterator<Item = M>,

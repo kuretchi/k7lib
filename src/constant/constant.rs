@@ -1,8 +1,6 @@
 /// A trait for marker types that represents a constant value.
 ///
 /// See the [`constant!`] macro for more details.
-///
-/// [`constant!`]: ../macro.constant.html
 pub trait Constant<T> {
   /// Returns the constant value.
   fn get() -> T;
@@ -26,7 +24,7 @@ pub trait Constant<T> {
 ///
 /// # How it works
 ///
-/// This macro defines an empty `enum` type that implements [`Constant<TYPE>`]
+/// This macro defines an empty `enum` type that implements [`Constant<TYPE>`](Constant)
 /// with an accosiated function `fn get() -> TYPE` which returns the given `EXPR`.
 ///
 /// ## `const`
@@ -58,8 +56,6 @@ pub trait Constant<T> {
 ///   assert_eq!(mod_mul::<MOD2>(7, 3), 7 * 3 % x);
 /// }
 /// ```
-///
-/// [`Constant<TYPE>`]: ./constant/trait.Constant.html
 #[macro_export]
 macro_rules! constant {
   () => {};
