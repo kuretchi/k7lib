@@ -1,13 +1,13 @@
 // verification-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_A
 
-use spella::algebra::structures::Min;
-use spella::sequences::SegmentTree;
+use k7lib::algebra::structures::Min;
+use k7lib::sequences::SegmentTree;
 
 use std::io;
 use std::iter::FromIterator;
 
 fn main() -> io::Result<()> {
-  spella::io::run(None, false, |scanner, writer| {
+  k7lib::io::run(None, false, |scanner, writer| {
     macro_rules! scan {
       ($T:ty) => {
         scanner.parse_next::<$T>()?.unwrap()

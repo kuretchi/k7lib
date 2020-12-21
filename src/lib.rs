@@ -1,6 +1,6 @@
 //! My own competitive programming library for Rust.
 //!
-//! [Repository](https://github.com/kuretchi/spella)
+//! [Repository](https://github.com/kuretchi/k7lib)
 
 pub mod algebra;
 pub mod byte;

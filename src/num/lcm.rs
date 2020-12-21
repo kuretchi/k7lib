@@ -6,7 +6,7 @@ use super::primitive::UnsignedInt as PrimUint;
 /// # Examples
 ///
 /// ```
-/// # use spella::num::lcm;
+/// # use k7lib::num::lcm;
 /// assert_eq!(lcm::<u32>(18, 12), Some(36));
 /// assert_eq!(lcm::<u32>(18, 0), None);
 /// ```

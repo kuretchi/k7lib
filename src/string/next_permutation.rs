@@ -8,14 +8,14 @@ use std::cmp::Ordering::{self, *};
 /// # Examples
 ///
 /// ```
-/// # use spella::string::next_permutation;
+/// # use k7lib::string::next_permutation;
 /// let mut s = [0, 0, 2, 1];
 /// assert!(next_permutation(&mut s));
 /// assert_eq!(s, [0, 1, 0, 2]);
 /// ```
 ///
 /// ```
-/// # use spella::string::next_permutation;
+/// # use k7lib::string::next_permutation;
 /// let mut s = [2, 1, 0, 0];
 /// assert!(!next_permutation(&mut s));
 /// assert_eq!(s, [2, 1, 0, 0]);
@@ -23,7 +23,7 @@ use std::cmp::Ordering::{self, *};
 ///
 /// Enumerating all permutations:
 /// ```
-/// # use spella::string::next_permutation;
+/// # use k7lib::string::next_permutation;
 /// let mut s = [0, 0, 1, 2]; // sorted
 /// loop {
 ///   println!("{:?}", s);
@@ -52,7 +52,7 @@ where
 /// # Examples
 ///
 /// ```
-/// # use spella::string::next_permutation_by;
+/// # use k7lib::string::next_permutation_by;
 /// let mut s = [2, 1, 0];
 /// assert!(next_permutation_by(&mut s, |l, r| l.cmp(r).reverse()));
 /// assert_eq!(s, [2, 0, 1]);
@@ -87,7 +87,7 @@ where
 /// # Examples
 ///
 /// ```
-/// # use spella::string::next_permutation_by_key;
+/// # use k7lib::string::next_permutation_by_key;
 /// use std::cmp::Reverse;
 ///
 /// let mut s = [2, 1, 0];

@@ -38,8 +38,8 @@ pub trait Constant<T> {
 /// # Examples
 ///
 /// ```
-/// # use spella::constant;
-/// # use spella::constant::Constant;
+/// # use k7lib::constant;
+/// # use k7lib::constant::Constant;
 /// fn mod_mul<Mod: Constant<u32>>(x: u32, y: u32) -> u32 {
 ///   x * y % Mod::get()
 /// }

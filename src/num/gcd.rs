@@ -8,7 +8,7 @@ use std::mem;
 /// # Examples
 ///
 /// ```
-/// # use spella::num::gcd;
+/// # use k7lib::num::gcd;
 /// assert_eq!(gcd::<u32>(18, 12), 6);
 /// assert_eq!(gcd::<u32>(18, 0), 18);
 /// assert_eq!(gcd::<u32>(0, 0), 0);

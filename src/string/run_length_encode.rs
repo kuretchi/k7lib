@@ -4,7 +4,7 @@ use std::iter::FusedIterator;
 ///
 /// # Examples
 /// ```
-/// # use spella::string::run_length_encode;
+/// # use k7lib::string::run_length_encode;
 /// let mut iter = run_length_encode(b"aaabcccc");
 /// assert_eq!(iter.next(), Some((&b'a', 3)));
 /// assert_eq!(iter.next(), Some((&b'b', 1)));
