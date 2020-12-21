@@ -1,9 +1,9 @@
 // verify-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 
-use spella::disjoint_sets::QuickFind;
+use k7lib::disjoint_sets::QuickFind;
 
 fn main() -> std::io::Result<()> {
-  spella::io::run(None, false, |scanner, writer| {
+  k7lib::io::run(None, false, |scanner, writer| {
     let n = scanner.parse_next::<usize>()?.unwrap();
     let q = scanner.parse_next::<usize>()?.unwrap();
 

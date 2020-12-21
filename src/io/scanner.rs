@@ -22,7 +22,7 @@ impl<R: BufRead> Scanner<R> {
   /// # Examples
   /// From stdin:
   /// ```
-  /// use spella::io::Scanner;
+  /// use k7lib::io::Scanner;
   ///
   /// fn main() -> std::io::Result<()> {
   ///   let stdin = std::io::stdin();
@@ -38,7 +38,7 @@ impl<R: BufRead> Scanner<R> {
   ///
   /// # Examples
   /// ```
-  /// use spella::io::Scanner;
+  /// use k7lib::io::Scanner;
   ///
   /// fn main() -> std::io::Result<()> {
   ///   let s = "12 34\n56 78";
@@ -67,7 +67,7 @@ impl<R: BufRead> Scanner<R> {
   ///
   /// # Examples
   /// ```
-  /// use spella::io::Scanner;
+  /// use k7lib::io::Scanner;
   ///
   /// fn main() -> std::io::Result<()> {
   ///   let s = "The quick brown fox\njumps over the lazy dog";
@@ -82,7 +82,7 @@ impl<R: BufRead> Scanner<R> {
   ///
   /// Empty lines may be returned:
   /// ```
-  /// use spella::io::Scanner;
+  /// use k7lib::io::Scanner;
   /// use std::io::ErrorKind;
   ///
   /// fn main() -> std::io::Result<()> {
@@ -106,7 +106,7 @@ impl<R: BufRead> Scanner<R> {
   ///
   /// # Examples
   /// ```
-  /// use spella::io::Scanner;
+  /// use k7lib::io::Scanner;
   ///
   /// fn main() -> std::io::Result<()> {
   ///   let s = "3.1415 9265";

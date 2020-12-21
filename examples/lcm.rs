@@ -1,9 +1,9 @@
 // verification-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_C
 
-use spella::num;
+use k7lib::num;
 
 fn main() -> std::io::Result<()> {
-  spella::io::run(None, false, |scanner, writer| {
+  k7lib::io::run(None, false, |scanner, writer| {
     let n = scanner.parse_next::<usize>()?.unwrap();
     let mut lcm = 1;
     for _ in 0..n {

@@ -16,6 +16,6 @@ cargo +stable doc
 cat <<EOF >./target/doc/index.html
 <!DOCTYPE html>
 <meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=spella/index.html">
+<meta http-equiv="refresh" content="0; url=k7lib/index.html">
 <title></title>
 EOF

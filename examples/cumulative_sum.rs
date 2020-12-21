@@ -1,14 +1,14 @@
 // verification-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0516
 
-use spella::algebra::structures::Sum;
-use spella::sequences::CumulativeSum;
+use k7lib::algebra::structures::Sum;
+use k7lib::sequences::CumulativeSum;
 
 use std::cmp;
 use std::io;
 use std::iter::FromIterator;
 
 fn main() -> io::Result<()> {
-  spella::io::run(None, false, |scanner, writer| {
+  k7lib::io::run(None, false, |scanner, writer| {
     macro_rules! scan {
       ($T:ty) => {
         scanner.parse_next::<$T>()?.unwrap()

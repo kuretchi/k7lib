@@ -17,8 +17,8 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssi
 /// # Examples
 ///
 /// ```
-/// # use spella::algebra::ModInt;
-/// # use spella::constant;
+/// # use k7lib::algebra::ModInt;
+/// # use k7lib::constant;
 /// constant! {
 ///   const MOD: u32 = 4;
 /// }
