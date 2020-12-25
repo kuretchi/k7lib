@@ -18,6 +18,7 @@ mod semiring;
 
 pub use self::all::*;
 pub use self::any::*;
+pub use self::concat::*;
 pub use self::first::*;
 pub use self::last::*;
 pub use self::max::*;
@@ -27,6 +28,7 @@ pub use self::sum::*;
 
 mod all;
 mod any;
+mod concat;
 mod first;
 mod last;
 mod max;
