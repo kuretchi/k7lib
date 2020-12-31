@@ -1,4 +1,4 @@
-// verify-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 
 use k7lib::disjoint_sets::QuickUnion;
 
