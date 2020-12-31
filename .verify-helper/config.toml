@@ -1,3 +1,0 @@
-[languages.rs]
-compile = "bash -c 'cargo build --example $(basename {path} .rs) --release'"
-execute = "bash -c \\'cargo run --quiet --example $(basename {path} .rs) --release\\'"
