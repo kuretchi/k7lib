@@ -2,6 +2,8 @@
 //!
 //! [Repository](https://github.com/kuretchi/k7lib)
 
+#[macro_use]
+mod utils;
 pub mod algebra;
 pub mod byte;
 pub mod cmp;
@@ -11,4 +13,3 @@ pub mod io;
 pub mod num;
 pub mod sequences;
 pub mod string;
-mod utils;

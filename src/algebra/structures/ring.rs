@@ -1,5 +1,7 @@
 use super::Semiring;
 use crate::num::primitive::SignedInt as PrimSint;
+#[allow(unused_imports)]
+use crate::utils::for_each_tuple; // for cargo-simple-bundler
 
 /// A ring.
 ///
@@ -25,3 +27,18 @@ where
     -*self
   }
 }
+
+macro_rules! impl_for_tuple {
+  ($($i:tt: $T:ident,)*) => {
+    impl<$($T),*> Ring for ($($T,)*)
+    where
+      $($T: Ring,)*
+    {
+      fn neg(&self) -> Self {
+        ($(self.$i.neg(),)*)
+      }
+    }
+  };
+}
+
+for_each_tuple! { impl_for_tuple }

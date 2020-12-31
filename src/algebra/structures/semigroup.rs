@@ -1,3 +1,6 @@
+#[allow(unused_imports)]
+use crate::utils::for_each_tuple; // for cargo-simple-bundler
+
 /// A semigroup.
 ///
 /// # Laws
@@ -38,3 +41,18 @@ where
     }
   }
 }
+
+macro_rules! impl_for_tuple {
+  ($($i:tt: $T:ident,)*) => {
+    impl<$($T),*> Semigroup for ($($T,)*)
+    where
+      $($T: Semigroup,)*
+    {
+      fn op(&self, rhs: &Self) -> Self {
+        ($(self.$i.op(&rhs.$i),)*)
+      }
+    }
+  };
+}
+
+for_each_tuple! { impl_for_tuple }
