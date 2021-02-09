@@ -1,7 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/num/primitive/int.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>int.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/num/primitive/int.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>int.rs - source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled ><script id="default-settings"></script><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg">
 <link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png">
 <link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><script>
 MathJax = {
+  chtml: {
+    matchFontHeight: false
+  },
   tex: {
     inlineMath: [['$', '$']]
   }
@@ -10,7 +13,7 @@ MathJax = {
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-<style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../k7lib/index.html'><div class='logo-container rust-logo'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
+<style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../k7lib/index.html'><div class='logo-container rust-logo'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
@@ -206,25 +209,16 @@ MathJax = {
 <span id="193">193</span>
 <span id="194">194</span>
 <span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">cmp</span>::<span class="ident">Bounded</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">hash</span>, <span class="ident">iter</span>, <span class="ident">num</span>::<span class="ident">ParseIntError</span>, <span class="ident">ops</span>, <span class="ident">str</span>};
 
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::{<span class="ident">Binary</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">LowerHex</span>, <span class="ident">Octal</span>, <span class="ident">UpperHex</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">hash</span>::<span class="ident">Hash</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>::{<span class="ident">Product</span>, <span class="ident">Sum</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">ParseIntError</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Neg</span>, <span class="ident">Not</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+<span class="comment">// for cargo-simple-bundler</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>())]</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Int</span> {}
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">int</span> {
-  ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span>:<span class="ident">ident</span>)<span class="kw-2">*</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span>),<span class="kw-2">*</span>};
-
+  ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
     <span class="doccomment">/// A trait for primitive integer types.</span>
     <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Int</span>:
       <span class="ident">Sized</span>
@@ -235,58 +229,61 @@ MathJax = {
       <span class="op">+</span> <span class="ident">PartialOrd</span>
       <span class="op">+</span> <span class="ident">Ord</span>
       <span class="op">+</span> <span class="ident">Default</span>
-      <span class="op">+</span> <span class="ident">Hash</span>
-      <span class="op">+</span> <span class="ident">Debug</span>
-      <span class="op">+</span> <span class="ident">Display</span>
-      <span class="op">+</span> <span class="ident">Binary</span>
-      <span class="op">+</span> <span class="ident">Octal</span>
-      <span class="op">+</span> <span class="ident">LowerHex</span>
-      <span class="op">+</span> <span class="ident">UpperHex</span>
-      <span class="op">+</span> <span class="ident">FromStr</span>
+      <span class="op">+</span> <span class="ident">hash</span>::<span class="ident">Hash</span>
+      <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">Debug</span>
+      <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">Display</span>
+      <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">Binary</span>
+      <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">Octal</span>
+      <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">LowerHex</span>
+      <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">UpperHex</span>
+      <span class="op">+</span> <span class="ident">str</span>::<span class="ident">FromStr</span>
       $(
-        <span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
-        <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
-        <span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span><span class="op">&gt;</span>
-        <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span><span class="op">&gt;</span>
+        <span class="op">+</span> <span class="ident">ops</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
+        <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ops</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Op</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
+        <span class="op">+</span> <span class="ident">ops</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span><span class="op">&gt;</span>
+        <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ops</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">OpAssign</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Rhs</span><span class="op">&gt;</span>
       )<span class="op">*</span>
-      <span class="op">+</span> <span class="ident">Not</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
-      <span class="op">+</span> <span class="ident">Sum</span>
-      <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sum</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">Self</span><span class="op">&gt;</span>
-      <span class="op">+</span> <span class="ident">Product</span>
-      <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Product</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">Self</span><span class="op">&gt;</span>
+      <span class="op">+</span> <span class="ident">ops</span>::<span class="ident">Not</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
+      <span class="op">+</span> <span class="ident">iter</span>::<span class="ident">Sum</span>
+      <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">iter</span>::<span class="ident">Sum</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">Self</span><span class="op">&gt;</span>
+      <span class="op">+</span> <span class="ident">iter</span>::<span class="ident">Product</span>
+      <span class="op">+</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">iter</span>::<span class="ident">Product</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">Self</span><span class="op">&gt;</span>
       <span class="op">+</span> <span class="ident">Bounded</span>
     {
       <span class="doccomment">/// The constant value `0`.</span>
       <span class="kw">const</span> <span class="ident">ZERO</span>: <span class="self">Self</span>;
-
       <span class="doccomment">/// The constant value `1`.</span>
       <span class="kw">const</span> <span class="ident">ONE</span>: <span class="self">Self</span>;
 
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span>
     }
 
-    <span class="macro">prim</span><span class="macro">!</span> {
-      <span class="ident">Int</span>;
-      <span class="ident">i8</span>, <span class="ident">i16</span>, <span class="ident">i32</span>, <span class="ident">i64</span>, <span class="ident">i128</span>, <span class="ident">isize</span>, <span class="ident">u8</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">u64</span>, <span class="ident">u128</span>, <span class="ident">usize</span>;
-      {
-        <span class="kw">const</span> <span class="ident">ZERO</span>: <span class="self">Self</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">const</span> <span class="ident">ONE</span>: <span class="self">Self</span> <span class="op">=</span> <span class="number">1</span>;
-      }
+    <span class="macro">impls</span><span class="macro">!</span> {
+      <span class="ident">Int</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i8</span>, <span class="ident">i16</span>, <span class="ident">i32</span>, <span class="ident">i64</span>, <span class="ident">i128</span>, <span class="ident">isize</span>, <span class="ident">u8</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">u64</span>, <span class="ident">u128</span>, <span class="ident">usize</span>;
+      <span class="kw">const</span> <span class="ident">ZERO</span>: <span class="self">Self</span> <span class="op">=</span> <span class="number">0</span>;
+      <span class="kw">const</span> <span class="ident">ONE</span>: <span class="self">Self</span> <span class="op">=</span> <span class="number">1</span>;
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span>
     }
   };
 }
+
+<span class="comment">// for cargo-simple-bundler</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>())]</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SignedInt</span> {}
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">signed_int</span> {
   ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
     <span class="doccomment">/// A trait for primitive signed integer types.</span>
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SignedInt</span>: <span class="ident">Int</span> <span class="op">+</span> <span class="ident">Neg</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SignedInt</span>: <span class="ident">Int</span> <span class="op">+</span> <span class="ident">ops</span>::<span class="ident">Neg</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span> {
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span>
     }
-
-    <span class="macro">prim</span><span class="macro">!</span> { <span class="ident">SignedInt</span>; <span class="ident">i8</span>, <span class="ident">i16</span>, <span class="ident">i32</span>, <span class="ident">i64</span>, <span class="ident">i128</span>, <span class="ident">isize</span>; {} $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span> }
+    <span class="macro">impls</span><span class="macro">!</span> { <span class="ident">SignedInt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">i8</span>, <span class="ident">i16</span>, <span class="ident">i32</span>, <span class="ident">i64</span>, <span class="ident">i128</span>, <span class="ident">isize</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span> }
   };
 }
+
+<span class="comment">// for cargo-simple-bundler</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>())]</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UnsignedInt</span> {}
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">unsigned_int</span> {
   ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
@@ -294,43 +291,39 @@ MathJax = {
     <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UnsignedInt</span>: <span class="ident">Int</span> {
       $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span>
     }
-
-    <span class="macro">prim</span><span class="macro">!</span> { <span class="ident">UnsignedInt</span>; <span class="ident">u8</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">u64</span>, <span class="ident">u128</span>, <span class="ident">usize</span>; {} $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span> }
+    <span class="macro">impls</span><span class="macro">!</span> { <span class="ident">UnsignedInt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">u8</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">u64</span>, <span class="ident">u128</span>, <span class="ident">usize</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span> }
   };
 }
 
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">prim</span> {
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span>:<span class="ident">ty</span>; ; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {};
-  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span>:<span class="ident">ty</span>; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">U</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>; { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>:<span class="ident">tt</span>)<span class="op">*</span> } $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impls</span> {
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span>:<span class="ident">ty</span> <span class="op">=</span><span class="op">&gt;</span> ; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {};
+  (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span>:<span class="ident">ty</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">U</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
     <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
-      $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>)<span class="op">*</span>
-      <span class="macro">prim</span><span class="macro">!</span> { @<span class="ident">decl_fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span> }
+      <span class="macro">items</span><span class="macro">!</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>)<span class="op">*</span> }
     }
-
-    <span class="macro">prim</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">U</span>),<span class="kw-2">*</span>; { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">others</span>)<span class="op">*</span> } $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)<span class="op">*</span> }
+    <span class="macro">impls</span><span class="macro">!</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Trait</span> <span class="op">=</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">U</span>),<span class="kw-2">*</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>)<span class="op">*</span> }
   };
-  (@<span class="ident">decl_fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>;) <span class="op">=</span><span class="op">&gt;</span> {};
-  (
-    @<span class="ident">decl_fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>;
-    <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>(<span class="self">self</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ParamT</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">RetT</span>:<span class="ident">ty</span>;
-    $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
+}
+
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">items</span> {
+  () <span class="op">=</span><span class="op">&gt;</span> {};
+  (<span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">CONST</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    <span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">CONST</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>;
+    <span class="macro">items</span><span class="macro">!</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span> }
+  };
+  (<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>(<span class="self">self</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ParamT</span>:<span class="ident">ty</span>)<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">RetT</span>:<span class="ident">ty</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">deny</span>(<span class="ident">unconditional_recursion</span>)]</span>
     <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ParamT</span>)<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">RetT</span> {
-      <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span><span class="op">&gt;</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>)<span class="kw-2">*</span>)
+      <span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>(<span class="self">self</span> $(, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>)<span class="kw-2">*</span>)
     }
-
-    <span class="macro">prim</span><span class="macro">!</span> { @<span class="ident">decl_fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span> }
+    <span class="macro">items</span><span class="macro">!</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span> }
   };
-  (
-    @<span class="ident">decl_fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>;
-    <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ParamT</span>:<span class="ident">ty</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">RetT</span>:<span class="ident">ty</span>;
-    $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-  ) <span class="op">=</span><span class="op">&gt;</span> {
+  (<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>:<span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ParamT</span>:<span class="ident">ty</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">RetT</span>:<span class="ident">ty</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">deny</span>(<span class="ident">unconditional_recursion</span>)]</span>
     <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ParamT</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">RetT</span> {
-      <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span><span class="op">&gt;</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="kw-2">*</span>)
+      <span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="kw-2">*</span>)
     }
-
-    <span class="macro">prim</span><span class="macro">!</span> { @<span class="ident">decl_fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span> }
+    <span class="macro">items</span><span class="macro">!</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span> }
   };
 }
 
