@@ -1,4 +1,6 @@
 use crate::num::primitive::Int as PrimInt;
+#[allow(unused_imports)]
+use crate::utils::for_each_tuple; // for cargo-simple-bundler
 
 /// A semiring.
 ///
@@ -63,3 +65,27 @@ where
     Int::ONE
   }
 }
+
+macro_rules! impl_for_tuple {
+  ($($i:tt: $T:ident,)*) => {
+    impl<$($T),*> Semiring for ($($T,)*)
+    where
+      $($T: Semiring,)*
+    {
+      fn add(&self, rhs: &Self) -> Self {
+        ($(self.$i.add(&rhs.$i),)*)
+      }
+      fn mul(&self, rhs: &Self) -> Self {
+        ($(self.$i.mul(&rhs.$i),)*)
+      }
+      fn zero() -> Self {
+        ($(<$T>::zero(),)*)
+      }
+      fn one() -> Self {
+        ($(<$T>::one(),)*)
+      }
+    }
+  };
+}
+
+for_each_tuple! { impl_for_tuple }

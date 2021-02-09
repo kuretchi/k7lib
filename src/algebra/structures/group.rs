@@ -1,4 +1,6 @@
 use super::Monoid;
+#[allow(unused_imports)]
+use crate::utils::for_each_tuple; // for cargo-simple-bundler
 
 /// A group.
 ///
@@ -30,3 +32,18 @@ impl Group for () {
     ()
   }
 }
+
+macro_rules! impl_for_tuple {
+  ($($i:tt: $T:ident,)*) => {
+    impl<$($T),*> Group for ($($T,)*)
+    where
+      $($T: Group,)*
+    {
+      fn invert(&self) -> Self {
+        ($(self.$i.invert(),)*)
+      }
+    }
+  };
+}
+
+for_each_tuple! { impl_for_tuple }

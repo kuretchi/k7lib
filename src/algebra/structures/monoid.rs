@@ -1,4 +1,6 @@
 use super::Semigroup;
+#[allow(unused_imports)]
+use crate::utils::for_each_tuple; // for cargo-simple-bundler
 
 /// A monoid.
 ///
@@ -24,3 +26,18 @@ where
     None
   }
 }
+
+macro_rules! impl_for_tuple {
+  ($($i:tt: $T:ident,)*) => {
+    impl<$($T),*> Monoid for ($($T,)*)
+    where
+      $($T: Monoid,)*
+    {
+      fn identity() -> Self {
+        ($(<$T>::identity(),)*)
+      }
+    }
+  };
+}
+
+for_each_tuple! { impl_for_tuple }

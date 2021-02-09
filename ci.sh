@@ -9,7 +9,7 @@ export QUICKCHECK_GENERATOR_SIZE=255
 
 # Run tests
 cargo test
-oj-verify run ./examples/*.rs
+oj-verify run
 
 # Generate a documentation
 cargo +stable doc

@@ -1,16 +1,12 @@
 use crate::cmp::Bounded;
+use std::{fmt, hash, iter, num::ParseIntError, ops, str};
 
-use std::fmt::{Binary, Debug, Display, LowerHex, Octal, UpperHex};
-use std::hash::Hash;
-use std::iter::{Product, Sum};
-use std::num::ParseIntError;
-use std::ops::{Neg, Not};
-use std::str::FromStr;
+// for cargo-simple-bundler
+#[cfg(any())]
+pub trait Int {}
 
 macro_rules! int {
-  ($($Op:ident $OpAssign:ident $Rhs:ident)*; $($func:tt)*) => {
-    use std::ops::{$($Op, $OpAssign),*};
-
+  ($($Op:ident $OpAssign:ident $Rhs:ty)*; $($func:tt)*) => {
     /// A trait for primitive integer types.
     pub trait Int:
       Sized
@@ -21,58 +17,61 @@ macro_rules! int {
       + PartialOrd
       + Ord
       + Default
-      + Hash
-      + Debug
-      + Display
-      + Binary
-      + Octal
-      + LowerHex
-      + UpperHex
-      + FromStr
+      + hash::Hash
+      + fmt::Debug
+      + fmt::Display
+      + fmt::Binary
+      + fmt::Octal
+      + fmt::LowerHex
+      + fmt::UpperHex
+      + str::FromStr
       $(
-        + $Op<$Rhs, Output = Self>
-        + for<'a> $Op<&'a $Rhs, Output = Self>
-        + $OpAssign<$Rhs>
-        + for<'a> $OpAssign<&'a $Rhs>
+        + ops::$Op<$Rhs, Output = Self>
+        + for<'a> ops::$Op<&'a $Rhs, Output = Self>
+        + ops::$OpAssign<$Rhs>
+        + for<'a> ops::$OpAssign<&'a $Rhs>
       )*
-      + Not<Output = Self>
-      + Sum
-      + for<'a> Sum<&'a Self>
-      + Product
-      + for<'a> Product<&'a Self>
+      + ops::Not<Output = Self>
+      + iter::Sum
+      + for<'a> iter::Sum<&'a Self>
+      + iter::Product
+      + for<'a> iter::Product<&'a Self>
       + Bounded
     {
       /// The constant value `0`.
       const ZERO: Self;
-
       /// The constant value `1`.
       const ONE: Self;
 
       $($func)*
     }
 
-    prim! {
-      Int;
-      i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize;
-      {
-        const ZERO: Self = 0;
-        const ONE: Self = 1;
-      }
+    impls! {
+      Int => i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize;
+      const ZERO: Self = 0;
+      const ONE: Self = 1;
       $($func)*
     }
   };
 }
+
+// for cargo-simple-bundler
+#[cfg(any())]
+pub trait SignedInt {}
 
 macro_rules! signed_int {
   ($($func:tt)*) => {
     /// A trait for primitive signed integer types.
-    pub trait SignedInt: Int + Neg<Output = Self> {
+    pub trait SignedInt: Int + ops::Neg<Output = Self> {
       $($func)*
     }
-
-    prim! { SignedInt; i8, i16, i32, i64, i128, isize; {} $($func)* }
+    impls! { SignedInt => i8, i16, i32, i64, i128, isize; $($func)* }
   };
 }
+
+// for cargo-simple-bundler
+#[cfg(any())]
+pub trait UnsignedInt {}
 
 macro_rules! unsigned_int {
   ($($func:tt)*) => {
@@ -80,43 +79,39 @@ macro_rules! unsigned_int {
     pub trait UnsignedInt: Int {
       $($func)*
     }
-
-    prim! { UnsignedInt; u8, u16, u32, u64, u128, usize; {} $($func)* }
+    impls! { UnsignedInt => u8, u16, u32, u64, u128, usize; $($func)* }
   };
 }
 
-macro_rules! prim {
-  ($Trait:ty; ; $($t:tt)*) => {};
-  ($Trait:ty; $T:ty $(, $U:ty)*; { $($others:tt)* } $($func:tt)*) => {
+macro_rules! impls {
+  ($Trait:ty => ; $($item:tt)*) => {};
+  ($Trait:ty => $T:ty $(, $U:ty)*; $($item:tt)*) => {
     impl $Trait for $T {
-      $($others)*
-      prim! { @decl_fn $T; $($func)* }
+      items! { $($item)* }
     }
-
-    prim! { $Trait; $($U),*; { $($others)* } $($func)* }
+    impls! { $Trait => $($U),*; $($item)* }
   };
-  (@decl_fn $T:ty;) => {};
-  (
-    @decl_fn $T:ty;
-    fn $func:ident(self $(, $param:ident: $ParamT:ty)*) -> $RetT:ty;
-    $($rest:tt)*
-  ) => {
+}
+
+macro_rules! items {
+  () => {};
+  (const $CONST:ident: $T:ty = $val:expr; $($rest:tt)*) => {
+    const $CONST: $T = $val;
+    items! { $($rest)* }
+  };
+  (fn $func:ident(self $(, $param:ident: $ParamT:ty)*) -> $RetT:ty; $($rest:tt)*) => {
+    #[deny(unconditional_recursion)]
     fn $func(self $(, $param: $ParamT)*) -> $RetT {
-      <$T>::$func(self $(, $param)*)
+      Self::$func(self $(, $param)*)
     }
-
-    prim! { @decl_fn $T; $($rest)* }
+    items! { $($rest)* }
   };
-  (
-    @decl_fn $T:ty;
-    fn $func:ident($($param:ident: $ParamT:ty),*) -> $RetT:ty;
-    $($rest:tt)*
-  ) => {
+  (fn $func:ident($($param:ident: $ParamT:ty),*) -> $RetT:ty; $($rest:tt)*) => {
+    #[deny(unconditional_recursion)]
     fn $func($($param: $ParamT),*) -> $RetT {
-      <$T>::$func($($param),*)
+      Self::$func($($param),*)
     }
-
-    prim! { @decl_fn $T; $($rest)* }
+    items! { $($rest)* }
   };
 }
 
