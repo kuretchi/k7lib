@@ -8,7 +8,7 @@ fn main() -> std::io::Result<()> {
     let mut lcm = 1;
     for _ in 0..n {
       let a = scanner.parse_next::<u32>()?.unwrap();
-      lcm = num::lcm(lcm, a).unwrap();
+      lcm = num::lcm(lcm, a);
     }
     writeln!(writer, "{}", lcm)
   })
