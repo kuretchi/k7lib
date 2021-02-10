@@ -1,5 +1,5 @@
 use crate::num::primitive::Int as PrimInt;
-use std::{convert::TryFrom, mem};
+use std::{convert::TryFrom, iter, mem};
 
 /// Calculates the inversion number.
 ///
@@ -19,14 +19,14 @@ where
   T: Ord + Default,
   Int: PrimInt + TryFrom<usize>,
 {
-  let cap = if s.len() <= 1 { 0 } else { s.len() };
-  let mut t = Vec::with_capacity(cap);
+  let len = if s.len() <= 1 { 0 } else { s.len() };
+  let mut t = iter::repeat_with(T::default).take(len).collect::<Vec<_>>();
   go(s, &mut t)
 }
 
 // Calculates the inversion number of `s`, performing merge sort.
 // Uses `t` as an auxiliary space.
-fn go<T, Int>(s: &mut [T], t: &mut Vec<T>) -> Int
+fn go<T, Int>(s: &mut [T], t: &mut [T]) -> Int
 where
   T: Ord + Default,
   Int: PrimInt + TryFrom<usize>,
@@ -38,25 +38,21 @@ where
   let m = s.len() / 2;
   cnt += go::<_, Int>(&mut s[..m], t);
   cnt += go::<_, Int>(&mut s[m..], t);
-  debug_assert!(t.is_empty());
+  let t = &mut t[..s.len()];
   let mut l = 0;
   let mut r = m;
-  loop {
+  for t_i in t.iter_mut() {
     if l < m && (r == s.len() || s[l] <= s[r]) {
-      // TODO: use `mem::take` since 1.40.0
-      t.push(mem::replace(&mut s[l], T::default()));
+      mem::swap(t_i, &mut s[l]);
       l += 1;
-    } else if r < s.len() {
+    } else {
       // `s[r]` jumps over `s[l..m]`
       cnt += Int::try_from(m - l).ok().unwrap();
-      t.push(mem::replace(&mut s[r], T::default()));
+      mem::swap(t_i, &mut s[r]);
       r += 1;
-    } else {
-      break;
     }
   }
   s.swap_with_slice(t);
-  t.clear();
   cnt
 }
 
