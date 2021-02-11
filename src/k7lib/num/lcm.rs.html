@@ -60,27 +60,29 @@ MathJax = {
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">gcd</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">primitive</span>::<span class="ident">UnsignedInt</span> <span class="kw">as</span> <span class="ident">PrimUint</span>;
 
-<span class="doccomment">/// Returns the least common multiple if it exists.</span>
+<span class="doccomment">/// Returns the least common multiple.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// # use k7lib::num::lcm;</span>
-<span class="doccomment">/// assert_eq!(lcm::&lt;u32&gt;(18, 12), Some(36));</span>
-<span class="doccomment">/// assert_eq!(lcm::&lt;u32&gt;(18, 0), None);</span>
+<span class="doccomment">/// assert_eq!(lcm::&lt;u32&gt;(18, 12), 36);</span>
+<span class="doccomment">/// assert_eq!(lcm::&lt;u32&gt;(18, 0), 0);</span>
+<span class="doccomment">/// assert_eq!(lcm::&lt;u32&gt;(0, 0), 0);</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lcm</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">Int</span>, <span class="ident">y</span>: <span class="ident">Int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lcm</span><span class="op">&lt;</span><span class="ident">Int</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">Int</span>, <span class="ident">y</span>: <span class="ident">Int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Int</span>
 <span class="kw">where</span>
   <span class="ident">Int</span>: <span class="ident">PrimUint</span>,
 {
   <span class="kw">if</span> <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Int</span>::<span class="ident">ZERO</span> <span class="op">|</span><span class="op">|</span> <span class="ident">y</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Int</span>::<span class="ident">ZERO</span> {
-    <span class="prelude-val">None</span>
+    <span class="ident">Int</span>::<span class="ident">ZERO</span>
   } <span class="kw">else</span> {
-    <span class="prelude-val">Some</span>(<span class="ident">x</span> <span class="op">/</span> <span class="ident">gcd</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">*</span> <span class="ident">y</span>)
+    <span class="ident">x</span> <span class="op">/</span> <span class="ident">gcd</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">*</span> <span class="ident">y</span>
   }
 }
 
@@ -92,16 +94,16 @@ MathJax = {
   <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">num</span>::<span class="ident">NonZeroU32</span>;
 
   <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
-  <span class="kw">fn</span> <span class="ident">lcm_with_zero_does_not_exist</span>(<span class="ident">x</span>: <span class="ident">u32</span>) {
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">lcm</span>(<span class="number">0</span>, <span class="ident">x</span>), <span class="prelude-val">None</span>);
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">lcm</span>(<span class="ident">x</span>, <span class="number">0</span>), <span class="prelude-val">None</span>);
+  <span class="kw">fn</span> <span class="ident">lcm_with_zero</span>(<span class="ident">x</span>: <span class="ident">u32</span>) {
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">lcm</span>(<span class="number">0</span>, <span class="ident">x</span>), <span class="number">0</span>);
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">lcm</span>(<span class="ident">x</span>, <span class="number">0</span>), <span class="number">0</span>);
   }
 
   <span class="attribute">#[<span class="ident">quickcheck</span>]</span>
   <span class="kw">fn</span> <span class="ident">lcm_prop</span>(<span class="ident">x</span>: <span class="ident">NonZeroU32</span>, <span class="ident">y</span>: <span class="ident">NonZeroU32</span>) {
     <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">x</span>.<span class="ident">get</span>();
     <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="ident">y</span>.<span class="ident">get</span>();
-    <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">lcm</span>(<span class="ident">x</span>, <span class="ident">y</span>).<span class="ident">unwrap</span>();
+    <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">lcm</span>(<span class="ident">x</span>, <span class="ident">y</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span> <span class="op">%</span> <span class="ident">x</span>, <span class="number">0</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span> <span class="op">%</span> <span class="ident">y</span>, <span class="number">0</span>);
     <span class="macro">assert</span><span class="macro">!</span>((<span class="number">1</span>..<span class="ident">m</span>).<span class="ident">all</span>(<span class="op">|</span><span class="ident">z</span><span class="op">|</span> <span class="ident">z</span> <span class="op">%</span> <span class="ident">x</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">z</span> <span class="op">%</span> <span class="ident">y</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>));
