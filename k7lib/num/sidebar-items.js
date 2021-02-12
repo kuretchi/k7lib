@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["gcd","Returns the greatest common divisor."],["lcm","Returns the least common multiple."]],"mod":[["primitive","Traits for primitive numeric types."]]});
+initSidebarItems({"fn":[["div_ceil","Returns $\\lceil x / y \\rceil$, the smallest integer greater than or equal to $x / y$."],["div_floor","Returns $\\lfloor x / y \\rfloor$, the greatest integer smaller than or equal to $x / y$."],["gcd","Returns the greatest common divisor."],["lcm","Returns the least common multiple."]],"mod":[["primitive","Traits for primitive numeric types."]]});
