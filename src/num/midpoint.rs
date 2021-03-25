@@ -1,5 +1,4 @@
-use crate::num::{div_ceil, div_floor, primitive::Int as PrimInt};
-use std::mem;
+use crate::num::primitive::Int as PrimInt;
 
 /// Returns $\lfloor (x + y) / 2 \rfloor$ if $x \lt y$, $\lceil (x + y) / 2 \rceil$ otherwise.
 ///
@@ -18,26 +17,19 @@ use std::mem;
 /// let max = std::u128::MAX;
 /// assert_eq!(midpoint(max, max - 2), max - 1);
 /// ```
-pub fn midpoint<Int>(mut x: Int, mut y: Int) -> Int
+pub fn midpoint<Int>(x: Int, y: Int) -> Int
 where
   Int: PrimInt,
 {
-  let div = if x < y { div_floor } else { div_ceil };
-  let half = |z| div(z, Int::ONE + Int::ONE);
-
-  if let Some(mid) = x.checked_add(y).map(half) {
-    return mid;
-  }
-  debug_assert!(x < Int::ZERO && y < Int::ZERO || x > Int::ZERO && y > Int::ZERO);
-  if x > y {
-    mem::swap(&mut x, &mut y);
-  }
-  x + half(y - x)
+  // Taken from https://internals.rust-lang.org/t/average-function-for-primitives/14040/14
+  let xor = x ^ y;
+  (x & y) + (xor >> 1) + (xor & Int::from(x > y))
 }
 
 #[cfg(test)]
 mod tests {
   use super::*;
+  use crate::num::{div_ceil, div_floor};
   use quickcheck_macros::quickcheck;
   use std::i32;
 

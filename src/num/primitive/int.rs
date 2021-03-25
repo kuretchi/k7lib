@@ -17,6 +17,7 @@ macro_rules! int {
       + PartialOrd
       + Ord
       + Default
+      + From<bool>
       + hash::Hash
       + fmt::Debug
       + fmt::Display
