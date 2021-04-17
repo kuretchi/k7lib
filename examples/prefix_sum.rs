@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0516
 
 use k7lib::algebra::structures::Sum;
-use k7lib::sequences::CumulativeSum;
+use k7lib::sequences::PrefixSum;
 
 use std::cmp;
 use std::io;
@@ -29,7 +29,7 @@ fn main() -> io::Result<()> {
         a.push(Sum(scan!(i32)));
       }
 
-      let a = CumulativeSum::from_iter(a);
+      let a = PrefixSum::from_iter(a);
       let mut acc = Sum(i32::min_value());
 
       for i in 0..n - (k - 1) {
@@ -38,7 +38,7 @@ fn main() -> io::Result<()> {
 
       writeln!(writer, "{}", acc.0)?;
 
-      assert_eq!(CumulativeSum::from_iter((0..a.len()).map(|i| a.point_get(i))), a);
+      assert_eq!(PrefixSum::from_iter((0..a.len()).map(|i| a.point_get(i))), a);
     }
 
     Ok(())

@@ -1,4 +1,4 @@
-//! A cumulative sum.
+//! Prefix sums.
 
 use crate::algebra::structures::{Group, Monoid};
 use crate::utils::index_bounds_check::*;
@@ -6,16 +6,16 @@ use crate::utils::index_bounds_check::*;
 use std::iter::FromIterator;
 use std::ops::{Range, RangeTo};
 
-/// A cumulative sum.
+/// Prefix sums.
 ///
 /// # Space complexity
 /// $O(n \log(\sigma))$
 #[derive(Clone, PartialEq, Eq, Debug, Hash)]
-pub struct CumulativeSum<T> {
+pub struct PrefixSum<T> {
   vec: Vec<T>,
 }
 
-impl<M: Monoid> CumulativeSum<M> {
+impl<M: Monoid> PrefixSum<M> {
   /// Creates an empty sequence.
   ///
   /// # Time complexity
@@ -55,7 +55,7 @@ impl<M: Monoid> CumulativeSum<M> {
   }
 }
 
-impl<G: Group> CumulativeSum<G> {
+impl<G: Group> PrefixSum<G> {
   /// Returns an element at the given index.
   ///
   /// # Panics
@@ -87,8 +87,8 @@ impl<G: Group> CumulativeSum<G> {
   }
 }
 
-impl<M: Monoid> FromIterator<M> for CumulativeSum<M> {
-  /// Creates a new `CumulativeSum` from an iterator.
+impl<M: Monoid> FromIterator<M> for PrefixSum<M> {
+  /// Creates a new `PrefixSum` from an iterator.
   ///
   /// # Time complexity
   /// $O(n)$
@@ -106,6 +106,6 @@ impl<M: Monoid> FromIterator<M> for CumulativeSum<M> {
     }
 
     vec.shrink_to_fit();
-    CumulativeSum { vec }
+    PrefixSum { vec }
   }
 }
