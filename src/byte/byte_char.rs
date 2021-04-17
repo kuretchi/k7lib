@@ -4,7 +4,6 @@ use std::str::FromStr;
 
 /// A single-byte character.
 #[derive(Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[repr(transparent)]
 pub struct ByteChar(pub u8);
 
 impl Debug for ByteChar {
