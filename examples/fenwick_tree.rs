@@ -4,7 +4,6 @@ use k7lib::algebra::structures::Sum;
 use k7lib::sequences::FenwickTree;
 
 use std::io;
-use std::iter::FromIterator;
 
 fn main() -> io::Result<()> {
   k7lib::io::run(None, false, |scanner, writer| {
@@ -39,7 +38,7 @@ fn main() -> io::Result<()> {
       }
     }
 
-    assert_eq!(FenwickTree::from_iter((0..seq.len()).map(|i| seq.point_get(i))), seq);
+    assert_eq!((0..seq.len()).map(|i| seq.point_get(i)).collect::<FenwickTree<_>>(), seq);
 
     Ok(())
   })

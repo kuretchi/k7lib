@@ -5,7 +5,6 @@ use k7lib::sequences::PrefixSum;
 
 use std::cmp;
 use std::io;
-use std::iter::FromIterator;
 
 fn main() -> io::Result<()> {
   k7lib::io::run(None, false, |scanner, writer| {
@@ -29,7 +28,7 @@ fn main() -> io::Result<()> {
         a.push(Sum(scan!(i32)));
       }
 
-      let a = PrefixSum::from_iter(a);
+      let a = a.into_iter().collect::<PrefixSum<_>>();
       let mut acc = Sum(i32::min_value());
 
       for i in 0..n - (k - 1) {
@@ -38,7 +37,7 @@ fn main() -> io::Result<()> {
 
       writeln!(writer, "{}", acc.0)?;
 
-      assert_eq!(PrefixSum::from_iter((0..a.len()).map(|i| a.point_get(i))), a);
+      assert_eq!((0..a.len()).map(|i| a.point_get(i)).collect::<PrefixSum<_>>(), a);
     }
 
     Ok(())
