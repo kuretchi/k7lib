@@ -38,7 +38,7 @@ fn main() -> io::Result<()> {
       }
     }
 
-    assert_eq!((0..seq.len()).map(|i| seq.point_get(i)).cloned().collect::<SegmentTree<_>>(), seq);
+    assert_eq!((0..seq.len()).map(|i| seq.point_get(i)).copied().collect::<SegmentTree<_>>(), seq);
 
     Ok(())
   })
