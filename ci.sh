@@ -7,12 +7,18 @@ export QUICKCHECK_TESTS=2000
 # See https://github.com/BurntSushi/quickcheck/blob/0.9.2/src/arbitrary.rs#L760-L762
 export QUICKCHECK_GENERATOR_SIZE=255
 
+# Check with old toolchain
+cargo check
+
+# For (dev-)dependencies which do not compile with old toolchain
+export RUSTUP_TOOLCHAIN=stable
+
 # Run tests
 cargo test
 oj-verify run ./examples/*.rs
 
 # Generate a documentation
-cargo +stable doc
+cargo doc
 cat <<EOF >./target/doc/index.html
 <!DOCTYPE html>
 <meta charset="utf-8">
