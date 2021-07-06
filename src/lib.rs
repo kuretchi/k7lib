@@ -9,6 +9,7 @@ pub mod constant;
 pub mod disjoint_sets;
 pub mod io;
 pub mod num;
+pub mod rand;
 pub mod sequences;
 pub mod string;
 mod utils;
